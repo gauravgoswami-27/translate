@@ -1,0 +1,12 @@
+torch
+transformers<5
+sentencepiece
+IndicTransToolkit
+sacrebleu
+pandas
+fastapi
+uvicorn[standard]
+matplotlib
+requests
+beautifulsoup4
+pypdf
