@@ -6,3 +6,5 @@
 /backend/models/**/*.bin
 /backend/models/**/*.pt
 /backend/models/**/*.pth
+/frontend/dist
+/frontend/node_modules
