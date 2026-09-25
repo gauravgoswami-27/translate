@@ -1,3 +1,0 @@
-system,target_lang,bleu,chrf,term_match_rate,metric_backend,translation_backend,model,num_sentences
-baseline,hin_Deva,14.4154,30.3043,1.0,fallback_overlap,fallback,ai4bharat/indictrans2-en-indic-dist-200M,48
-fine_tuned_or_domain,hin_Deva,14.4154,30.3043,1.0,fallback_overlap,fallback,models/finetuned_hin_Deva,48

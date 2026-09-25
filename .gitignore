@@ -1,2 +1,8 @@
 .env
 .commandcode
+/backend/.venv/
+/backend/data/raw/
+/backend/models/**/*.safetensors
+/backend/models/**/*.bin
+/backend/models/**/*.pt
+/backend/models/**/*.pth

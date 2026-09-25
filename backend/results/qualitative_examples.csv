@@ -1,0 +1,21 @@
+target_lang,id,english_sentence,reference,baseline_prediction,fine_tuned_prediction,target_term
+hin_Deva,hi_raw_Electrician (Tr_0146,Resistance of heating coil,प्रतिरोध of heating coil,हीटिंग कॉइल का प्रतिरोध,प्रतिरोध heating coil,प्रतिरोध
+hin_Deva,hi_raw_Electrician (Tr_0271,• identify and test the Earthing installations,• identify and test the अर्थिंग installations,• जमीनीकरण संयंत्रों की पहचान और परीक्षण,• पहचानें और test the अर्थिंग installations,अर्थिंग
+hin_Deva,hi_raw_Electrician (Tr_0167,Internal resistance,Internal प्रतिरोध,आंतरिक प्रतिरोध,आंतरिक प्रतिरोध,प्रतिरोध
+hin_Deva,hi_raw_Electrician (Tr_0018,48 Test and verify the voltage of 1 Ph & 3 ph,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,48 1 Ph & 3 ph के वोल्टेज का परीक्षण और सत्यापन,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,वोल्टेज
+hin_Deva,hi_raw_Electrician (Tr_0061,4 Note down voltmeter & Ammeter readings,4 Note down voltmeter & अमीटर readings,4 वोल्टमीटर और एम्पमीटर रीडिंग को नोट करें,4 Note down वोल्टमीटर & Ammeter readings,अमीटर
+gom_Deva,gom_raw_Electrician (Tr_0146,Resistance of heating coil,प्रतिकार of heating coil,Resistência da bobina de aquecimento,प्रतिकार heating coil,प्रतिकार
+gom_Deva,gom_raw_Electrician (Tr_0271,• identify and test the Earthing installations,• identify and test the अर्थिंग installations,• identifier et tester les installations d'atterrissage,• identify and test the अर्थिंग installations,अर्थिंग
+gom_Deva,gom_raw_Electrician (Tr_0167,Internal resistance,Internal प्रतिकार,Εσωτερική αντίσταση,Internal resistance,प्रतिकार
+gom_Deva,gom_raw_Electrician (Tr_0018,48 Test and verify the voltage of 1 Ph & 3 ph,48 Test and verify the व्होल्टेज of 1 Ph & 3 ph,48 It-test u l-verifika tal-vultaġġ ta' 1 Ph & 3 ph,48 Test and verify the व्होल्टेज of 1 Ph & 3 ph,व्होल्टेज
+gom_Deva,gom_raw_Electrician (Tr_0061,4 Note down voltmeter & Ammeter readings,4 Note down voltmeter & अमीटर readings,4 Innota 'l isfel voltmeter & Ammeter qrejja,Note down व्होल्टमीटर & Ammeter readings,अमीटर
+mai_Deva,mai_raw_Electrician (Tr_0146,Resistance of heating coil,प्रतिरोध of heating coil,हीटिंग कॉइलक प्रतिरोध,प्रतिरोध of heating coil,प्रतिरोध
+mai_Deva,mai_raw_Electrician (Tr_0271,• identify and test the Earthing installations,• identify and test the अर्थिंग installations,• जमीनीकरणक संयन्त्रक पहिचान आ परीक्षण,• identify and test the अर्थिंग इन्स्टालेशनs,अर्थिंग
+mai_Deva,mai_raw_Electrician (Tr_0167,Internal resistance,Internal प्रतिरोध,आन्तरिक प्रतिरोध,आन्तरिक प्रतिरोध,प्रतिरोध
+mai_Deva,mai_raw_Electrician (Tr_0018,48 Test and verify the voltage of 1 Ph & 3 ph,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,48 1 Ph & 3 ph के वोल्टेज के परीक्षण आ सत्यापन,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,वोल्टेज
+mai_Deva,mai_raw_Electrician (Tr_0061,4 Note down voltmeter & Ammeter readings,4 Note down voltmeter & अमीटर readings,4 नोट डाउन वोल्टमीटर & Ammeter रीडिंग्स,4 Note down वोल्टमीटर & Ammeter readings,अमीटर
+doi_Deva,doi_raw_Electrician (Tr_0146,Resistance of heating coil,प्रतिरोध of heating coil,Resistência da bobina de aquecimento,प्रतिरोध heating coil,प्रतिरोध
+doi_Deva,doi_raw_Electrician (Tr_0271,• identify and test the Earthing installations,• identify and test the अर्थिंग installations,• identifier et tester les installations d'atterrissage,• identify and test the अर्थिंग installations,अर्थिंग
+doi_Deva,doi_raw_Electrician (Tr_0167,Internal resistance,Internal प्रतिरोध,Εσωτερική αντίσταση,आंतरिक प्रतिरोध,प्रतिरोध
+doi_Deva,doi_raw_Electrician (Tr_0018,48 Test and verify the voltage of 1 Ph & 3 ph,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,48 It-test u l-verifika tal-vultaġġ ta' 1 Ph & 3 ph,48 Test and verify the वोल्टेज of 1 Ph & 3 ph,वोल्टेज
+doi_Deva,doi_raw_Electrician (Tr_0061,4 Note down voltmeter & Ammeter readings,4 Note down voltmeter & अमीटर readings,4 Innota 'l isfel voltmeter & Ammeter qrejja,4 Note down voltmeter & अमीटर readings,अमीटर

@@ -1,0 +1,22 @@
+{
+  "base_model": "facebook/nllb-200-distilled-600M",
+  "target_lang": "mai_Deva",
+  "train_csv": "data/corpus/electrician_en_mai_train.csv",
+  "num_rows": 240,
+  "epochs": 5,
+  "batch_size": 2,
+  "lr": 0.0002,
+  "status": "completed",
+  "device": "cuda",
+  "device_name": "NVIDIA GeForce RTX 3050 Laptop GPU",
+  "training_time_seconds": 61.94,
+  "final_loss": 0.0922,
+  "loss_history": [
+    1.2774,
+    0.2996,
+    0.1795,
+    0.1199,
+    0.0922
+  ],
+  "peft_lora": true
+}

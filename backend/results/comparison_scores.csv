@@ -1,0 +1,9 @@
+system,target_lang,bleu,chrf,term_match_rate,metric_backend,translation_backend,model,num_sentences
+baseline,hin_Deva,11.2385,13.7231,0.75,sacrebleu,indictrans2,facebook/nllb-200-distilled-600M,60
+fine_tuned_domain,hin_Deva,48.2995,70.5241,0.6833,sacrebleu,indictrans2,models/finetuned_hin_Deva,60
+baseline,gom_Deva,11.0198,22.6648,0.0,sacrebleu,indictrans2,facebook/nllb-200-distilled-600M,60
+fine_tuned_domain,gom_Deva,77.3487,83.6663,0.6167,sacrebleu,indictrans2,models/finetuned_gom_Deva,60
+baseline,mai_Deva,11.8846,12.8397,0.7,sacrebleu,indictrans2,facebook/nllb-200-distilled-600M,60
+fine_tuned_domain,mai_Deva,74.0097,79.6841,0.65,sacrebleu,indictrans2,models/finetuned_mai_Deva,60
+baseline,doi_Deva,11.2509,23.1141,0.0667,sacrebleu,indictrans2,facebook/nllb-200-distilled-600M,60
+fine_tuned_domain,doi_Deva,76.2084,83.9673,0.6667,sacrebleu,indictrans2,models/finetuned_doi_Deva,60
