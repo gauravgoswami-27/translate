@@ -32,6 +32,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--base-model", default=DEFAULT_MODEL_NAME)
     p.add_argument("--langs", default=",".join(DOMAIN_LANGS))
     p.add_argument("--run-name", default="joint")
+    p.add_argument("--drafts-variant", default="", help='"formal" = terminology-repaired drafts (experiment 2).')
     p.add_argument("--epochs", type=float, default=3)
     p.add_argument("--max-steps", type=int, default=-1, help="Overrides --epochs; use ~20 for a smoke test.")
     # Peak memory is dominated by the logits (batch x target length x ~122k vocab), so keep the
@@ -104,7 +105,7 @@ def build_dataset(langs: list[str], split: str, processor, tokenizer, args, limi
 
     src_all, tgt_all, lang_all = [], [], []
     for lang in langs:
-        sources, targets = load_pairs(lang, split, CORPUS_DIR)
+        sources, targets = load_pairs(lang, split, CORPUS_DIR, variant=args.drafts_variant)
         if limit_per_lang:
             paired = list(zip(sources, targets))
             random.Random(args.seed).shuffle(paired)

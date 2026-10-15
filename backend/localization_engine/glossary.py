@@ -59,6 +59,33 @@ EXTRA_DOMAIN_TERMS: tuple[str, ...] = (
 )
 
 
+_SOURCE_TERM_RE = re.compile(
+    r"\b(" + "|".join(re.escape(t) for t in sorted(next(iter(ELECTRICIAN_GLOSSARIES.values())), key=len, reverse=True)) + r")s?\b",
+    re.IGNORECASE,
+)
+
+
+def find_glossary_terms(english_text: str) -> list[str]:
+    """English glossary terms occurring in a source sentence (same matching as build_corpus)."""
+    return sorted({m.group(1).lower() for m in _SOURCE_TERM_RE.finditer(english_text)})
+
+
+def constraint_forms(term: str, target_lang: str) -> list[str]:
+    """Surface forms the decoder may be forced to produce for a term: the glossary term and its
+    variants, each as written and in normalised spelling (deduplicated, order kept)."""
+    from .metrics import normalize_indic  # local import: metrics imports this module
+
+    main = ELECTRICIAN_GLOSSARIES.get(target_lang, {}).get(term)
+    if not main:
+        return []
+    forms: list[str] = []
+    for form in (main, *TERM_VARIANTS.get(target_lang, {}).get(term, ())):
+        for candidate in (form, normalize_indic(form)):
+            if candidate not in forms:
+                forms.append(candidate)
+    return forms
+
+
 def glossary_translate(text: str, target_lang: str) -> str:
     """Return a deterministic glossary-substitution translation hint."""
     glossary = ELECTRICIAN_GLOSSARIES.get(target_lang, ELECTRICIAN_GLOSSARIES["hin_Deva"])

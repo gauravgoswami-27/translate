@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import random
 import re
 import unicodedata
 from dataclasses import dataclass
@@ -95,20 +94,28 @@ def term_compliance(predictions: list[str], english_terms: list[list[str]], targ
 def paired_bootstrap(
     preds_a: list[str], preds_b: list[str], references: list[str], samples: int = 1000, seed: int = 12345
 ) -> dict[str, float]:
-    """Paired bootstrap resampling on chrF++ (Koehn, 2004). Tests whether B beats A."""
-    rng = random.Random(seed)
-    n = len(references)
-    deltas = []
-    for _ in range(samples):
-        idx = [rng.randrange(n) for _ in range(n)]
-        refs = [[references[i] for i in idx]]
-        a = _CHRF_PP.corpus_score([preds_a[i] for i in idx], refs).score
-        b = _CHRF_PP.corpus_score([preds_b[i] for i in idx], refs).score
-        deltas.append(b - a)
-    deltas.sort()
+    """Paired bootstrap resampling on chrF++ (Koehn, 2004). Tests whether B beats A.
+
+    Sentence-level chrF++ statistics are extracted once and summed per resample (as in
+    sacrebleu's own significance testing), so 1000 resamples take about a second.
+    """
+    import numpy as np
+
+    refs = [references]
+    stats_a = np.array(_CHRF_PP._extract_corpus_statistics(preds_a, refs))
+    stats_b = np.array(_CHRF_PP._extract_corpus_statistics(preds_b, refs))
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, len(references), size=(samples, len(references)))
+    deltas = np.array(
+        [
+            _CHRF_PP._compute_score_from_stats(list(stats_b[row].sum(axis=0))).score
+            - _CHRF_PP._compute_score_from_stats(list(stats_a[row].sum(axis=0))).score
+            for row in idx
+        ]
+    )
     return {
-        "delta_chrf_pp_mean": round(sum(deltas) / samples, 2),
-        "delta_ci95_low": round(deltas[int(0.025 * samples)], 2),
-        "delta_ci95_high": round(deltas[int(0.975 * samples) - 1], 2),
-        "p_value": round(sum(d <= 0 for d in deltas) / samples, 4),
+        "delta_chrf_pp_mean": round(float(deltas.mean()), 2),
+        "delta_ci95_low": round(float(np.percentile(deltas, 2.5)), 2),
+        "delta_ci95_high": round(float(np.percentile(deltas, 97.5)), 2),
+        "p_value": round(float((deltas <= 0).mean()), 4),
     }

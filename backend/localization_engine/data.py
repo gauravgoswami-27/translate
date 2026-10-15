@@ -24,14 +24,19 @@ def read_csv(path: Path) -> list[dict[str, str]]:
         return list(csv.DictReader(handle))
 
 
-def load_pairs(lang: str, split: str, corpus_dir: Path = CORPUS_DIR) -> tuple[list[str], list[str]]:
-    """(source, target) pairs for train/dev from the teacher drafts; empty pairs are dropped together."""
-    path = corpus_dir / f"drafts_{LANG_SHORT[lang]}.csv"
+def load_pairs(lang: str, split: str, corpus_dir: Path = CORPUS_DIR, variant: str = "") -> tuple[list[str], list[str]]:
+    """(source, target) pairs for train/dev from the teacher drafts; empty pairs are dropped together.
+
+    ``variant`` selects drafts_<lang>_<variant>.csv (e.g. "formal" = terminology-repaired drafts);
+    rows whose terminology repair failed are excluded.
+    """
+    suffix = f"_{variant}" if variant else ""
+    path = corpus_dir / f"drafts_{LANG_SHORT[lang]}{suffix}.csv"
     if not path.exists():
-        raise FileNotFoundError(f"{path} not found - run generate_drafts.py first.")
+        raise FileNotFoundError(f"{path} not found - run generate_drafts.py (or repair_drafts.py) first.")
     sources, targets = [], []
     for row in read_csv(path):
-        if row["split"] != split:
+        if row["split"] != split or row.get("term_repair") == "failed":
             continue
         src, tgt = row["english_sentence"].strip(), row["target_sentence"].strip()
         if src and tgt:  # filter the pair, never one side alone (keeps alignment)

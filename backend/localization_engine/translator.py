@@ -42,6 +42,22 @@ def resolve_adapter(path: str) -> tuple[str, Optional[str]]:
     return path, None
 
 
+def prune_alternatives(alternatives: list[list[int]]) -> list[list[int]]:
+    """Make token-id alternatives valid for a Hugging Face DisjunctiveConstraint.
+
+    It rejects alternatives that are a prefix of another one. If A is a prefix of B, any
+    output containing B also contains A, so the longer alternative is redundant: keep A.
+    """
+    unique = []
+    for ids in alternatives:
+        if ids and ids not in unique:
+            unique.append(ids)
+    return [
+        ids for ids in unique
+        if not any(other != ids and len(other) < len(ids) and ids[: len(other)] == other for other in unique)
+    ]
+
+
 class Translator:
     """Translate English text with IndicTrans2.
 
@@ -68,6 +84,7 @@ class Translator:
         self._tokenizer = None
         self._model = None
         self._processor = None
+        self._constraint_processor = None
 
         if not force_fallback:
             self._load()
@@ -161,6 +178,7 @@ class Translator:
         max_length: int = 256,
         max_tokens: int = 8000,
         show_progress: bool = False,
+        constraints: Optional[list[list[list[str]]]] = None,
     ) -> list[str]:
         """Translate many sentences; output order matches input order.
 
@@ -168,14 +186,25 @@ class Translator:
         (sentences x padded source length x beams <= ``max_tokens``), so batches of
         long sentences shrink automatically. On CUDA OOM the budget is halved and
         the batch retried.
+
+        ``constraints`` (optional, one entry per sentence) enables lexically constrained
+        beam search: each sentence gets a list of constraint groups, each group a list of
+        alternative target strings of which at least one must appear in the output
+        (e.g. [["त्रिकला", "तीन कला"], ["भूसंपर्कन"]]). Sentences are batched per
+        identical constraint set, because Hugging Face applies constraints per batch.
         """
         validate_target_lang(target_lang)
         if self.backend == "fallback":
             return [glossary_translate(t, target_lang) for t in texts]
         assert self._model is not None and self._tokenizer is not None and self._processor is not None
+        if constraints is not None and len(constraints) != len(texts):
+            raise ValueError("constraints must have one entry per text")
 
-        # Length-sorted (longest first) batches waste little padding and hit any OOM early.
-        order = sorted(range(len(texts)), key=lambda i: len(texts[i]), reverse=True)
+        groups: dict[tuple, list[int]] = {}
+        for i in range(len(texts)):
+            key = tuple(tuple(group) for group in constraints[i] if group) if constraints else ()
+            groups.setdefault(key, []).append(i)
+
         outputs: list[str] = [""] * len(texts)
         progress = None
         if show_progress:
@@ -186,6 +215,25 @@ class Translator:
             except ImportError:
                 pass
 
+        for key, indices in groups.items():
+            force_words_ids = self._constraint_token_ids(key, target_lang) if key else None
+            beams = max(num_beams, 2) if force_words_ids else num_beams  # constrained search needs beams
+            self._translate_indices(
+                texts, indices, outputs, source_lang, target_lang, batch_size, beams, max_length, max_tokens,
+                force_words_ids, progress,
+            )
+
+        if progress is not None:
+            progress.close()
+        return outputs
+
+    def _translate_indices(
+        self, texts, indices, outputs, source_lang, target_lang, batch_size, num_beams, max_length, max_tokens,
+        force_words_ids, progress,
+    ) -> None:
+        # Length-sorted (longest first) batches waste little padding and hit any OOM early.
+        order = sorted(indices, key=lambda i: len(texts[i]), reverse=True)
+        extra = {"force_words_ids": force_words_ids} if force_words_ids else {}
         start = 0
         while start < len(order):
             idx = order[start : start + batch_size]
@@ -204,9 +252,10 @@ class Translator:
                         use_cache=True,
                         min_length=0,
                         # Targets are rarely >2x the source length; stops runaway generations.
-                        max_length=min(max_length, 2 * src_len + 16),
+                        max_length=min(max_length, 2 * src_len + (32 if force_words_ids else 16)),
                         num_beams=num_beams,
                         num_return_sequences=1,
+                        **extra,
                     )
             except self._torch.cuda.OutOfMemoryError:
                 if max_tokens <= 256:
@@ -225,10 +274,21 @@ class Translator:
             if progress is not None:
                 progress.update(len(idx))
 
-        if progress is not None:
-            progress.close()
-        return outputs
-
+    def _constraint_token_ids(self, key: tuple, target_lang: str) -> list[list[list[int]]]:
+        """Target-vocabulary token ids for each constraint group (disjunctive alternatives)."""
+        if self._constraint_processor is None:
+            # Separate training-mode processor: target-side normalisation without touching
+            # the inference processor's placeholder queue.
+            self._constraint_processor = load_indic_processor(inference=False)
+        force = []
+        for group in key:
+            prepared = self._constraint_processor.preprocess_batch(
+                list(group), src_lang=target_lang, tgt_lang=SOURCE_LANG, is_target=True
+            )
+            with self._tokenizer.as_target_tokenizer():
+                ids = [self._tokenizer(text, add_special_tokens=False)["input_ids"] for text in prepared]
+            force.append(prune_alternatives(ids))
+        return force
     def _encode(self, sentences: list[str], source_lang: str, target_lang: str):
         # IndicProcessor queues one placeholder map per preprocessed sentence and
         # postprocess_batch consumes them, so every preprocess must be followed by
