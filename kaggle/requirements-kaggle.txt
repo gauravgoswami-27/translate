@@ -1,0 +1,13 @@
+# Pinned stack for Kaggle GPU sessions (Python 3.10-3.12, torch preinstalled).
+# transformers is pinned because IndicTrans2's remote modeling code uses the legacy
+# tuple KV-cache API that newer transformers releases are phasing out.
+transformers==4.46.3
+peft==0.13.2
+accelerate==1.1.1
+datasets>=2.20,<4
+huggingface-hub<1.0
+sentencepiece
+sacrebleu==2.4.3
+IndicTransToolkit==1.1.1
+matplotlib
+tqdm
