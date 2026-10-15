@@ -13,3 +13,15 @@
 
 /backend/**/__pycache__/
 /backend/**/*.pyc
+/kaggle/dist/
+/kaggle/BUNDLE_VERSION
+/kaggle/runs/
+
+# Office lock files
+.~lock.*#
+
+# Text derived from NIMI books marked "NOT TO BE REPUBLISHED": keep out of the public repo
+# (kept locally and in the private Kaggle dataset). Guides and glossary are tracked.
+/backend/data/corpus_v2/*.csv
+/backend/data/corpus_v2/postedit/
+/backend/results/domain_predictions_*.csv

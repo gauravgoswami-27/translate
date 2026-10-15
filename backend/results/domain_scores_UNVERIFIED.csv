@@ -1,0 +1,13 @@
+target_lang,system,model,bleu,chrf_pp,term_accuracy,term_occurrences,term_compliance,term_compliance_occurrences,term_register,num_sentences,reference_type,delta_chrf_pp_mean,delta_ci95_low,delta_ci95_high,p_value
+hin_Deva,base,ai4bharat/indictrans2-en-indic-dist-200M,77.97,86.64,95.45,88,61.43,140,formal,200,teacher_draft_UNVERIFIED,,,,
+hin_Deva,lora,/home/grv/Desktop/demo/backend/models/it2_lora_joint,79.02,87.36,97.73,88,62.14,140,formal,200,teacher_draft_UNVERIFIED,0.75,-0.64,2.24,0.149
+hin_Deva,teacher,ai4bharat/indictrans2-en-indic-1B,99.71,99.85,100.0,88,62.86,140,formal,200,teacher_draft_UNVERIFIED,,,,
+gom_Deva,base,ai4bharat/indictrans2-en-indic-dist-200M,51.5,70.78,82.86,35,39.29,140,formal,200,teacher_draft_UNVERIFIED,,,,
+gom_Deva,lora,/home/grv/Desktop/demo/backend/models/it2_lora_joint,60.77,76.85,68.57,35,20.71,140,formal,200,teacher_draft_UNVERIFIED,6.08,4.38,7.86,0.0
+gom_Deva,teacher,ai4bharat/indictrans2-en-indic-1B,98.81,99.38,100.0,35,25.0,140,formal,200,teacher_draft_UNVERIFIED,,,,
+mai_Deva,base,ai4bharat/indictrans2-en-indic-dist-200M,55.8,74.06,96.67,90,64.29,140,formal,200,teacher_draft_UNVERIFIED,,,,
+mai_Deva,lora,/home/grv/Desktop/demo/backend/models/it2_lora_joint,59.61,77.19,98.89,90,63.57,140,formal,200,teacher_draft_UNVERIFIED,3.08,1.27,5.0,0.001
+mai_Deva,teacher,ai4bharat/indictrans2-en-indic-1B,99.09,99.5,100.0,90,64.29,140,formal,200,teacher_draft_UNVERIFIED,,,,
+doi_Deva,base,ai4bharat/indictrans2-en-indic-dist-200M,61.07,75.62,93.59,78,55.71,140,formal,200,teacher_draft_UNVERIFIED,,,,
+doi_Deva,lora,/home/grv/Desktop/demo/backend/models/it2_lora_joint,71.75,82.6,96.15,78,59.29,140,formal,200,teacher_draft_UNVERIFIED,6.99,5.39,8.53,0.0
+doi_Deva,teacher,ai4bharat/indictrans2-en-indic-1B,99.36,99.6,100.0,78,55.71,140,formal,200,teacher_draft_UNVERIFIED,,,,

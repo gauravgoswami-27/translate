@@ -1,0 +1,257 @@
+english_term,target_lang,register,term,variants,status,note
+ac supply,hin_Deva,formal,प्रत्यावर्ती धारा आपूर्ति,प्रत्यावर्ती धारा प्रदाय,standard,AC = प्रत्यावर्ती धारा (NCERT)
+ac supply,hin_Deva,loanword,एसी आपूर्ति,,legacy,v1 hand-written glossary
+ammeter,hin_Deva,formal,ऐम्पियरमापी,एम्पियरमापी,proposed,NCERT textbooks use the loanword ऐमीटर
+ammeter,hin_Deva,loanword,अमीटर,एमीटर|ऐमीटर,legacy,v1 hand-written glossary
+apprentice,hin_Deva,formal,प्रशिक्षु,शिक्षु,standard,
+apprentice,hin_Deva,loanword,प्रशिक्षु,,legacy,v1 hand-written glossary
+cable,hin_Deva,formal,केबल,,loanword_kept,"no established native term; तार means wire, not cable"
+cable,hin_Deva,loanword,केबल,,legacy,v1 hand-written glossary
+capacitor,hin_Deva,formal,संधारित्र,,standard,NCERT
+capacitor,hin_Deva,loanword,संधारित्र,,legacy,v1 hand-written glossary
+circuit breaker,hin_Deva,formal,परिपथ वियोजक,परिपथ विच्छेदक,proposed,CSTT-style; verify
+circuit breaker,hin_Deva,loanword,सर्किट ब्रेकर,,legacy,v1 hand-written glossary
+conduit,hin_Deva,formal,नाली,नलिका|वाहिनी,proposed,
+conduit,hin_Deva,loanword,कंड्यूट,,legacy,v1 hand-written glossary
+control panel,hin_Deva,formal,नियंत्रण पटल,नियंत्रण पट्ट,proposed,
+control panel,hin_Deva,loanword,नियंत्रण पैनल,,legacy,v1 hand-written glossary
+copper conductor,hin_Deva,formal,ताँबे का चालक,ताम्र चालक,standard,
+copper conductor,hin_Deva,loanword,तांबा चालक,,legacy,v1 hand-written glossary
+earthing,hin_Deva,formal,भूसंपर्कन,भूसंपर्क,standard,NCERT (भूसंपर्क तार = earth wire)
+earthing,hin_Deva,loanword,अर्थिंग,,legacy,v1 hand-written glossary
+electric shock,hin_Deva,formal,विद्युत आघात,बिजली का झटका,standard,
+electric shock,hin_Deva,loanword,बिजली का झटका,,legacy,v1 hand-written glossary
+electrical load,hin_Deva,formal,विद्युत भार,,standard,
+electrical load,hin_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
+fuse,hin_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
+fuse,hin_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
+insulation,hin_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,hin_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
+junction box,hin_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
+junction box,hin_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
+leakage current,hin_Deva,formal,क्षरण धारा,रिसाव धारा,proposed,
+leakage current,hin_Deva,loanword,लीकेज करंट,,legacy,v1 hand-written glossary
+live wire,hin_Deva,formal,विद्युन्मय तार,,standard,NCERT; जीवित तार is a literal mistranslation
+live wire,hin_Deva,loanword,लाइव तार,,legacy,v1 hand-written glossary
+main switch,hin_Deva,formal,मुख्य स्विच,मुख्य कुंजी,loanword_kept,स्विच is used in NCERT; कुंजी is the native alternative
+main switch,hin_Deva,loanword,मुख्य स्विच,,legacy,v1 hand-written glossary
+megger,hin_Deva,formal,मेगर,,loanword_kept,instrument name; descriptive alternative: विद्युतरोधन प्रतिरोधमापी
+megger,hin_Deva,loanword,मेगर,,legacy,v1 hand-written glossary
+motor winding,hin_Deva,formal,मोटर कुंडली,मोटर कुंडलन,proposed,winding = कुंडली
+motor winding,hin_Deva,loanword,मोटर वाइंडिंग,,legacy,v1 hand-written glossary
+neutral wire,hin_Deva,formal,उदासीन तार,तटस्थ तार,standard,NCERT
+neutral wire,hin_Deva,loanword,न्यूट्रल तार,,legacy,v1 hand-written glossary
+phase tester,hin_Deva,formal,कला परीक्षक,,proposed,phase = कला; चरण (stage) is wrong
+phase tester,hin_Deva,loanword,फेज टेस्टर,,legacy,v1 hand-written glossary
+protective device,hin_Deva,formal,संरक्षी युक्ति,सुरक्षा युक्ति|सुरक्षात्मक उपकरण|सुरक्षा उपकरण,proposed,
+protective device,hin_Deva,loanword,सुरक्षा उपकरण,,legacy,v1 hand-written glossary
+resistance,hin_Deva,formal,प्रतिरोध,,standard,NCERT
+resistance,hin_Deva,loanword,प्रतिरोध,,legacy,v1 hand-written glossary
+safety shoes,hin_Deva,formal,सुरक्षा जूते,,standard,
+safety shoes,hin_Deva,loanword,सुरक्षा जूते,,legacy,v1 hand-written glossary
+single phase,hin_Deva,formal,एकल कला,एक कला,proposed,phase = कला; चरण (stage) is wrong
+single phase,hin_Deva,loanword,सिंगल फेज,,legacy,v1 hand-written glossary
+switch board,hin_Deva,formal,स्विच पटल,,proposed,
+switch board,hin_Deva,loanword,स्विच बोर्ड,,legacy,v1 hand-written glossary
+terminal block,hin_Deva,formal,टर्मिनल ब्लॉक,,loanword_kept,no established native term
+terminal block,hin_Deva,loanword,टर्मिनल ब्लॉक,,legacy,v1 hand-written glossary
+three phase,hin_Deva,formal,त्रिकला,तीन कला|त्रि कला,proposed,phase = कला; चरण (stage) is wrong
+three phase,hin_Deva,loanword,थ्री फेज,,legacy,v1 hand-written glossary
+voltage,hin_Deva,formal,वोल्टता,विभवांतर,proposed,CSTT वोल्टता; NCERT uses विभवांतर for potential difference
+voltage,hin_Deva,loanword,वोल्टेज,,legacy,v1 hand-written glossary
+voltmeter,hin_Deva,formal,वोल्टमापी,,proposed,NCERT textbooks use वोल्टमीटर
+voltmeter,hin_Deva,loanword,वोल्टमीटर,,legacy,v1 hand-written glossary
+wire stripper,hin_Deva,formal,तार छीलक,,proposed,
+wire stripper,hin_Deva,loanword,वायर स्ट्रिपर,,legacy,v1 hand-written glossary
+ac supply,gom_Deva,formal,प्रत्यावर्ती प्रवाह पुरवण,प्रत्यावर्ती प्रवाह पुरवठो,proposed,current = प्रवाह in Konkani
+ac supply,gom_Deva,loanword,एसी पुरवठो,,legacy,v1 hand-written glossary
+ammeter,gom_Deva,formal,ऐम्पियरमापी,एम्पियरमापी,proposed,NCERT textbooks use the loanword ऐमीटर
+ammeter,gom_Deva,loanword,अमीटर,एमीटर|ऐमीटर,legacy,v1 hand-written glossary
+apprentice,gom_Deva,formal,प्रशिक्षणार्थी,प्रशिक्षु,proposed,
+apprentice,gom_Deva,loanword,प्रशिक्षु,,legacy,v1 hand-written glossary
+cable,gom_Deva,formal,केबल,,loanword_kept,"no established native term; तार means wire, not cable"
+cable,gom_Deva,loanword,केबल,,legacy,v1 hand-written glossary
+capacitor,gom_Deva,formal,संधारित्र,धारित्र,proposed,
+capacitor,gom_Deva,loanword,कॅपॅसिटर,,legacy,v1 hand-written glossary
+circuit breaker,gom_Deva,formal,परिपथ वियोजक,परिपथ विच्छेदक,proposed,CSTT-style; verify
+circuit breaker,gom_Deva,loanword,सर्किट ब्रेकर,,legacy,v1 hand-written glossary
+conduit,gom_Deva,formal,नळी,नाली,proposed,
+conduit,gom_Deva,loanword,कंड्यूट,कंड्युट,legacy,v1 hand-written glossary
+control panel,gom_Deva,formal,नियंत्रण पटल,नियंत्रण फलक,proposed,
+control panel,gom_Deva,loanword,कंट्रोल पॅनल,,legacy,v1 hand-written glossary
+copper conductor,gom_Deva,formal,तांब्याचो वाहक,,proposed,
+copper conductor,gom_Deva,loanword,तांब्याचो वाहक,,legacy,v1 hand-written glossary
+earthing,gom_Deva,formal,भूसंपर्क,भूंयसंपर्क,proposed,verify: Marathi uses भूयोजन
+earthing,gom_Deva,loanword,अर्थिंग,,legacy,v1 hand-written glossary
+electric shock,gom_Deva,formal,विजेचो धक्को,विजेचो धक्का,proposed,
+electric shock,gom_Deva,loanword,विजेचो धक्का,,legacy,v1 hand-written glossary
+electrical load,gom_Deva,formal,विद्युत भार,विजेचो भार,proposed,
+electrical load,gom_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
+fuse,gom_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
+fuse,gom_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
+insulation,gom_Deva,formal,विद्युतरोधन,रोधन,proposed,
+insulation,gom_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
+junction box,gom_Deva,formal,संधी पेटी,,proposed,
+junction box,gom_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
+leakage current,gom_Deva,formal,गळती प्रवाह,गळपाचो प्रवाह,proposed,
+leakage current,gom_Deva,loanword,लीकेज करंट,,legacy,v1 hand-written glossary
+live wire,gom_Deva,formal,जिवंत तार,,proposed,Marathi standard; verify for Konkani
+live wire,gom_Deva,loanword,लाइव वायर,,legacy,v1 hand-written glossary
+main switch,gom_Deva,formal,मुखेल स्विच,,loanword_kept,मुखेल is native; स्विच kept
+main switch,gom_Deva,loanword,मुखेल स्विच,,legacy,v1 hand-written glossary
+megger,gom_Deva,formal,मेगर,,loanword_kept,instrument name; descriptive alternative: विद्युतरोधन प्रतिरोधमापी
+megger,gom_Deva,loanword,मेगर,,legacy,v1 hand-written glossary
+motor winding,gom_Deva,formal,मोटर कुंडली,मोटर कुंडलन,proposed,winding = कुंडली
+motor winding,gom_Deva,loanword,मोटर वाइंडिंग,,legacy,v1 hand-written glossary
+neutral wire,gom_Deva,formal,तटस्थ तार,,proposed,
+neutral wire,gom_Deva,loanword,न्यूट्रल वायर,,legacy,v1 hand-written glossary
+phase tester,gom_Deva,formal,कला परीक्षक,,proposed,phase = कला; चरण (stage) is wrong
+phase tester,gom_Deva,loanword,फेज टेस्टर,,legacy,v1 hand-written glossary
+protective device,gom_Deva,formal,संरक्षणात्मक उपकरण,संरक्षक उपकरण,proposed,
+protective device,gom_Deva,loanword,सुरक्षा उपकरण,,legacy,v1 hand-written glossary
+resistance,gom_Deva,formal,प्रतिकार,रोध,proposed,
+resistance,gom_Deva,loanword,प्रतिकार,,legacy,v1 hand-written glossary
+safety shoes,gom_Deva,formal,सुरक्षा बूट,,proposed,verify a native word for footwear (e.g. वाहणो)
+safety shoes,gom_Deva,loanword,सुरक्षा बूट,,legacy,v1 hand-written glossary
+single phase,gom_Deva,formal,एककला,एक कला,proposed,
+single phase,gom_Deva,loanword,सिंगल फेज,,legacy,v1 hand-written glossary
+switch board,gom_Deva,formal,स्विच फलक,,proposed,
+switch board,gom_Deva,loanword,स्विच बोर्ड,,legacy,v1 hand-written glossary
+terminal block,gom_Deva,formal,टर्मिनल ब्लॉक,,loanword_kept,no established native term
+terminal block,gom_Deva,loanword,टर्मिनल ब्लॉक,,legacy,v1 hand-written glossary
+three phase,gom_Deva,formal,त्रिकला,तीन कला,proposed,
+three phase,gom_Deva,loanword,थ्री फेज,,legacy,v1 hand-written glossary
+voltage,gom_Deva,formal,वोल्टता,विभवांतर,proposed,
+voltage,gom_Deva,loanword,व्होल्टेज,,legacy,v1 hand-written glossary
+voltmeter,gom_Deva,formal,वोल्टमापी,व्होल्टमापी,proposed,
+voltmeter,gom_Deva,loanword,व्होल्टमीटर,,legacy,v1 hand-written glossary
+wire stripper,gom_Deva,formal,तार सोलपी,,proposed,verify
+wire stripper,gom_Deva,loanword,वायर स्ट्रिपर,,legacy,v1 hand-written glossary
+ac supply,mai_Deva,formal,प्रत्यावर्ती धारा आपूर्ति,प्रत्यावर्ती धारा प्रदाय,proposed,AC = प्रत्यावर्ती धारा (NCERT)
+ac supply,mai_Deva,loanword,एसी आपूर्ति,,legacy,v1 hand-written glossary
+ammeter,mai_Deva,formal,ऐम्पियरमापी,एम्पियरमापी,proposed,NCERT textbooks use the loanword ऐमीटर
+ammeter,mai_Deva,loanword,अमीटर,एमीटर|ऐमीटर,legacy,v1 hand-written glossary
+apprentice,mai_Deva,formal,प्रशिक्षु,शिक्षु,proposed,
+apprentice,mai_Deva,loanword,प्रशिक्षु,,legacy,v1 hand-written glossary
+cable,mai_Deva,formal,केबल,,loanword_kept,"no established native term; तार means wire, not cable"
+cable,mai_Deva,loanword,केबल,,legacy,v1 hand-written glossary
+capacitor,mai_Deva,formal,संधारित्र,,proposed,NCERT
+capacitor,mai_Deva,loanword,कैपेसिटर,,legacy,v1 hand-written glossary
+circuit breaker,mai_Deva,formal,परिपथ वियोजक,परिपथ विच्छेदक,proposed,CSTT-style; verify
+circuit breaker,mai_Deva,loanword,सर्किट ब्रेकर,,legacy,v1 hand-written glossary
+conduit,mai_Deva,formal,नाली,नलिका|वाहिनी,proposed,
+conduit,mai_Deva,loanword,कंड्यूट,,legacy,v1 hand-written glossary
+control panel,mai_Deva,formal,नियंत्रण पटल,नियंत्रण पट्ट,proposed,
+control panel,mai_Deva,loanword,कंट्रोल पैनल,,legacy,v1 hand-written glossary
+copper conductor,mai_Deva,formal,तामक चालक,ताँबाक चालक,proposed,
+copper conductor,mai_Deva,loanword,तांबा चालक,,legacy,v1 hand-written glossary
+earthing,mai_Deva,formal,भूसंपर्कन,भूसंपर्क,proposed,NCERT (भूसंपर्क तार = earth wire)
+earthing,mai_Deva,loanword,अर्थिंग,,legacy,v1 hand-written glossary
+electric shock,mai_Deva,formal,विद्युत आघात,बिजलीक झटका,proposed,
+electric shock,mai_Deva,loanword,बिजलीक झटका,,legacy,v1 hand-written glossary
+electrical load,mai_Deva,formal,विद्युत भार,,proposed,
+electrical load,mai_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
+fuse,mai_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
+fuse,mai_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
+insulation,mai_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,mai_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
+junction box,mai_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
+junction box,mai_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
+leakage current,mai_Deva,formal,क्षरण धारा,रिसाव धारा,proposed,
+leakage current,mai_Deva,loanword,लीकेज करंट,,legacy,v1 hand-written glossary
+live wire,mai_Deva,formal,विद्युन्मय तार,,proposed,NCERT; जीवित तार is a literal mistranslation
+live wire,mai_Deva,loanword,लाइव तार,,legacy,v1 hand-written glossary
+main switch,mai_Deva,formal,मुख्य स्विच,मुख्य कुंजी,loanword_kept,स्विच is used in NCERT; कुंजी is the native alternative
+main switch,mai_Deva,loanword,मुख्य स्विच,,legacy,v1 hand-written glossary
+megger,mai_Deva,formal,मेगर,,loanword_kept,instrument name; descriptive alternative: विद्युतरोधन प्रतिरोधमापी
+megger,mai_Deva,loanword,मेगर,,legacy,v1 hand-written glossary
+motor winding,mai_Deva,formal,मोटर कुंडली,मोटर कुंडलन,proposed,winding = कुंडली
+motor winding,mai_Deva,loanword,मोटर वाइंडिंग,,legacy,v1 hand-written glossary
+neutral wire,mai_Deva,formal,उदासीन तार,तटस्थ तार,proposed,NCERT
+neutral wire,mai_Deva,loanword,न्यूट्रल तार,,legacy,v1 hand-written glossary
+phase tester,mai_Deva,formal,कला परीक्षक,,proposed,phase = कला; चरण (stage) is wrong
+phase tester,mai_Deva,loanword,फेज टेस्टर,,legacy,v1 hand-written glossary
+protective device,mai_Deva,formal,संरक्षी युक्ति,सुरक्षा युक्ति|सुरक्षात्मक उपकरण|सुरक्षा उपकरण,proposed,
+protective device,mai_Deva,loanword,सुरक्षा उपकरण,,legacy,v1 hand-written glossary
+resistance,mai_Deva,formal,प्रतिरोध,,proposed,NCERT
+resistance,mai_Deva,loanword,प्रतिरोध,,legacy,v1 hand-written glossary
+safety shoes,mai_Deva,formal,सुरक्षा जूता,,proposed,
+safety shoes,mai_Deva,loanword,सुरक्षा जूता,,legacy,v1 hand-written glossary
+single phase,mai_Deva,formal,एकल कला,एक कला,proposed,phase = कला; चरण (stage) is wrong
+single phase,mai_Deva,loanword,सिंगल फेज,,legacy,v1 hand-written glossary
+switch board,mai_Deva,formal,स्विच पटल,,proposed,
+switch board,mai_Deva,loanword,स्विच बोर्ड,,legacy,v1 hand-written glossary
+terminal block,mai_Deva,formal,टर्मिनल ब्लॉक,,loanword_kept,no established native term
+terminal block,mai_Deva,loanword,टर्मिनल ब्लॉक,,legacy,v1 hand-written glossary
+three phase,mai_Deva,formal,त्रिकला,तीन कला|त्रि कला,proposed,phase = कला; चरण (stage) is wrong
+three phase,mai_Deva,loanword,थ्री फेज,,legacy,v1 hand-written glossary
+voltage,mai_Deva,formal,वोल्टता,विभवांतर,proposed,CSTT वोल्टता; NCERT uses विभवांतर for potential difference
+voltage,mai_Deva,loanword,वोल्टेज,,legacy,v1 hand-written glossary
+voltmeter,mai_Deva,formal,वोल्टमापी,,proposed,NCERT textbooks use वोल्टमीटर
+voltmeter,mai_Deva,loanword,वोल्टमीटर,,legacy,v1 hand-written glossary
+wire stripper,mai_Deva,formal,तार छीलक,,proposed,
+wire stripper,mai_Deva,loanword,वायर स्ट्रिपर,,legacy,v1 hand-written glossary
+ac supply,doi_Deva,formal,प्रत्यावर्ती धारा आपूर्ति,प्रत्यावर्ती धारा प्रदाय,proposed,AC = प्रत्यावर्ती धारा (NCERT)
+ac supply,doi_Deva,loanword,एसी सप्लाई,,legacy,v1 hand-written glossary
+ammeter,doi_Deva,formal,ऐम्पियरमापी,एम्पियरमापी,proposed,NCERT textbooks use the loanword ऐमीटर
+ammeter,doi_Deva,loanword,अमीटर,एमीटर|ऐमीटर,legacy,v1 hand-written glossary
+apprentice,doi_Deva,formal,प्रशिक्षु,शिक्षु,proposed,
+apprentice,doi_Deva,loanword,प्रशिक्षु,,legacy,v1 hand-written glossary
+cable,doi_Deva,formal,केबल,,loanword_kept,"no established native term; तार means wire, not cable"
+cable,doi_Deva,loanword,केबल,,legacy,v1 hand-written glossary
+capacitor,doi_Deva,formal,संधारित्र,,proposed,NCERT
+capacitor,doi_Deva,loanword,कैपेसिटर,,legacy,v1 hand-written glossary
+circuit breaker,doi_Deva,formal,परिपथ वियोजक,परिपथ विच्छेदक,proposed,CSTT-style; verify
+circuit breaker,doi_Deva,loanword,सर्किट ब्रेकर,,legacy,v1 hand-written glossary
+conduit,doi_Deva,formal,नाली,नलिका|वाहिनी,proposed,
+conduit,doi_Deva,loanword,कंड्यूट,,legacy,v1 hand-written glossary
+control panel,doi_Deva,formal,नियंत्रण पटल,नियंत्रण पट्ट,proposed,
+control panel,doi_Deva,loanword,कंट्रोल पैनल,,legacy,v1 hand-written glossary
+copper conductor,doi_Deva,formal,तांबे दा चालक,,proposed,
+copper conductor,doi_Deva,loanword,तांबे दा चालक,,legacy,v1 hand-written glossary
+earthing,doi_Deva,formal,भूसंपर्कन,भूसंपर्क,proposed,NCERT (भूसंपर्क तार = earth wire)
+earthing,doi_Deva,loanword,अर्थिंग,,legacy,v1 hand-written glossary
+electric shock,doi_Deva,formal,विद्युत आघात,बिजली दा झटका,proposed,
+electric shock,doi_Deva,loanword,बिजली दा झटका,,legacy,v1 hand-written glossary
+electrical load,doi_Deva,formal,विद्युत भार,,proposed,
+electrical load,doi_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
+fuse,doi_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
+fuse,doi_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
+insulation,doi_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,doi_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
+junction box,doi_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
+junction box,doi_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
+leakage current,doi_Deva,formal,क्षरण धारा,रिसाव धारा,proposed,
+leakage current,doi_Deva,loanword,लीकेज करंट,,legacy,v1 hand-written glossary
+live wire,doi_Deva,formal,विद्युन्मय तार,,proposed,NCERT; जीवित तार is a literal mistranslation
+live wire,doi_Deva,loanword,लाइव तार,,legacy,v1 hand-written glossary
+main switch,doi_Deva,formal,मुक्ख स्विच,मुख्य स्विच,loanword_kept,मुक्ख is the Dogri spelling of मुख्य
+main switch,doi_Deva,loanword,मुख्य स्विच,,legacy,v1 hand-written glossary
+megger,doi_Deva,formal,मेगर,,loanword_kept,instrument name; descriptive alternative: विद्युतरोधन प्रतिरोधमापी
+megger,doi_Deva,loanword,मेगर,,legacy,v1 hand-written glossary
+motor winding,doi_Deva,formal,मोटर कुंडली,मोटर कुंडलन,proposed,winding = कुंडली
+motor winding,doi_Deva,loanword,मोटर वाइंडिंग,,legacy,v1 hand-written glossary
+neutral wire,doi_Deva,formal,उदासीन तार,तटस्थ तार,proposed,NCERT
+neutral wire,doi_Deva,loanword,न्यूट्रल तार,,legacy,v1 hand-written glossary
+phase tester,doi_Deva,formal,कला परीक्षक,,proposed,phase = कला; चरण (stage) is wrong
+phase tester,doi_Deva,loanword,फेज टेस्टर,,legacy,v1 hand-written glossary
+protective device,doi_Deva,formal,संरक्षी युक्ति,सुरक्षा युक्ति|सुरक्षात्मक उपकरण|सुरक्षा उपकरण,proposed,
+protective device,doi_Deva,loanword,सुरक्षा उपकरण,,legacy,v1 hand-written glossary
+resistance,doi_Deva,formal,प्रतिरोध,,proposed,NCERT
+resistance,doi_Deva,loanword,प्रतिरोध,,legacy,v1 hand-written glossary
+safety shoes,doi_Deva,formal,सुरक्षा जुत्ते,सुरक्षा जूते,proposed,
+safety shoes,doi_Deva,loanword,सुरक्षा जूते,,legacy,v1 hand-written glossary
+single phase,doi_Deva,formal,एकल कला,एक कला,proposed,phase = कला; चरण (stage) is wrong
+single phase,doi_Deva,loanword,सिंगल फेज,,legacy,v1 hand-written glossary
+switch board,doi_Deva,formal,स्विच पटल,,proposed,
+switch board,doi_Deva,loanword,स्विच बोर्ड,,legacy,v1 hand-written glossary
+terminal block,doi_Deva,formal,टर्मिनल ब्लॉक,,loanword_kept,no established native term
+terminal block,doi_Deva,loanword,टर्मिनल ब्लॉक,,legacy,v1 hand-written glossary
+three phase,doi_Deva,formal,त्रिकला,तीन कला|त्रि कला,proposed,phase = कला; चरण (stage) is wrong
+three phase,doi_Deva,loanword,थ्री फेज,,legacy,v1 hand-written glossary
+voltage,doi_Deva,formal,वोल्टता,विभवांतर,proposed,CSTT वोल्टता; NCERT uses विभवांतर for potential difference
+voltage,doi_Deva,loanword,वोल्टेज,,legacy,v1 hand-written glossary
+voltmeter,doi_Deva,formal,वोल्टमापी,,proposed,NCERT textbooks use वोल्टमीटर
+voltmeter,doi_Deva,loanword,वोल्टमीटर,,legacy,v1 hand-written glossary
+wire stripper,doi_Deva,formal,तार छीलक,,proposed,
+wire stripper,doi_Deva,loanword,वायर स्ट्रिपर,,legacy,v1 hand-written glossary
