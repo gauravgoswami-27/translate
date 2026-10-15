@@ -285,8 +285,11 @@ class Translator:
             prepared = self._constraint_processor.preprocess_batch(
                 list(group), src_lang=target_lang, tgt_lang=SOURCE_LANG, is_target=True
             )
+            # One batched call per context: IndicTrans2's remote tokenizer switches itself back to
+            # source mode after a call, so a second call inside the same context would tokenize
+            # the target text as a tagged source sentence (and crash).
             with self._tokenizer.as_target_tokenizer():
-                ids = [self._tokenizer(text, add_special_tokens=False)["input_ids"] for text in prepared]
+                ids = self._tokenizer(prepared, add_special_tokens=False)["input_ids"]
             force.append(prune_alternatives(ids))
         return force
     def _encode(self, sentences: list[str], source_lang: str, target_lang: str):

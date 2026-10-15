@@ -151,6 +151,11 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **Not yet run:** anything with the real IndicTrans2 models (gated). The run-5 notebook's cell 4 smoke-tests a 20-sentence repair and prints examples.
 - **Kaggle:** `kaggle/run5_terminology_aware.ipynb`. The bundle (33 MB) now includes the raw drafts and the run-4 adapter, so no other inputs are needed.
 
+### Kaggle run 5 attempt 1: smoke test failed
+- **Crash:** building the forced-term token ids. IndicTrans2's remote tokenizer switches itself back to source mode after each call, so a second call inside `as_target_tokenizer()` parsed Hindi as a tagged source sentence. Reproduced locally with a public copy of the same tokenizer code.
+- **Fix:** one batched tokenizer call per context; verified with the real tokenizer.
+- **Side observation from the same log:** base 200M renders "three phase supply and earthing" as तीन चरणों की आपूर्ति और मिट्टी ("three stages … and soil"). A clean example of the terminology problem for the paper.
+
 ### Next
 1. **Run 5 on Kaggle** (`run5_terminology_aware.ipynb`).
 2. **Glossary validation** of the `proposed` formal entries (native speakers / instructors). If entries change, re-run run 5.
