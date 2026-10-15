@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -40,6 +41,42 @@ def resolve_adapter(path: str) -> tuple[str, Optional[str]]:
         base = json.loads(config_file.read_text())["base_model_name_or_path"]
         return base, str(path)
     return path, None
+
+
+# Ways IndicTrans2 writes "ID" in its output (the toolkit's own restoration handles the same set).
+_ID_SPELLINGS = r"(?:ID|Id|id|आईडी|आइडी|आई\s*\.?\s*डी\s*\.?|आइ\s*\.?\s*डी\s*\.?|आय\s*\.?\s*डी\s*\.?|آی\s*ڈی|ꯑꯥꯏꯗꯤ)"
+
+
+def inject_placeholders(preprocessed: str, pairs: list[tuple[str, str]], id_map: dict[int, str]) -> str:
+    """Replace English glossary terms in a preprocessed source sentence with entity placeholders.
+
+    Numbering continues after the toolkit's own placeholders (URLs, numbers, ...) so the two
+    never collide. Fills ``id_map`` with {placeholder id: target term}.
+    """
+    used = [int(n) for n in re.findall(r"ID\s*(\d+)", preprocessed)]
+    next_id = max(used, default=0) + 1
+    for english, target in pairs:
+        pattern = re.compile(rf"\b{re.escape(english)}s?\b", re.IGNORECASE)
+        if pattern.search(preprocessed):
+            preprocessed = pattern.sub(f"< ID{next_id} >", preprocessed)
+            id_map[next_id] = target
+            next_id += 1
+    return preprocessed
+
+
+def restore_placeholders(text: str, id_map: dict[int, str]) -> str:
+    """Put the target terms back where the model copied the placeholders; drop leftovers."""
+    for n, target in id_map.items():
+        pattern = re.compile(rf"(?:[<\[]\s*)?{_ID_SPELLINGS}\s*{n}(?!\d)(?:\s*[>\]])?")
+
+        def put_term(match: re.Match, target: str = target) -> str:
+            # No space after the term, so case endings stay attached (Maithili <ID2>क -> ...क);
+            # add one before it only if it would otherwise fuse with the previous word.
+            before = match.string[match.start() - 1] if match.start() else " "
+            return (target if before.isspace() or before in "([\"'“" else " " + target)
+
+        text = pattern.sub(put_term, text)
+    return re.sub(r"\s{2,}", " ", text).strip()
 
 
 def prune_alternatives(alternatives: list[list[int]]) -> list[list[int]]:
@@ -179,6 +216,7 @@ class Translator:
         max_tokens: int = 8000,
         show_progress: bool = False,
         constraints: Optional[list[list[list[str]]]] = None,
+        term_placeholders: Optional[list[list[tuple[str, str]]]] = None,
     ) -> list[str]:
         """Translate many sentences; output order matches input order.
 
@@ -192,6 +230,13 @@ class Translator:
         alternative target strings of which at least one must appear in the output
         (e.g. [["त्रिकला", "तीन कला"], ["भूसंपर्कन"]]). Sentences are batched per
         identical constraint set, because Hugging Face applies constraints per batch.
+
+        ``term_placeholders`` (optional, one entry per sentence) is the faster and more
+        fluent alternative: each (english_term, target_term) pair is replaced in the source
+        by an IndicTrans2 entity placeholder (``< IDn >``), which the model copies through
+        translation at the right position, and the placeholder is then replaced by the
+        target term. Unrestored placeholders are removed (the term is then missing, which
+        callers can detect).
         """
         validate_target_lang(target_lang)
         if self.backend == "fallback":
@@ -199,6 +244,10 @@ class Translator:
         assert self._model is not None and self._tokenizer is not None and self._processor is not None
         if constraints is not None and len(constraints) != len(texts):
             raise ValueError("constraints must have one entry per text")
+        if term_placeholders is not None and len(term_placeholders) != len(texts):
+            raise ValueError("term_placeholders must have one entry per text")
+        if constraints is not None and term_placeholders is not None:
+            raise ValueError("use either constraints or term_placeholders, not both")
 
         groups: dict[tuple, list[int]] = {}
         for i in range(len(texts)):
@@ -220,7 +269,7 @@ class Translator:
             beams = max(num_beams, 2) if force_words_ids else num_beams  # constrained search needs beams
             self._translate_indices(
                 texts, indices, outputs, source_lang, target_lang, batch_size, beams, max_length, max_tokens,
-                force_words_ids, progress,
+                force_words_ids, progress, term_placeholders,
             )
 
         if progress is not None:
@@ -229,7 +278,7 @@ class Translator:
 
     def _translate_indices(
         self, texts, indices, outputs, source_lang, target_lang, batch_size, num_beams, max_length, max_tokens,
-        force_words_ids, progress,
+        force_words_ids, progress, term_placeholders=None,
     ) -> None:
         # Length-sorted (longest first) batches waste little padding and hit any OOM early.
         order = sorted(indices, key=lambda i: len(texts[i]), reverse=True)
@@ -237,13 +286,15 @@ class Translator:
         start = 0
         while start < len(order):
             idx = order[start : start + batch_size]
-            inputs = self._encode([texts[i] for i in idx], source_lang, target_lang)
+            inject = [term_placeholders[i] for i in idx] if term_placeholders else None
+            inputs, id_maps = self._encode([texts[i] for i in idx], source_lang, target_lang, inject)
             src_len = inputs["input_ids"].shape[1]
             allowed = max(1, max_tokens // (src_len * num_beams))
             if allowed < len(idx):
                 idx = idx[:allowed]
                 self._reset_processor(target_lang)
-                inputs = self._encode([texts[i] for i in idx], source_lang, target_lang)
+                inject = inject[:allowed] if inject else None
+                inputs, id_maps = self._encode([texts[i] for i in idx], source_lang, target_lang, inject)
 
             try:
                 with self._torch.inference_mode():
@@ -268,8 +319,8 @@ class Translator:
                 continue
 
             decoded = self._tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=True)
-            for i, translation in zip(idx, self._processor.postprocess_batch(decoded, lang=target_lang)):
-                outputs[i] = translation
+            for i, translation, id_map in zip(idx, self._processor.postprocess_batch(decoded, lang=target_lang), id_maps):
+                outputs[i] = restore_placeholders(translation, id_map) if id_map else translation
             start += len(idx)
             if progress is not None:
                 progress.update(len(idx))
@@ -292,14 +343,19 @@ class Translator:
                 ids = self._tokenizer(prepared, add_special_tokens=False)["input_ids"]
             force.append(prune_alternatives(ids))
         return force
-    def _encode(self, sentences: list[str], source_lang: str, target_lang: str):
+    def _encode(self, sentences: list[str], source_lang: str, target_lang: str, inject=None):
+        """Returns (model inputs, per-sentence {placeholder id: target term} maps)."""
         # IndicProcessor queues one placeholder map per preprocessed sentence and
         # postprocess_batch consumes them, so every preprocess must be followed by
         # exactly one postprocess (or a _reset_processor call).
         batch = self._processor.preprocess_batch(sentences, src_lang=source_lang, tgt_lang=target_lang)
-        return self._tokenizer(
+        id_maps: list[dict[int, str]] = [{} for _ in batch]
+        if inject:
+            batch = [inject_placeholders(text, pairs, id_map) for text, pairs, id_map in zip(batch, inject, id_maps)]
+        inputs = self._tokenizer(
             batch, truncation=True, padding="longest", return_tensors="pt", return_attention_mask=True
         ).to(self.device_name)
+        return inputs, id_maps
 
     def _reset_processor(self, target_lang: str) -> None:
         """Drop queued placeholder maps from a preprocessed batch that was not translated."""

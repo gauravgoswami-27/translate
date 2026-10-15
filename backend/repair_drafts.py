@@ -3,10 +3,16 @@
 
 For every train/dev draft whose English source contains glossary terms but whose
 draft does not use the glossary form for all of them, the teacher (IndicTrans2-1B)
-re-translates the sentence with lexically constrained beam search, forcing the
-glossary term (or one of its variants) for each term. Each repaired output is then
-validated, because constrained search can satisfy a constraint by tacking the term on
-after the sentence:
+re-translates the sentence so that the glossary term is used:
+
+  --method placeholder (default): each English term is replaced by an IndicTrans2 entity
+      placeholder (< IDn >) that the model copies to the right position; the placeholder
+      is then replaced by the glossary term. Normal beam search, so full speed.
+  --method constrained: Hugging Face lexically constrained beam search. Tried first on
+      Kaggle: only 5/20 usable (it mostly tacks the term on after the sentence) and
+      ~1.5 s/sentence, so it is kept for comparison only.
+
+Each repaired output is validated:
   * every glossary term must be present (normalised spelling);
   * the term must not appear only after the final sentence punctuation;
   * length must stay within 0.7-1.5x the original draft (in words).
@@ -32,7 +38,7 @@ from pathlib import Path
 
 from backend.localization_engine import Translator
 from backend.localization_engine.data import read_csv
-from backend.localization_engine.glossary import ACTIVE_REGISTER, constraint_forms
+from backend.localization_engine.glossary import ACTIVE_REGISTER, ELECTRICIAN_GLOSSARIES, constraint_forms
 from backend.localization_engine.languages import DOMAIN_LANGS, LANG_SHORT, TEACHER_MODEL_NAME
 from backend.localization_engine.metrics import normalize_indic, term_forms
 from backend.localization_engine.paths import CORPUS_DIR, RESULTS_DIR
@@ -44,9 +50,10 @@ def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Terminology-constrained repair of teacher drafts.")
     p.add_argument("--langs", default=",".join(DOMAIN_LANGS))
     p.add_argument("--model", default=TEACHER_MODEL_NAME)
+    p.add_argument("--method", choices=["placeholder", "constrained"], default="placeholder")
     p.add_argument("--splits", default="train,dev")
-    p.add_argument("--batch-size", type=int, default=16)
-    p.add_argument("--max-tokens", type=int, default=6000)
+    p.add_argument("--batch-size", type=int, default=48)
+    p.add_argument("--max-tokens", type=int, default=8000)
     p.add_argument("--num-beams", type=int, default=5)
     p.add_argument("--limit", type=int, default=None, help="Repair at most N sentences per language (smoke test).")
     p.add_argument("--output-dir", type=Path, default=CORPUS_DIR)
@@ -80,6 +87,7 @@ def validate(repaired: str, original: str, terms: list[str], lang: str) -> str:
 def main() -> None:
     args = parse_args()
     splits = set(args.splits.split(","))
+    args.output_dir.mkdir(parents=True, exist_ok=True)
     translator = None
     stats: dict[str, dict] = {}
 
@@ -99,12 +107,17 @@ def main() -> None:
                 todo.append((i, [t for t in terms if constraint_forms(t, lang)]))
         if args.limit:
             todo = todo[: args.limit]
-        print(f"{lang}: {len(todo)} drafts need terminology repair ({ACTIVE_REGISTER} register)")
+        print(f"{lang}: {len(todo)} drafts need terminology repair ({ACTIVE_REGISTER} register, {args.method})")
 
         if todo:
             if translator is None:
                 translator = Translator(args.model, allow_fallback=False)
             start = time.time()
+            guidance = (
+                {"term_placeholders": [[(t, ELECTRICIAN_GLOSSARIES[lang][t]) for t in terms] for _, terms in todo]}
+                if args.method == "placeholder"
+                else {"constraints": [[constraint_forms(t, lang) for t in terms] for _, terms in todo]}
+            )
             repaired = translator.translate_batch(
                 [rows[i]["english_sentence"] for i, _ in todo],
                 lang,
@@ -112,7 +125,7 @@ def main() -> None:
                 max_tokens=args.max_tokens,
                 num_beams=args.num_beams,
                 show_progress=True,
-                constraints=[[constraint_forms(t, lang) for t in terms] for _, terms in todo],
+                **guidance,
             )
             minutes = (time.time() - start) / 60
             for (i, terms), text in zip(todo, repaired):
@@ -123,7 +136,7 @@ def main() -> None:
                 else:
                     rows[i]["term_repair"] = "repaired"
                     rows[i]["target_sentence"] = text
-                    rows[i]["reference_source"] = f"teacher_constrained:{args.model}"
+                    rows[i]["reference_source"] = f"teacher_{args.method}:{args.model}"
         else:
             minutes = 0.0
 
@@ -133,7 +146,7 @@ def main() -> None:
             if r["term_repair"] == "failed":
                 key = r["repair_note"].split("_")[0] if r["repair_note"].startswith("length") else r["repair_note"]
                 reasons[key] = reasons.get(key, 0) + 1
-        stats[lang] = {"needed_repair": len(todo), **counts, "failure_reasons": reasons, "minutes": round(minutes, 1)}
+        stats[lang] = {"method": args.method, "needed_repair": len(todo), **counts, "failure_reasons": reasons, "minutes": round(minutes, 1)}
         print(f"{lang}: {stats[lang]}")
 
         tmp = out_path.with_suffix(".tmp")
