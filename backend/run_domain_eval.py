@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Step 4 (GPU): domain test-set evaluation.
 
-Systems (append "+cd" to any of them for terminology-constrained decoding, which forces
-the glossary term for every glossary term found in the source, e.g. "lora+cd"):
+Systems (optionally with a terminology suffix applied to every glossary term in the source:
+"+ph" = placeholder injection, the term is copied in via an entity placeholder;
+"+cd" = Hugging Face lexically constrained decoding; e.g. "lora+ph"):
   base         - IndicTrans2 en-indic dist-200M, untouched
   lora         - + LoRA adapter distilled on the raw teacher drafts (run 4, v1-raw-distillation)
   lora_formal  - + LoRA adapter distilled on terminology-repaired drafts (experiment 2)
@@ -24,7 +25,7 @@ from pathlib import Path
 
 from backend.localization_engine import Translator
 from backend.localization_engine.data import load_test_set
-from backend.localization_engine.glossary import ACTIVE_REGISTER, constraint_forms
+from backend.localization_engine.glossary import ACTIVE_REGISTER, ELECTRICIAN_GLOSSARIES, constraint_forms
 from backend.localization_engine.languages import DEFAULT_MODEL_NAME, DOMAIN_LANGS, TEACHER_MODEL_NAME
 from backend.localization_engine.metrics import paired_bootstrap, score_corpus, term_accuracy, term_compliance
 from backend.localization_engine.paths import MODELS_DIR, RESULTS_DIR
@@ -78,12 +79,12 @@ def main() -> None:
             scores = score_corpus(preds, ts.references)
             term_acc, term_n = term_accuracy(preds, ts.references, ts.glossary_terms, lang)
             compliance, compliance_n = term_compliance(preds, ts.glossary_terms, lang)
-            base_name = system.removesuffix("+cd")
+            base_name, guidance = split_system(system)
             row = {
                 "target_lang": lang,
                 "system": system,
                 "model": model_for.get(base_name, base_name),
-                "constrained_decoding": system.endswith("+cd"),
+                "term_guidance": guidance or "none",
                 "bleu": scores.bleu,
                 "chrf_pp": scores.chrf_pp,
                 "term_accuracy": term_acc,
@@ -119,27 +120,40 @@ def main() -> None:
 
 
 def generate_predictions(systems: list[str], model_for: dict[str, str], test_sets: dict, batch_size: int) -> dict:
-    """One model in memory at a time; the plain and +cd variants of a model share it."""
+    """One model in memory at a time; the plain, +ph and +cd variants of a model share it."""
     predictions: dict[str, dict[str, list[str]]] = {s: {} for s in systems}
     by_model: dict[str, list[str]] = {}
     for system in systems:
-        by_model.setdefault(system.removesuffix("+cd"), []).append(system)
+        by_model.setdefault(split_system(system)[0], []).append(system)
     for name, variants in by_model.items():
         if name not in model_for:
-            raise ValueError(f"Unknown system '{name}'. Known: {sorted(model_for)} (optionally with +cd).")
+            raise ValueError(f"Unknown system '{name}'. Known: {sorted(model_for)} (optionally with +ph / +cd).")
         translator = Translator(model_for[name], allow_fallback=False)
         for system in variants:
             for lang, ts in test_sets.items():
-                constraints = None
-                if system.endswith("+cd"):
-                    constraints = [[constraint_forms(t, lang) for t in terms if constraint_forms(t, lang)]
-                                   for terms in ts.glossary_terms]
+                guidance = split_system(system)[1]
+                kwargs = {}
+                if guidance == "cd":
+                    kwargs["constraints"] = [[constraint_forms(t, lang) for t in terms if constraint_forms(t, lang)]
+                                             for terms in ts.glossary_terms]
+                elif guidance == "ph":
+                    glossary = ELECTRICIAN_GLOSSARIES[lang]
+                    kwargs["term_placeholders"] = [[(t, glossary[t]) for t in terms if t in glossary]
+                                                   for terms in ts.glossary_terms]
                 predictions[system][lang] = translator.translate_batch(
-                    ts.sources, lang, batch_size=batch_size, show_progress=True, constraints=constraints
+                    ts.sources, lang, batch_size=batch_size, show_progress=True, **kwargs
                 )
         translator.unload()
         del translator
     return predictions
+
+
+def split_system(system: str) -> tuple[str, str]:
+    """'lora+ph' -> ('lora', 'ph'); 'base' -> ('base', '')."""
+    name, _, guidance = system.partition("+")
+    if guidance not in ("", "ph", "cd"):
+        raise ValueError(f"Unknown terminology guidance '+{guidance}' in system '{system}'")
+    return name, guidance
 
 
 def load_saved_predictions(paths: list[Path], test_sets: dict) -> tuple[list[str], dict]:

@@ -156,8 +156,18 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **Fix:** one batched tokenizer call per context; verified with the real tokenizer.
 - **Side observation from the same log:** base 200M renders "three phase supply and earthing" as तीन चरणों की आपूर्ति और मिट्टी ("three stages … and soil"). A clean example of the terminology problem for the paper.
 
+### Kaggle run 5 attempt 2: constrained search unusable; switched to placeholder injection
+- **Constrained beam search on the real 1B teacher** (20-sentence smoke test): only **5/20** repairs valid. In 15 cases the forced term was tacked on after the sentence, and it ran at ~1.5 s/sentence (more than 3 h per GPU for the full repair). It also crashed at the end on a missing output folder (fixed).
+- **New default: placeholder injection.**
+  - Each English glossary term in the source is replaced by an IndicTrans2 entity placeholder (`< IDn >`, numbered after the toolkit's own placeholders).
+  - The model copies the placeholder into the right position, at normal decoding speed, and the glossary term is substituted back.
+  - Restoration handles bracket variants, Devanagari spellings of "ID", and attached case endings (Maithili `<ID2>क` → `…क`).
+  - Unit-tested locally, plus an end-to-end test on Kaggle's library versions.
+- **Evaluation:** the systems now include `+ph` (placeholder injection) next to `+cd` (constrained decoding, kept as a weak baseline). Both are interesting for the paper: same goal, very different fluency.
+
 ### Next
 1. **Run 5 on Kaggle** (`run5_terminology_aware.ipynb`).
 2. **Glossary validation** of the `proposed` formal entries (native speakers / instructors). If entries change, re-run run 5.
+   - Note for the paper: the placeholder method cannot inflect the inserted term. That's fine for Hindi (separate postpositions); worth checking in the Maithili outputs.
 3. **Post-edit the 4 test sheets**, then rescore locally: `run_domain_eval --from-predictions …_run5.csv --require-human-refs`.
 4. **Ablations:** Hindi-only vs joint training, LoRA rank.
