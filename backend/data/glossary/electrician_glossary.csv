@@ -25,7 +25,7 @@ electrical load,hin_Deva,formal,विद्युत भार,,standard,
 electrical load,hin_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
 fuse,hin_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
 fuse,hin_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
-insulation,hin_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,hin_Deva,formal,विद्युतरोधन,रोधन,proposed,"NCERT: विद्युतरोधी = insulator; REVIEW: as a material (""removing insulation"", ""insulation tape"") विद्युतरोधी आवरण / विद्युतरोधी टेप may read better than विद्युतरोधन (seen in run-5 repair smoke test)"
 insulation,hin_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
 junction box,hin_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
 junction box,hin_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
@@ -89,7 +89,7 @@ electrical load,gom_Deva,formal,विद्युत भार,विजेच�
 electrical load,gom_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
 fuse,gom_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
 fuse,gom_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
-insulation,gom_Deva,formal,विद्युतरोधन,रोधन,proposed,
+insulation,gom_Deva,formal,विद्युतरोधन,रोधन,proposed,"REVIEW: as a material (""removing insulation"", ""insulation tape"") विद्युतरोधी आवरण / विद्युतरोधी टेप may read better than विद्युतरोधन (seen in run-5 repair smoke test)"
 insulation,gom_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
 junction box,gom_Deva,formal,संधी पेटी,,proposed,
 junction box,gom_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
@@ -153,7 +153,7 @@ electrical load,mai_Deva,formal,विद्युत भार,,proposed,
 electrical load,mai_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
 fuse,mai_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
 fuse,mai_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
-insulation,mai_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,mai_Deva,formal,विद्युतरोधन,रोधन,proposed,"NCERT: विद्युतरोधी = insulator; REVIEW: as a material (""removing insulation"", ""insulation tape"") विद्युतरोधी आवरण / विद्युतरोधी टेप may read better than विद्युतरोधन (seen in run-5 repair smoke test)"
 insulation,mai_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
 junction box,mai_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
 junction box,mai_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
@@ -217,7 +217,7 @@ electrical load,doi_Deva,formal,विद्युत भार,,proposed,
 electrical load,doi_Deva,loanword,विद्युत भार,,legacy,v1 hand-written glossary
 fuse,doi_Deva,formal,फ्यूज़,,loanword_kept,NCERT uses फ्यूज़; no native term in use
 fuse,doi_Deva,loanword,फ्यूज,,legacy,v1 hand-written glossary
-insulation,doi_Deva,formal,विद्युतरोधन,रोधन,proposed,NCERT: विद्युतरोधी = insulator
+insulation,doi_Deva,formal,विद्युतरोधन,रोधन,proposed,"NCERT: विद्युतरोधी = insulator; REVIEW: as a material (""removing insulation"", ""insulation tape"") विद्युतरोधी आवरण / विद्युतरोधी टेप may read better than विद्युतरोधन (seen in run-5 repair smoke test)"
 insulation,doi_Deva,loanword,इन्सुलेशन,,legacy,v1 hand-written glossary
 junction box,doi_Deva,formal,संधि पेटिका,संधि बक्सा,proposed,
 junction box,doi_Deva,loanword,जंक्शन बॉक्स,,legacy,v1 hand-written glossary
