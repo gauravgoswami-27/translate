@@ -10,6 +10,7 @@ zip -qr "$out" kaggle/BUNDLE_VERSION \
   backend/*.py backend/requirements.txt \
   backend/localization_engine/*.py backend/api/*.py \
   backend/data/corpus_v2 backend/data/glossary \
+  backend/models/it2_lora_joint/adapter_config.json backend/models/it2_lora_joint/adapter_model.safetensors \
   kaggle/requirements-kaggle.txt \
   -x '*/__pycache__/*' '*.pyc'
 echo "Wrote $out ($(du -h "$out" | cut -f1))"

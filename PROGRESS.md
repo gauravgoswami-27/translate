@@ -130,8 +130,29 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **Finding:** the teacher uses the formal term in only **32–40%** of term-bearing drafts, vs 84–87% for the loanword glossary (`results/teacher_term_consistency*.csv`). Raw distillation therefore teaches mostly the loanword or literal style, so terminology correction of the drafts (experiment 2) is required for the formal register.
 - **Post-editing guide** updated: formal register, glossary usage, and the common wrong-sense words to fix.
 
+### Experiment 2 implemented: terminology-aware distillation (A) + constrained decoding (B)
+- **Version kept:** git tag `v1-raw-distillation`, on branch `indictrans2-pipeline`.
+  - The run-4 adapter stays in `models/it2_lora_joint`; the new one goes to `models/it2_lora_joint_formal`.
+  - Raw drafts are unchanged; repaired drafts go to separate `drafts_*_formal.csv` files.
+  - Run-4 results renamed to `*_run4.csv`; new results are tagged `run5`.
+  - Notebook renamed to `kaggle/run4_raw_distillation.ipynb`.
+- **(A) `repair_drafts.py`:**
+  - The 1B teacher re-translates each train/dev draft that misses a glossary term (about 60% of term-bearing drafts), using lexically constrained beam search that forces the glossary term or a variant.
+  - Outputs are validated: term present; term not tacked on after the final punctuation (a known failure mode of constrained search, seen in testing); length within 0.7–1.5× of the original.
+  - Failures are excluded from training. Test drafts are left untouched so the human references aren't biased.
+- **(B) Constrained decoding** in `Translator.translate_batch(constraints=…)`, used for any system with a `+cd` suffix in `run_domain_eval`:
+  - Sentences are batched per constraint set.
+  - Alternatives that are token-prefixes of each other are pruned (Hugging Face rejects them).
+- **Evaluation:**
+  - systems `base`, `lora`, `lora_formal` and `teacher`, each optionally with `+cd`
+  - paired bootstrap of every system against base, vectorised (about 1 s instead of about 5 min)
+  - `--from-predictions` merges several prediction files
+- **Verified on Kaggle's exact library versions** (throwaway Python 3.12 environment with transformers 4.46.3 and sacrebleu 2.4.3, using a tiny public model): constrained decoding raises compliance from 0% to 98.6%; repair, validation, failed-row exclusion and evaluation all run end to end.
+- **Not yet run:** anything with the real IndicTrans2 models (gated). The run-5 notebook's cell 4 smoke-tests a 20-sentence repair and prints examples.
+- **Kaggle:** `kaggle/run5_terminology_aware.ipynb`. The bundle (33 MB) now includes the raw drafts and the run-4 adapter, so no other inputs are needed.
+
 ### Next
-1. **Glossary validation:** native speakers / instructors review the `proposed` formal entries per language. Edit the CSV directly.
-2. **Post-edit the 4 test sheets** using the validated glossary. Then: `run_domain_eval --from-predictions … --require-human-refs` (CPU).
-3. **Experiment 2, terminology-aware distillation:** make the teacher drafts follow the formal glossary, retrain, and compare with run 4.
+1. **Run 5 on Kaggle** (`run5_terminology_aware.ipynb`).
+2. **Glossary validation** of the `proposed` formal entries (native speakers / instructors). If entries change, re-run run 5.
+3. **Post-edit the 4 test sheets**, then rescore locally: `run_domain_eval --from-predictions …_run5.csv --require-human-refs`.
 4. **Ablations:** Hindi-only vs joint training, LoRA rank.
