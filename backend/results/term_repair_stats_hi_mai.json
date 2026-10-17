@@ -1,0 +1,28 @@
+{
+  "hin_Deva": {
+    "method": "placeholder",
+    "needed_repair": 3557,
+    "kept": 21079,
+    "repaired": 3494,
+    "failed": 63,
+    "failure_reasons": {
+      "constraint_not_met": 53,
+      "length": 7,
+      "term_appended_after_sentence": 3
+    },
+    "minutes": 6.7
+  },
+  "mai_Deva": {
+    "method": "placeholder",
+    "needed_repair": 3476,
+    "kept": 21160,
+    "repaired": 3431,
+    "failed": 45,
+    "failure_reasons": {
+      "constraint_not_met": 23,
+      "length": 20,
+      "term_appended_after_sentence": 2
+    },
+    "minutes": 5.9
+  }
+}
