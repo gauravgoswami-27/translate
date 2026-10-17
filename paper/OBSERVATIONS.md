@@ -89,6 +89,27 @@ Same test set; compliance (%) / chrF++ against teacher drafts **[provisional]**.
 - **Interaction:** `lora_formal+cd` ≈ `lora_formal` (Hindi chrF++ 83.50 vs 84.23), because the term-aware model already produces the term and the constraint rarely intervenes.
 - **Message:** putting terminology into the training data beats enforcing it at decoding time. It reaches the same compliance without the fluency cost.
 
+## 7b. Hybrid enforcement and two findings from local API testing (2026-10-17)
+- **Rare terms aren't learned by distillation.** The formal model kept लाइव तार for "live wire" in every language. Training frequency (Hindi train sentences): live wire ~16, neutral wire 10, junction box 8, terminal block 6, safety shoes 2, phase tester 0, against hundreds to thousands for voltage, resistance and insulation. The 98–99% test compliance is dominated by frequent terms. **[final, qualitative + counts]**
+- **Placeholder repair breaks attached case endings** (a limitation of the method). With `<IDn>` the teacher writes the ending as a separate word.
+  - Maithili repaired drafts: 1,211 detached vs 100 attached, against 17 vs 1,269 in unrepaired drafts.
+  - Konkani shows the same with च्या/ची/चेर.
+  - The run-5 model learned it (विद्युतरोधन क परीक्षण).
+  - Fix: language-specific re-attachment after restoration. Applied to 1,050 Maithili and 427 Konkani repaired drafts (`results/suffix_fix_stats.json`). Run 6 retrains on the fixed data.
+  - Hindi and Dogri are unaffected (postpositions are separate words).
+  - Caveat: for Konkani, joining doesn't add the oblique stem vowel (…नाच्या), so it's partially correct. Post-editors will see it.
+- **Hybrid enforcement (`+hy`, also the API default):** translate normally; re-translate with placeholders only the sentences whose output misses a glossary term. On the test set (run-5 formal model, CPU), retries were needed for only 2, 6, 2 and 2 of 200 sentences (hi, gom, mai, doi). **[provisional: UNVERIFIED references, glossary]**
+
+  | | lora_formal | +ph (always) | **+hy (hybrid)** |
+  |---|---|---|---|
+  | hi compliance / chrF++ | 98.6 / 84.23 | 98.6 / 82.29 | **100 / 84.21** |
+  | gom | 95.7 / 72.84 | 100 / 71.48 | **100 / 72.44** |
+  | mai | 98.6 / 75.16 | 100 / 73.41 | **100 / 74.82** |
+  | doi | 98.6 / 79.17 | 99.3 / 77.61 | **100 / 78.89** |
+
+  - Message: a terminology-aware model plus a targeted fallback gets full compliance at near-zero fluency cost. Always-placeholder costs 1.5–2 chrF++; constrained decoding is worse still.
+- **Local inference speed (CPU, Intel i7 laptop, 200M + merged LoRA):** about 0.9 s per single sentence, 0.33 s per sentence in batches of 4. First load (download + merge) took about 6 minutes; later loads take about 6 seconds.
+
 ## 8. General benchmark: IN22-Gen [final]
 IndicTrans2-dist-200M, English → 22 scheduled languages, 1,024 sentences each, chrF++ / BLEU (sacreBLEU `[post2018call]`, chrF++ `[popovic2017chrf]`):
 

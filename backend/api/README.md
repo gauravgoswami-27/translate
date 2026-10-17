@@ -41,7 +41,7 @@ Interactive docs: http://localhost:8000/docs
   Returns `translated_text`, the `model` used, `backend`, `latency_ms`, a `warning` if any, and `glossary_terms`: each glossary term found in the source, with its formal term and whether the output used it.
 - `POST /translate/batch`: `{"texts": [...], ...}`, up to 64 sentences per request
 
-`terminology: "placeholder"` forces the glossary terms through entity placeholders with any model. Run 5 found this costs fluency (−4 to −6 chrF++), so it's off by default; the `formal` model gets 96–99% term use without it.
+`terminology` (electrician requests only): `"hybrid"` (default) translates normally and re-translates with entity placeholders only the sentences where a glossary term is missing (`placeholder_retry: true` in the response). `"placeholder"` always forces the terms; run 5 found this costs fluency (−4 to −6 chrF++). `"none"` returns the raw model output.
 
 ## Notes
 - Requests to the same model are serialised, because IndicTrans2's pre/post-processor keeps per-batch state.

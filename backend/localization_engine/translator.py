@@ -64,7 +64,28 @@ def inject_placeholders(preprocessed: str, pairs: list[tuple[str, str]], id_map:
     return preprocessed
 
 
-def restore_placeholders(text: str, id_map: dict[int, str]) -> str:
+# Case endings that are written attached to the noun. With a placeholder the model writes
+# them as a separate word ("<ID1> क"), which run-5 analysis found in 1,211 Maithili and
+# hundreds of Konkani repaired drafts. Hindi/Dogri postpositions are separate words: no entry.
+ATTACHED_CASE_SUFFIXES: dict[str, tuple[str, ...]] = {
+    "mai_Deva": ("केँ", "कें", "सँ", "सं", "मे", "क"),
+    "gom_Deva": ("च्या", "ची", "चो", "चें", "चे", "चेर", "क"),
+}
+
+
+def attach_case_suffixes(text: str, terms, target_lang: str) -> str:
+    """Re-attach detached case endings that directly follow one of ``terms``."""
+    suffixes = ATTACHED_CASE_SUFFIXES.get(target_lang)
+    terms = sorted({t for t in terms if t}, key=len, reverse=True)
+    if not suffixes or not terms:
+        return text
+    pattern = re.compile(
+        "(" + "|".join(map(re.escape, terms)) + ") (" + "|".join(map(re.escape, suffixes)) + r")(?=[\s।.,;:!?)]|$)"
+    )
+    return pattern.sub(r"\1\2", text)
+
+
+def restore_placeholders(text: str, id_map: dict[int, str], target_lang: str = "") -> str:
     """Put the target terms back where the model copied the placeholders; drop leftovers."""
     for n, target in id_map.items():
         pattern = re.compile(rf"(?:[<\[]\s*)?{_ID_SPELLINGS}\s*{n}(?!\d)(?:\s*[>\]])?")
@@ -76,7 +97,8 @@ def restore_placeholders(text: str, id_map: dict[int, str]) -> str:
             return (target if before.isspace() or before in "([\"'“" else " " + target)
 
         text = pattern.sub(put_term, text)
-    return re.sub(r"\s{2,}", " ", text).strip()
+    text = re.sub(r"\s{2,}", " ", text).strip()
+    return attach_case_suffixes(text, id_map.values(), target_lang)
 
 
 def prune_alternatives(alternatives: list[list[int]]) -> list[list[int]]:
@@ -320,7 +342,7 @@ class Translator:
 
             decoded = self._tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=True)
             for i, translation, id_map in zip(idx, self._processor.postprocess_batch(decoded, lang=target_lang), id_maps):
-                outputs[i] = restore_placeholders(translation, id_map) if id_map else translation
+                outputs[i] = restore_placeholders(translation, id_map, target_lang) if id_map else translation
             start += len(idx)
             if progress is not None:
                 progress.update(len(idx))
