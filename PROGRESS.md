@@ -219,4 +219,4 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
   2. Placeholder repair detached Maithili/Konkani case endings → `attach_case_suffixes`, applied in restoration and to the existing repaired drafts (1,050 mai + 427 gom). **Retraining (run 6) needed** to fix the model itself; hybrid mode re-attaches them until then.
 
 ## Paper material
-Observations and references are kept in `paper/` (OBSERVATIONS.md, references.bib), updated after each run.
+Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
