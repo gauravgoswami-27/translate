@@ -66,7 +66,9 @@ export async function translateText({ text, target_lang = 'hin_Deva', domain = '
     return {
       translated_text: fallbackText || text,
       target_lang,
-      backend: domain === 'electrician' ? 'models/finetuned_' + target_lang : 'facebook/nllb-200-distilled-600M',
+      // Offline: a glossary substitution, NOT a model translation. Label it honestly.
+      backend: 'offline-glossary-fallback',
+      model: 'none',
       warning: `Note: ${err.message}. Showing local domain translation fallback.`,
       latencyMs: duration,
     };
