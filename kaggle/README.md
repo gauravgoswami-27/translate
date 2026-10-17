@@ -9,7 +9,7 @@
    Then create a **read** token under Settings → Access Tokens.
 2. **Build the bundle** locally, from the repo root:
    ```bash
-   bash kaggle/make_bundle.sh      # -> kaggle/dist/vocational-nmt-bundle.zip (~33 MB: code, corpus, glossary, run-4 adapter)
+   bash kaggle/make_bundle.sh      # -> kaggle/dist/vocational-nmt-bundle.zip (~42 MB: code, corpus incl. drafts, glossary, run-4 adapter)
    ```
 3. **Kaggle → Datasets → New Dataset:** upload `vocational-nmt-bundle.zip`. Keep it **Private**, because the NIMI CITS books are marked "not to be republished".
 
