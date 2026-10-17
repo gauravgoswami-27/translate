@@ -201,3 +201,6 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
    - Note for the paper: the placeholder method cannot inflect the inserted term. That's fine for Hindi (separate postpositions); worth checking in the Maithili outputs.
 3. **Post-edit the 4 test sheets**, then rescore locally: `run_domain_eval --from-predictions …_run5.csv --require-human-refs`.
 4. **Ablations:** Hindi-only vs joint training, LoRA rank.
+
+## Paper material
+Observations and references are kept in `paper/` (OBSERVATIONS.md, references.bib), updated after each run.
