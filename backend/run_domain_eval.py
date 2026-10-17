@@ -9,6 +9,8 @@ Systems (optionally with a terminology suffix applied to every glossary term in 
   lora         - + LoRA adapter distilled on the raw teacher drafts (run 4, v1-raw-distillation)
   lora_formal  - + LoRA adapter distilled on terminology-repaired drafts (experiment 2)
   teacher      - IndicTrans2 en-indic 1B (also produced the training drafts)
+  lora_<run>   - any adapter saved by `finetune.py --run-name <run>` (models/it2_lora_<run>),
+                 e.g. lora_joint_formal_v2 (run 6)
 
 References come from the human post-edited sheets when complete; otherwise the
 teacher drafts are used and every output row is marked ``teacher_draft_UNVERIFIED``
@@ -129,7 +131,14 @@ def generate_predictions(systems: list[str], model_for: dict[str, str], test_set
         by_model.setdefault(split_system(system)[0], []).append(system)
     for name, variants in by_model.items():
         if name not in model_for:
-            raise ValueError(f"Unknown system '{name}'. Known: {sorted(model_for)} (optionally with +ph / +cd / +hy).")
+            # Any other "lora_<run>" system is the adapter saved by `finetune.py --run-name <run>`.
+            adapter_dir = MODELS_DIR / f"it2_{name}"
+            if not name.startswith("lora_") or not (adapter_dir / "adapter_config.json").exists():
+                raise ValueError(
+                    f"Unknown system '{name}'. Known: {sorted(model_for)} or lora_<run> with models/it2_lora_<run> "
+                    "(optionally with +ph / +cd / +hy)."
+                )
+            model_for[name] = str(adapter_dir)
         translator = Translator(model_for[name], allow_fallback=False)
         for system in variants:
             for lang, ts in test_sets.items():

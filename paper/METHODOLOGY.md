@@ -155,7 +155,7 @@ Per-run training facts:
 |---|---|---|---|---|---|---|
 | 4 | raw | 96,248 | 15 / 31 / 15 / 19 | 4,000 | 82.70 (vs raw drafts) | 111 min |
 | 5 | formal | 96,074 | 13 / 24 / 13 / 14 | 4,500 | 82.14 (vs repaired drafts) | 117 min |
-| 6 | formal + case fix | pending | | | | |
+| 6 | formal + case fix (seed 42; plus seed 43 and Hindi-only on GPU 1) | pending | | | | |
 
 The dev chrF++ values are measured against different references (raw vs repaired drafts), so they're not comparable across runs.
 
@@ -244,7 +244,7 @@ python -m backend.analyze_terminology
 # after post-editing (final paper numbers):
 python -m backend.run_domain_eval --from-predictions <prediction files> --require-human-refs --tag final
 ```
-Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.ipynb`. Each run uses a stamped bundle (`kaggle/BUNDLE_VERSION`), recorded in §10.
+Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.ipynb`, `kaggle/run6_case_fixed.ipynb`. Each run uses a stamped bundle (`kaggle/BUNDLE_VERSION`), recorded in §10.
 
 ## 10. Run registry
 
@@ -253,7 +253,7 @@ Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.
 | 4 | 2026-10-15 | ≈ `bc3a66b` (tag `v1-raw-distillation`), bundle `20261015T095502Z` | drafts, joint LoRA on raw drafts, domain eval (base/lora/teacher), IN22-Gen 22 languages + forgetting | `models/it2_lora_joint`, `results/*_run4.csv`, `results/in22_gen_*.csv`; archive `kaggle/runs/2026-10-15_run4/` |
 | 5 | 2026-10-15/16 | `0f0f7dc`, bundle `20261015T143013Z` | placeholder repair, joint LoRA on repaired drafts, 10-system eval, forgetting | `models/it2_lora_joint_formal`, `results/*_run5*.csv`, `term_repair_stats_*.json`, `in22_gen_lora_formal.csv`; archive `kaggle/runs/2026-10-15_run5/` |
 | local-hy | 2026-10-17 | `359a04e` (CPU, `.venv-api`) | hybrid terminology evaluation of the run-5 model | `results/*_local_hy.csv`, `*_run5_hy.csv` |
-| 6 | pending | | retrain on case-fixed formal drafts | |
+| 6 | pending | bundle `20261017T103217Z` (commit: see git log) | `joint_formal_v2` (seed 42) on case-fixed drafts; `joint_formal_v2_s43` (seed variance); `hi_formal_v2` (Hindi-only ablation); eval plain + `+hy`; IN22-Gen forgetting for v2 | notebook `kaggle/run6_case_fixed.ipynb` (generator `kaggle/build_run6_notebook.py`) |
 
 Failed or aborted Kaggle attempts (environment and bug fixes, no results) are logged in `PROGRESS.md`. They don't affect the reported numbers.
 
