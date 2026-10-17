@@ -3,7 +3,8 @@
 
 Systems (optionally with a terminology suffix applied to every glossary term in the source:
 "+ph" = placeholder injection, the term is copied in via an entity placeholder;
-"+cd" = Hugging Face lexically constrained decoding; e.g. "lora+ph"):
+"+cd" = Hugging Face lexically constrained decoding;
+"+hy" = hybrid: placeholders only for sentences whose output misses a glossary term; e.g. "lora_formal+hy"):
   base         - IndicTrans2 en-indic dist-200M, untouched
   lora         - + LoRA adapter distilled on the raw teacher drafts (run 4, v1-raw-distillation)
   lora_formal  - + LoRA adapter distilled on terminology-repaired drafts (experiment 2)
@@ -29,6 +30,7 @@ from backend.localization_engine.glossary import ACTIVE_REGISTER, ELECTRICIAN_GL
 from backend.localization_engine.languages import DEFAULT_MODEL_NAME, DOMAIN_LANGS, TEACHER_MODEL_NAME
 from backend.localization_engine.metrics import paired_bootstrap, score_corpus, term_accuracy, term_compliance
 from backend.localization_engine.paths import MODELS_DIR, RESULTS_DIR
+from backend.localization_engine.terminology import translate_with_term_fallback
 
 
 def parse_args() -> argparse.Namespace:
@@ -127,7 +129,7 @@ def generate_predictions(systems: list[str], model_for: dict[str, str], test_set
         by_model.setdefault(split_system(system)[0], []).append(system)
     for name, variants in by_model.items():
         if name not in model_for:
-            raise ValueError(f"Unknown system '{name}'. Known: {sorted(model_for)} (optionally with +ph / +cd).")
+            raise ValueError(f"Unknown system '{name}'. Known: {sorted(model_for)} (optionally with +ph / +cd / +hy).")
         translator = Translator(model_for[name], allow_fallback=False)
         for system in variants:
             for lang, ts in test_sets.items():
@@ -140,6 +142,12 @@ def generate_predictions(systems: list[str], model_for: dict[str, str], test_set
                     glossary = ELECTRICIAN_GLOSSARIES[lang]
                     kwargs["term_placeholders"] = [[(t, glossary[t]) for t in terms if t in glossary]
                                                    for terms in ts.glossary_terms]
+                if guidance == "hy":
+                    predictions[system][lang], retried = translate_with_term_fallback(
+                        translator, ts.sources, lang, ts.glossary_terms, batch_size=batch_size
+                    )
+                    print(f"  {system} {lang}: placeholder retry for {sum(retried)}/{len(retried)} sentences")
+                    continue
                 predictions[system][lang] = translator.translate_batch(
                     ts.sources, lang, batch_size=batch_size, show_progress=True, **kwargs
                 )
@@ -151,7 +159,7 @@ def generate_predictions(systems: list[str], model_for: dict[str, str], test_set
 def split_system(system: str) -> tuple[str, str]:
     """'lora+ph' -> ('lora', 'ph'); 'base' -> ('base', '')."""
     name, _, guidance = system.partition("+")
-    if guidance not in ("", "ph", "cd"):
+    if guidance not in ("", "ph", "cd", "hy"):
         raise ValueError(f"Unknown terminology guidance '+{guidance}' in system '{system}'")
     return name, guidance
 

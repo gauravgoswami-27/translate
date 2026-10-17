@@ -1,0 +1,5 @@
+target_lang,system,model,term_guidance,bleu,chrf_pp,term_accuracy,term_occurrences,term_compliance,term_compliance_occurrences,term_register,num_sentences,reference_type
+hin_Deva,lora_formal+hy,/home/grv/Desktop/demo/backend/models/it2_lora_joint_formal,hy,75.68,84.21,100.0,88,100.0,140,formal,200,teacher_draft_UNVERIFIED
+gom_Deva,lora_formal+hy,/home/grv/Desktop/demo/backend/models/it2_lora_joint_formal,hy,55.77,72.44,100.0,35,100.0,140,formal,200,teacher_draft_UNVERIFIED
+mai_Deva,lora_formal+hy,/home/grv/Desktop/demo/backend/models/it2_lora_joint_formal,hy,57.06,74.82,100.0,90,100.0,140,formal,200,teacher_draft_UNVERIFIED
+doi_Deva,lora_formal+hy,/home/grv/Desktop/demo/backend/models/it2_lora_joint_formal,hy,68.36,78.89,100.0,78,100.0,140,formal,200,teacher_draft_UNVERIFIED

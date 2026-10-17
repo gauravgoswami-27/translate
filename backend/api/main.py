@@ -41,6 +41,7 @@ from backend.localization_engine.glossary import (
 from backend.localization_engine.languages import DEFAULT_MODEL_NAME, DOMAIN_LANGS, LANGUAGE_NAMES, validate_target_lang
 from backend.localization_engine.metrics import normalize_indic, term_forms
 from backend.localization_engine.paths import MODELS_DIR
+from backend.localization_engine.terminology import translate_with_term_fallback
 
 ModelKey = Literal["base", "raw", "formal"]
 MODEL_PATHS: dict[str, str] = {
@@ -104,8 +105,10 @@ class TranslateRequest(BaseModel):
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
     model: Literal["auto", "base", "raw", "formal"] = "auto"
-    terminology: Literal["none", "placeholder"] = Field(
-        "none", description='"placeholder" forces glossary terms via entity placeholders (works with any model, less fluent)'
+    terminology: Literal["hybrid", "none", "placeholder"] = Field(
+        "hybrid",
+        description='"hybrid": normal translation, re-translated with placeholders only if a glossary term is missing; '
+        '"placeholder": always force glossary terms (less fluent); "none": model output as is',
     )
 
 
@@ -114,7 +117,7 @@ class BatchTranslateRequest(BaseModel):
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
     model: Literal["auto", "base", "raw", "formal"] = "auto"
-    terminology: Literal["none", "placeholder"] = "none"
+    terminology: Literal["hybrid", "none", "placeholder"] = "hybrid"
 
 
 class GlossaryHit(BaseModel):
@@ -130,6 +133,7 @@ class TranslateResponse(BaseModel):
     model_name_or_path: str
     backend: str
     terminology: str
+    placeholder_retry: bool = False
     glossary_terms: list[GlossaryHit]
     latency_ms: int
     warning: str | None = None
@@ -179,14 +183,24 @@ def run_translation(texts: list[str], target_lang: str, domain: str, model: str,
 
     key, warning = select_model(model, domain, target_lang)
     translator, lock = POOL.get(key)
-    kwargs = {}
-    if terminology == "placeholder":
-        glossary = ELECTRICIAN_GLOSSARIES.get(target_lang, {})
-        kwargs["term_placeholders"] = [[(t, glossary[t]) for t in find_glossary_terms(text) if t in glossary] for text in texts]
+    glossary = ELECTRICIAN_GLOSSARIES.get(target_lang, {})
+    terms = [[t for t in find_glossary_terms(text) if t in glossary] for text in texts]
+    # Terminology enforcement is for electrician content in languages that have a glossary.
+    if domain != "electrician" or not glossary:
+        terminology = "none"
 
     start = time.time()
+    retried = [False] * len(texts)
     with lock:
-        outputs = translator.translate_batch(texts, target_lang, **kwargs)
+        if terminology == "hybrid":
+            outputs, retried = translate_with_term_fallback(translator, texts, target_lang, terms)
+        elif terminology == "placeholder":
+            outputs = translator.translate_batch(
+                texts, target_lang, term_placeholders=[[(t, glossary[t]) for t in ts] for ts in terms]
+            )
+            retried = [bool(ts) for ts in terms]
+        else:
+            outputs = translator.translate_batch(texts, target_lang)
     latency = int(1000 * (time.time() - start))
     return [
         TranslateResponse(
@@ -196,11 +210,12 @@ def run_translation(texts: list[str], target_lang: str, domain: str, model: str,
             model_name_or_path=translator.model_name_or_path,
             backend=translator.backend,
             terminology=terminology,
+            placeholder_retry=retry,
             glossary_terms=glossary_report(src, out, target_lang),
             latency_ms=latency,
             warning=warning or translator.warning,
         )
-        for src, out in zip(texts, outputs)
+        for src, out, retry in zip(texts, outputs, retried)
     ]
 
 

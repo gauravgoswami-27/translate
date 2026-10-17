@@ -213,6 +213,10 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
   - per-model locks (IndicProcessor state isn't thread-safe)
   - all routes tested in fallback mode
 - **Frontend:** the offline fallback no longer claims to be the fine-tuned model.
+- **First real test passed** (Hugging Face login done): formal model, CPU, about 0.9 s per sentence; "three phase … earthing" → त्रिकला … भूसंपर्कन.
+- **Found and fixed:**
+  1. Rare glossary terms (live wire, neutral wire, …) aren't learned → new **hybrid** terminology mode (`localization_engine/terminology.py`; API default; `+hy` in evaluation): placeholder retry only where a term is missing. 100% compliance at −0.02 to −0.4 chrF++.
+  2. Placeholder repair detached Maithili/Konkani case endings → `attach_case_suffixes`, applied in restoration and to the existing repaired drafts (1,050 mai + 427 gom). **Retraining (run 6) needed** to fix the model itself; hybrid mode re-attaches them until then.
 
 ## Paper material
 Observations and references are kept in `paper/` (OBSERVATIONS.md, references.bib), updated after each run.
