@@ -202,5 +202,17 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 3. **Post-edit the 4 test sheets**, then rescore locally: `run_domain_eval --from-predictions …_run5.csv --require-human-refs`.
 4. **Ablations:** Hindi-only vs joint training, LoRA rank.
 
+### Local API (2026-10-17)
+- **New environment** `backend/.venv-api` (Python 3.12, torch 2.5.1 CPU, transformers 4.46.3), pinned in `backend/requirements-api.txt`. The main venv's Python 3.14 / transformers 4.57 can't run IndicTrans2's model code.
+- **GPU:** the NVIDIA driver isn't loaded on this machine (nouveau is active), so the API runs on CPU until the driver is repaired.
+- **`backend/api/main.py` rewritten:**
+  - models `base` / `raw` (run 4) / `formal` (run 5); auto-routing sends electrician requests in the 4 domain languages to `formal`
+  - optional `terminology: placeholder` mode
+  - per-response glossary report (term found, formal term used)
+  - `/translate/batch`, `/languages`, `/glossary/{lang}`
+  - per-model locks (IndicProcessor state isn't thread-safe)
+  - all routes tested in fallback mode
+- **Frontend:** the offline fallback no longer claims to be the fine-tuned model.
+
 ## Paper material
 Observations and references are kept in `paper/` (OBSERVATIONS.md, references.bib), updated after each run.

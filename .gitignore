@@ -25,3 +25,4 @@
 /backend/data/corpus_v2/*.csv
 /backend/data/corpus_v2/postedit/
 /backend/results/domain_predictions_*.csv
+/backend/.venv-api/

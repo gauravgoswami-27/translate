@@ -1,0 +1,16 @@
+# Local API environment (Python 3.12; IndicTrans2's remote code needs transformers 4.46.x).
+# Create with:  uv venv -p 3.12 backend/.venv-api && VIRTUAL_ENV=backend/.venv-api uv pip install -r backend/requirements-api.txt
+# CPU PyTorch by default; for the NVIDIA GPU install the CUDA build of torch instead.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.5.1
+transformers==4.46.3
+peft==0.13.2
+accelerate==1.1.1
+huggingface-hub<1.0
+sentencepiece
+sacremoses
+IndicTransToolkit==1.1.1
+sacrebleu==2.4.3
+numpy<2.2
+fastapi
+uvicorn[standard]
