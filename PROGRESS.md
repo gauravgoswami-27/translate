@@ -165,8 +165,38 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
   - Unit-tested locally, plus an end-to-end test on Kaggle's library versions.
 - **Evaluation:** the systems now include `+ph` (placeholder injection) next to `+cd` (constrained decoding, kept as a weak baseline). Both are interesting for the paper: same goal, very different fluency.
 
+### Kaggle run 5: terminology-aware distillation (2026-10-15/16)
+**Draft repair (placeholder method)**
+- 98.7% success in every language (hi 3494/3557, gom 3827/3869, mai 3431/3476, doi 3677/3725), ~7 minutes per language.
+- Failures excluded from training (mostly the model dropping the placeholder).
+
+**Training `joint_formal`**
+- 96,074 pairs, 117 minutes. Dev chrF++ peaked at 82.14 (step 4,500; scored against the repaired drafts).
+
+**Formal-glossary compliance, test set (reference-free; this is the main result)**
+
+| | base | lora (run 4) | **lora_formal** | teacher |
+|---|---|---|---|---|
+| hi | 61.4 | 62.1 | **98.6** | 62.9 |
+| gom | 39.3 | 20.7 | **95.7** | 25.0 |
+| mai | 64.3 | 63.6 | **98.6** | 64.3 |
+| doi | 55.7 | 59.3 | **98.6** | 55.7 |
+
+**chrF++ against teacher drafts (UNVERIFIED and biased *against* formal outputs: the references use loanwords)**
+- lora_formal is 2–3.5 points below lora. It is still significantly above base for gom (+2.1) and doi (+3.6); Hindi is −2.4.
+- Expect this to change with formal post-edited references.
+
+**Inference-time alternatives**
+- `+ph` (placeholder): ≥97% compliance on any model, but −4 to −6 chrF++. The model loses context around the opaque placeholder.
+- `+cd` (constrained decoding): 100% compliance but badly damaged output (Hindi base+cd BLEU 78→47). It inserts terms mid-word, e.g. द्विती **विभवांतर** टर्मिनलों.
+- Exception: `lora_formal+cd` is close to `lora_formal`, because the model already produces the term, so the constraint rarely has to intervene.
+
+**Forgetting (IN22-Gen chrF++, base → lora_formal)**
+- hi 55.77→55.31, gom 43.71→43.51, mai 47.68→47.47, doi 54.02→54.15. Within ±0.5, so no forgetting.
+
+**Takeaway for the paper:** terminology-aware distillation gives near-complete adherence to the chosen register *without* inference-time machinery or general-domain loss. The inference-time alternatives either hurt fluency (placeholders) or break it (constrained decoding).
+
 ### Next
-1. **Run 5 on Kaggle** (`run5_terminology_aware.ipynb`).
 2. **Glossary validation** of the `proposed` formal entries (native speakers / instructors). If entries change, re-run run 5.
    - Note for the paper: the placeholder method cannot inflect the inserted term. That's fine for Hindi (separate postpositions); worth checking in the Maithili outputs.
 3. **Post-edit the 4 test sheets**, then rescore locally: `run_domain_eval --from-predictions …_run5.csv --require-human-refs`.
