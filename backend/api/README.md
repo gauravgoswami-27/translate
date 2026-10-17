@@ -46,4 +46,4 @@ Interactive docs: http://localhost:8000/docs
 ## Notes
 - Requests to the same model are serialised, because IndicTrans2's pre/post-processor keeps per-batch state.
 - `LOCALIZATION_FORCE_FALLBACK=1` runs a glossary-substitution stand-in (clearly labelled `fallback`) for frontend work without a model.
-- CORS allows `http://localhost:5173` (the Vite dev server) by default; override with `CORS_ORIGINS`.
+- CORS allows any local origin (`localhost` / `127.0.0.1`, any port); add others with `CORS_ORIGINS`.

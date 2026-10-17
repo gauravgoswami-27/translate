@@ -15,7 +15,7 @@ Environment variables:
     LOCALIZATION_DOMAIN_MODEL            formal | raw | base   (default formal)
     LOCALIZATION_PRELOAD                 e.g. "formal,base": load at startup instead of first request
     LOCALIZATION_FORCE_FALLBACK=1        glossary-only fallback, for frontend work without a model
-    CORS_ORIGINS                         comma-separated (default http://localhost:5173)
+    CORS_ORIGINS                         extra allowed origins, comma-separated (local origins are always allowed)
 """
 
 from __future__ import annotations
@@ -92,7 +92,10 @@ async def lifespan(_: FastAPI):
 app = FastAPI(title="Vocational Content Localization Engine", version="0.3.0", lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:5173").split(","),
+    # Any local dev origin (localhost / 127.0.0.1, any port, e.g. Vite on 5173 or 5174),
+    # plus extra origins from CORS_ORIGINS (comma-separated) for a deployed frontend.
+    allow_origin_regex=r"https?://(localhost|127\.0\.0\.1|\[::1\])(:\d+)?",
+    allow_origins=[o for o in os.getenv("CORS_ORIGINS", "").split(",") if o],
     allow_methods=["*"],
     allow_headers=["*"],
 )
