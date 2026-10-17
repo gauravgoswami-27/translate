@@ -218,5 +218,12 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
   1. Rare glossary terms (live wire, neutral wire, …) aren't learned → new **hybrid** terminology mode (`localization_engine/terminology.py`; API default; `+hy` in evaluation): placeholder retry only where a term is missing. 100% compliance at −0.02 to −0.4 chrF++.
   2. Placeholder repair detached Maithili/Konkani case endings → `attach_case_suffixes`, applied in restoration and to the existing repaired drafts (1,050 mai + 427 gom). **Retraining (run 6) needed** to fix the model itself; hybrid mode re-attaches them until then.
 
+### Run 6 prepared (2026-10-17)
+- **Notebook:** `kaggle/run6_case_fixed.ipynb`, from the generator `kaggle/build_run6_notebook.py` (kept in the repo).
+- **Bundle:** `20261017T103217Z` (42 MB), including the case-fixed formal drafts.
+- **GPU 0:** `joint_formal_v2` → evaluation (plain + `+hy`) → IN22 forgetting check.
+- **GPU 1:** `joint_formal_v2_s43` (seed variance) → `hi_formal_v2` (Hindi-only ablation) → their evaluations.
+- **Evaluation:** any adapter can now be evaluated as `lora_<run>`.
+
 ## Paper material
 Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
