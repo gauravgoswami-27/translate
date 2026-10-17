@@ -1,33 +1,71 @@
-import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Translator from './components/Translator';
-import ComparisonView from './components/ComparisonView';
-import MetricsDashboard from './components/MetricsDashboard';
-import LMSReaderMock from './components/LMSReaderMock';
+import { lazy, Suspense, useEffect, useState } from 'react';
+import { api } from './api/client';
+import { PAGES, Shell } from './components/Shell';
+import { useTheme } from './lib/theme';
+import ComparePage from './pages/ComparePage';
+import GlossaryPage from './pages/GlossaryPage';
+import ReaderPage from './pages/ReaderPage';
+import TranslatePage from './pages/TranslatePage';
+import { Skeleton } from './components/ui';
 
-export default function App() {
-  const [activeTab, setActiveTab] = useState('translator');
+// Charts are heavy (recharts): load the Results page only when it is opened.
+const ResultsPage = lazy(() => import('./pages/ResultsPage'));
 
-  return (
-    <div className="min-h-screen flex flex-col bg-slate-950 text-slate-100">
-      <Navbar activeTab={activeTab} setActiveTab={setActiveTab} />
+const pageFromHash = () => {
+  const id = window.location.hash.replace('#', '');
+  return PAGES.some((p) => p.id === id) ? id : 'translate';
+};
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {activeTab === 'translator' && <Translator />}
-        {activeTab === 'comparison' && <ComparisonView />}
-        {activeTab === 'dashboard' && <MetricsDashboard />}
-        {activeTab === 'lms-reader' && <LMSReaderMock />}
-      </main>
-
-      <footer className="bg-slate-900 border-t border-slate-800/80 py-6 text-center text-xs text-slate-500 space-y-1">
-        <p className="font-medium text-slate-400">
-          Vocational Content Localization Engine — NCVET / MSDE Vocational Demonstration Project
-        </p>
-        <p className="font-mono text-[11px]">
-          AI4Bharat IndicTrans2 & Meta NLLB-200 | Parameter-Efficient PEFT LoRA Fine-Tuned on NVIDIA RTX 3050 GPU
-        </p>
-      </footer>
-    </div>
-  );
+/** Polls /health; status: 'checking' | 'online' | 'offline'. */
+function useApiHealth() {
+  const [health, setHealth] = useState({ status: 'checking', data: null });
+  useEffect(() => {
+    let alive = true;
+    const check = async () => {
+      try {
+        const data = await api.health();
+        if (alive) setHealth({ status: 'online', data });
+      } catch {
+        if (alive) setHealth({ status: 'offline', data: null });
+      }
+    };
+    check();
+    const id = setInterval(check, 15000);
+    return () => {
+      alive = false;
+      clearInterval(id);
+    };
+  }, []);
+  return health;
 }
 
+export default function App() {
+  const [page, setPage] = useState(pageFromHash);
+  const theme = useTheme();
+  const health = useApiHealth();
+
+  useEffect(() => {
+    const onHash = () => {
+      setPage(pageFromHash());
+      window.scrollTo({ top: 0 });
+    };
+    window.addEventListener('hashchange', onHash);
+    return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  const Page = { translate: TranslatePage, compare: ComparePage, results: ResultsPage, glossary: GlossaryPage, reader: ReaderPage }[page];
+  return (
+    <Shell page={page} setPage={setPage} theme={theme} health={health}>
+      <Suspense
+        fallback={
+          <div className="space-y-4">
+            <Skeleton className="h-9 w-64" />
+            <Skeleton className="h-80 w-full" />
+          </div>
+        }
+      >
+        <Page health={health} />
+      </Suspense>
+    </Shell>
+  );
+}

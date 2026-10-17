@@ -225,5 +225,21 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **GPU 1:** `joint_formal_v2_s43` (seed variance) → `hi_formal_v2` (Hindi-only ablation) → their evaluations.
 - **Evaluation:** any adapter can now be evaluated as `lora_<run>`.
 
+### Frontend redesign (2026-10-17)
+- **Rebuilt** around the new API, with five pages:
+  - **Translate:** model, terminology mode, glossary-term chips, retry flag, latency
+  - **Compare:** base / raw / formal side by side, live
+  - **Results:** charts and tables from real result files
+  - **Glossary:** browser for the formal glossary
+  - **Course reader:** batch translation
+- **Themes:** light, dark and system, with no flash on load. Responsive down to phone width.
+- **Removed the invalid content:**
+  - hardcoded fake BLEU gains
+  - made-up examples
+  - "RTX 3050 CUDA" and "NCVET/MSDE engine" claims
+  - a fallback that pretended to be the model
+- **Results data:** `backend/export_frontend_results.py` → `frontend/src/data/results.json`. Re-run after every experiment.
+- **Checked** with headless-Chrome screenshots (light, dark, mobile); the reader page was checked against the live API.
+
 ## Paper material
 Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
