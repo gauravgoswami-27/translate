@@ -173,7 +173,7 @@ The dev chrF++ values are measured against different references (raw vs repaired
 - **Record here when done:** editors per language (anonymised), editing time, number of SKIP rows.
 
 ### 7.2 Systems compared
-- `base`, `lora` (run 4), `lora_formal` (run 5/6), `teacher`.
+- `base`, `lora` (run 4), `lora_formal` (run 5), `teacher`; any further adapter as `lora_<run>`, e.g. `lora_joint_formal_v2` (run 6).
 - Each can be combined with an inference-time terminology mode:
   - `+ph`: placeholder injection for every glossary term in the source
   - `+cd`: Hugging Face constrained decoding
