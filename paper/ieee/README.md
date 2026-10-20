@@ -48,7 +48,7 @@ Means in the text and Table VIII are averages of the four per-language scores. W
 
 ## Before submission
 
-- [ ] Replace the placeholder author block. If the venue is double-blind, keep "available from the authors" in Data and Code Availability.
+- [x] Author block: Gaurav, Aastha Shukla, Anubhav Sharma (AIT-CSE, Chandigarh University). If the venue is double-blind, anonymise it for the review copy.
 - [ ] Check the venue's page limit. The paper is 8 pages including references.
 - [ ] If the test sets get post-edited: re-score (CPU), then update Tables VI and VIII, Fig. 4, and the "What the References Measure" subsection. The current text treats chrF++/BLEU as agreement with the teacher.
 - [ ] Check every `references.bib` entry against the publisher's page. The NCERT and CSTT entries need an edition or year.
