@@ -51,7 +51,7 @@ File: `backend/data/glossary/electrician_glossary.csv`, with 32 English terms ×
 | NCERT Science, Class X (Hindi medium) `[ncert_science10]` | Hindi `standard` entries (भूसंपर्कन, विद्युन्मय तार, उदासीन तार, संधारित्र, प्रतिरोध, …) | author's knowledge of the textbook terms; edition to cite |
 | CSTT technical terminology `[cstt]` | Hindi formal coinages (कला = phase, परिपथ वियोजक, वोल्टता, …) | author's knowledge; marked `proposed` where uncertain |
 | Wikipedia interlanguage titles | cross-check for the run-7 languages (e.g. Tamil முத்தறுவாய், மின்னழுத்தம்; Telugu విద్యుద్ఘాతము; Marathi विभवांतर) | `en.wikipedia.org` API `prop=langlinks`, retrieved 2026-10-20. **Partial:** the batch query was truncated by the API's link limit and a full re-query was cancelled. Saved as `backend/data/glossary/wikipedia_langlinks_partial.json`. Cite as "Wikipedia, accessed 2026-10-20" if used |
-| Teacher output analysis | evidence of loanword / wrong-sense usage (चरण, पृथ्वी) | `backend/analyze_terminology.py` on the teacher drafts |
+| Teacher output analysis | evidence of loanword / wrong-sense usage (चरण, पृथ्वी) | `backend/analyze_terminology.py` on the teacher drafts; per-term and wrong-sense rates with `backend/analyze_term_breakdown.py` (`results/term_breakdown.csv`, `term_compliance_macro.csv`, `wrong_sense.csv`) |
 
 - **Review status:** not reviewed by native speakers (project decision, 2026-10-20). Hindi has 11 `standard` entries; every other non-loanword entry is `proposed`, i.e. author-curated.
 - **Konkani, Maithili, Dogri:** Hindi register by analogy.
@@ -90,6 +90,6 @@ Kaggle sessions on **2 × NVIDIA T4 (16 GB)**. Durations come from the session l
 | 7 | planned | ≈ 6 h (estimate) | drafts + repair 5 languages, joint-9 + new-5 LoRA (2 epochs), evaluation, IN22 | |
 | 8 | planned | ≈ 2.5 h (estimate) | seed 44 + Hindi-only rank sweep | |
 
-**Local CPU** (Intel i7 laptop, 16 threads, no usable GPU): corpus build (<1 min), hybrid evaluation of the run-5 model (9 min), API inference (~0.9 s/sentence), all re-scoring and analysis scripts (seconds).
+**Local CPU** (Intel i7 laptop, 16 threads, no usable GPU): corpus build (<1 min), hybrid evaluation of the run-5 model (9 min), API inference (~0.9 s/sentence), all re-scoring and analysis scripts (seconds), paper figures and PDF build (`paper/ieee/`, under a minute).
 
 Kaggle's free quota is 30 GPU-hours per week; runs 1–6 used roughly 17 GPU-hours in total.

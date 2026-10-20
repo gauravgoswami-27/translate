@@ -278,5 +278,12 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **New ledger:** `paper/DATA_SOURCES.md` (sources, licences, model revisions, derived data, compute).
 - **Frontend:** the Glossary page shows all 9 languages; Noto fonts added for Gujarati, Tamil, Telugu and Kannada.
 
+### IEEE paper draft (2026-10-20)
+- **`paper/ieee/`:** conference paper in IEEEtran format, built with XeLaTeX (Tectonic). It covers run 6 and the original four languages; runs 7 and 8 are deliberately left out. 8 pages including references, 6 figures (TikZ pipeline + 5 plots), 10 tables.
+- **New analysis:** `backend/analyze_term_breakdown.py` gives per-term compliance, macro compliance and wrong-sense rates (see OBSERVATIONS §7d). The paper uses macro compliance as its main terminology metric because *conduit* is 46% of test-set term occurrences.
+- **Figures:** `paper/ieee/make_figures.py` rebuilds them from `backend/results/`.
+- **Checks:** every number in the paper was checked against the result files, with chrF++/BLEU recomputed at full precision where rounding was ambiguous.
+- **Open before submission:** author block, venue page limit, post-edited test references (the paper states the teacher-reference caveat), and the glossary limitation.
+
 ## Paper material
-Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
+Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run. The IEEE draft is in `paper/ieee/`.
