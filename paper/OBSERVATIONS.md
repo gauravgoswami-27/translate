@@ -39,7 +39,7 @@ Source: `backend/analyze_terminology.py` → `results/teacher_term_consistency*.
 - **Formal glossary:** the teacher uses the formal term in only **32–40%** of term-bearing drafts. **[provisional: glossary under review]**
 - **Systematic wrong-sense renderings (qualitative, robust):**
   - *phase* → चरण ("stage/step"): about 95% of Hindi/Maithili/Dogri drafts containing "three phase" / "single phase". The CSTT term is कला.
-  - *earthing* → पृथ्वी ("planet Earth") or मिट्टी ("soil"): about 40% of Maithili drafts; मिट्टी/धरती in Dogri. The NCERT term is भूसंपर्कन.
+  - *earthing* → पृथ्वी ("planet Earth") or मिट्टी ("soil"): 38–73% of drafts depending on language (measured in §7d). The NCERT term is भूसंपर्कन.
   - *live wire* → जीवित तार ("living wire"). The NCERT term is विद्युन्मय तार.
 - **Same error in the base student:** "Check the three phase supply and the earthing" → तीन **चरणों** की आपूर्ति और **मिट्टी** की जाँच करें (IndicTrans2-200M). A good illustrative example for the introduction.
 - **Measurement note:** orthographic variants (इन्सुलेशन / इंसुलेशन, anusvara vs half-nasal) made naïve string matching undercount term use by up to 8 points (Dogri). Normalisation is required. Describe it in the evaluation section.
@@ -136,6 +136,53 @@ Models: `joint_formal_v2` (seed 42; **new main model**), `joint_formal_v2_s43` (
 - **Joint vs Hindi-only training (Hindi test set):** chrF++ 83.83 vs 83.94; compliance 98.6 vs 97.9%. No measurable difference. One joint 4-language model costs Hindi nothing. Training: 123 min joint (4 languages) vs 25 min Hindi only. **[provisional references; the conclusion is robust given the seed variance]**
 - **No forgetting:** IN22-Gen chrF++ base → run 6: hi 55.77→55.36, gom 43.71→43.46, mai 47.68→47.70, doi 54.02→54.22 (all within ±0.41). **[final]**
 - **Dev chrF++ (selection):** s42 82.33 (step 4,500), s43 81.97 (step 3,000), Hindi-only 87.85 (step 1,000).
+
+## 7d. Per-term analysis: macro compliance and wrong-sense rates (2026-10-20)
+Source: `backend/analyze_term_breakdown.py` on the saved run-5/run-6 test predictions → `results/term_breakdown.csv`, `term_compliance_macro.csv`, `wrong_sense.csv`.
+
+- **The test set is dominated by one term:** 140 glossary-term occurrences per language over 15 term types, and *conduit* alone has 65 (46%) because one test page-block comes from a conduit-wiring chapter. Pooled compliance mostly measures *conduit*, so the paper uses **macro compliance** (mean of per-term compliance) as the primary metric. **[final for this test set]**
+- **Macro compliance (%), hi / gom / mai / doi** **[provisional: glossary]**:
+
+  | System | hi | gom | mai | doi |
+  |---|---|---|---|---|
+  | base | 43.4 | 27.9 | 50.8 | 32.1 |
+  | raw drafts (run 4) | 36.4 | 20.2 | 43.5 | 31.7 |
+  | run 5 | 93.3 | 97.6 | 99.5 | 93.3 |
+  | run 6 s42 | 93.3 | 97.6 | 99.6 | 90.0 |
+  | run 6 s43 | 93.3 | 96.0 | 99.6 | 93.3 |
+  | run 6 + hybrid | 100 | 100 | 100 | 100 |
+  | teacher | 42.4 | 20.1 | 46.8 | 32.9 |
+
+  - Pooled compliance without *conduit*: base 25.3–37.3%, run 6 93.3–98.7%. The picture doesn't depend on the dominant term.
+  - The 1B teacher is never more than 1.5 points above the 200M base model (pooled or macro), so a bigger teacher doesn't fix terminology.
+- **Wrong-sense rates in the teacher's train/dev drafts** (share of drafts with the English term whose translation contains the wrong-sense word; patterns in the script) **[final as counts]**:
+
+  | Term (n) | Wrong-sense word | hi | gom | mai | doi |
+  |---|---|---|---|---|---|
+  | three phase (98) | चरण "stage" | 95.9 | 0.0 | 93.9 | 100 |
+  | single phase (110) | चरण "stage" | 93.6 | 0.0 | 96.4 | 82.7 |
+  | live wire (16) | "living" | 81.2 | 56.2 | 68.8 | 62.5 |
+  | earthing (97) | "earth, soil" | 59.8 | 40.2 | 38.1 | 73.2 |
+
+  - Konkani uses a different word for phase, so 0% there.
+- **The teacher's usual Hindi renderings** (train/dev drafts with the term):
+  - voltage → वोल्टेज (2,321 of 2,329)
+  - insulation → इन्सुलेशन (285 of 307)
+  - circuit breaker → सर्किट ब्रेकर (99 of 101)
+  - three phase → तीन चरण (88 of 98)
+  - single phase → एकल चरण (102 of 110)
+  - live wire → जीवित तार (13 of 16)
+  - earthing → अर्थिंग 40, पृथ्वी 37, मिट्टी 23 (of 97)
+  - neutral wire → तटस्थ तार (9 of 10), which is an accepted glossary variant, so compliant.
+- **On the test set:**
+  - Base and raw-draft outputs contain चरण in both *single phase* sentences for hi, mai and doi; run 6 has it in neither.
+  - *Earthing* (5 sentences): run 6 still has a planet/soil word in 3 of 5 (hi, mai, doi). The cause is non-glossary phrases such as "earth connection".
+- **Where run 6 still misses** (these drive the 12 hybrid retries):
+  - *electric shock*: hi and doi, 2 occurrences each, 0%
+  - *circuit breaker*: gom 66.7% (s42) / 46.7% (s43), mai 93.3%
+  - *conduit*: gom 96.9 / 93.8%
+  - *neutral wire*: doi, 1 of 2
+  - These terms are candidates for more training signal.
 
 ## 8. General benchmark: IN22-Gen [final]
 IndicTrans2-dist-200M, English → 22 scheduled languages, 1,024 sentences each, chrF++ / BLEU (sacreBLEU `[post2018call]`, chrF++ `[popovic2017chrf]`):

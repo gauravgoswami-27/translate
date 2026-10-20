@@ -1,0 +1,137 @@
+target_lang,source,term,sentences,wrong_sense,pct
+hin_Deva,teacher_drafts_train_dev,three phase,98,94,95.9
+hin_Deva,teacher_drafts_train_dev,single phase,110,103,93.6
+hin_Deva,base,single phase,2,2,100.0
+hin_Deva,base+ph,single phase,2,0,0.0
+hin_Deva,base+cd,single phase,2,2,100.0
+hin_Deva,lora,single phase,2,2,100.0
+hin_Deva,lora+ph,single phase,2,0,0.0
+hin_Deva,lora+cd,single phase,2,2,100.0
+hin_Deva,teacher,single phase,2,2,100.0
+hin_Deva,lora_formal,single phase,2,0,0.0
+hin_Deva,lora_formal+ph,single phase,2,0,0.0
+hin_Deva,lora_formal+cd,single phase,2,0,0.0
+hin_Deva,lora_formal+hy,single phase,2,0,0.0
+hin_Deva,lora_joint_formal_v2,single phase,2,0,0.0
+hin_Deva,lora_joint_formal_v2+hy,single phase,2,0,0.0
+hin_Deva,lora_joint_formal_v2_s43,single phase,2,0,0.0
+hin_Deva,lora_joint_formal_v2_s43+hy,single phase,2,0,0.0
+hin_Deva,teacher_drafts_train_dev,earthing,97,58,59.8
+hin_Deva,base,earthing,5,4,80.0
+hin_Deva,base+ph,earthing,5,3,60.0
+hin_Deva,base+cd,earthing,5,5,100.0
+hin_Deva,lora,earthing,5,4,80.0
+hin_Deva,lora+ph,earthing,5,3,60.0
+hin_Deva,lora+cd,earthing,5,5,100.0
+hin_Deva,teacher,earthing,5,3,60.0
+hin_Deva,lora_formal,earthing,5,3,60.0
+hin_Deva,lora_formal+ph,earthing,5,3,60.0
+hin_Deva,lora_formal+cd,earthing,5,3,60.0
+hin_Deva,lora_formal+hy,earthing,5,3,60.0
+hin_Deva,lora_joint_formal_v2,earthing,5,3,60.0
+hin_Deva,lora_joint_formal_v2+hy,earthing,5,3,60.0
+hin_Deva,lora_joint_formal_v2_s43,earthing,5,3,60.0
+hin_Deva,lora_joint_formal_v2_s43+hy,earthing,5,3,60.0
+hin_Deva,teacher_drafts_train_dev,live wire,16,13,81.2
+gom_Deva,teacher_drafts_train_dev,three phase,98,0,0.0
+gom_Deva,teacher_drafts_train_dev,single phase,110,0,0.0
+gom_Deva,base,single phase,2,0,0.0
+gom_Deva,base+ph,single phase,2,0,0.0
+gom_Deva,base+cd,single phase,2,0,0.0
+gom_Deva,lora,single phase,2,0,0.0
+gom_Deva,lora+ph,single phase,2,0,0.0
+gom_Deva,lora+cd,single phase,2,0,0.0
+gom_Deva,teacher,single phase,2,0,0.0
+gom_Deva,lora_formal,single phase,2,0,0.0
+gom_Deva,lora_formal+ph,single phase,2,0,0.0
+gom_Deva,lora_formal+cd,single phase,2,0,0.0
+gom_Deva,lora_formal+hy,single phase,2,0,0.0
+gom_Deva,lora_joint_formal_v2,single phase,2,0,0.0
+gom_Deva,lora_joint_formal_v2+hy,single phase,2,0,0.0
+gom_Deva,lora_joint_formal_v2_s43,single phase,2,0,0.0
+gom_Deva,lora_joint_formal_v2_s43+hy,single phase,2,0,0.0
+gom_Deva,teacher_drafts_train_dev,earthing,97,39,40.2
+gom_Deva,base,earthing,5,2,40.0
+gom_Deva,base+ph,earthing,5,1,20.0
+gom_Deva,base+cd,earthing,5,5,100.0
+gom_Deva,lora,earthing,5,2,40.0
+gom_Deva,lora+ph,earthing,5,0,0.0
+gom_Deva,lora+cd,earthing,5,5,100.0
+gom_Deva,teacher,earthing,5,3,60.0
+gom_Deva,lora_formal,earthing,5,1,20.0
+gom_Deva,lora_formal+ph,earthing,5,0,0.0
+gom_Deva,lora_formal+cd,earthing,5,2,40.0
+gom_Deva,lora_formal+hy,earthing,5,1,20.0
+gom_Deva,lora_joint_formal_v2,earthing,5,1,20.0
+gom_Deva,lora_joint_formal_v2+hy,earthing,5,1,20.0
+gom_Deva,lora_joint_formal_v2_s43,earthing,5,1,20.0
+gom_Deva,lora_joint_formal_v2_s43+hy,earthing,5,1,20.0
+gom_Deva,teacher_drafts_train_dev,live wire,16,9,56.2
+mai_Deva,teacher_drafts_train_dev,three phase,98,92,93.9
+mai_Deva,teacher_drafts_train_dev,single phase,110,106,96.4
+mai_Deva,base,single phase,2,2,100.0
+mai_Deva,base+ph,single phase,2,0,0.0
+mai_Deva,base+cd,single phase,2,2,100.0
+mai_Deva,lora,single phase,2,2,100.0
+mai_Deva,lora+ph,single phase,2,0,0.0
+mai_Deva,lora+cd,single phase,2,2,100.0
+mai_Deva,teacher,single phase,2,2,100.0
+mai_Deva,lora_formal,single phase,2,0,0.0
+mai_Deva,lora_formal+ph,single phase,2,0,0.0
+mai_Deva,lora_formal+cd,single phase,2,0,0.0
+mai_Deva,lora_formal+hy,single phase,2,0,0.0
+mai_Deva,lora_joint_formal_v2,single phase,2,0,0.0
+mai_Deva,lora_joint_formal_v2+hy,single phase,2,0,0.0
+mai_Deva,lora_joint_formal_v2_s43,single phase,2,0,0.0
+mai_Deva,lora_joint_formal_v2_s43+hy,single phase,2,0,0.0
+mai_Deva,teacher_drafts_train_dev,earthing,97,37,38.1
+mai_Deva,base,earthing,5,3,60.0
+mai_Deva,base+ph,earthing,5,3,60.0
+mai_Deva,base+cd,earthing,5,4,80.0
+mai_Deva,lora,earthing,5,5,100.0
+mai_Deva,lora+ph,earthing,5,3,60.0
+mai_Deva,lora+cd,earthing,5,5,100.0
+mai_Deva,teacher,earthing,5,2,40.0
+mai_Deva,lora_formal,earthing,5,3,60.0
+mai_Deva,lora_formal+ph,earthing,5,3,60.0
+mai_Deva,lora_formal+cd,earthing,5,3,60.0
+mai_Deva,lora_formal+hy,earthing,5,3,60.0
+mai_Deva,lora_joint_formal_v2,earthing,5,3,60.0
+mai_Deva,lora_joint_formal_v2+hy,earthing,5,3,60.0
+mai_Deva,lora_joint_formal_v2_s43,earthing,5,3,60.0
+mai_Deva,lora_joint_formal_v2_s43+hy,earthing,5,3,60.0
+mai_Deva,teacher_drafts_train_dev,live wire,16,11,68.8
+doi_Deva,teacher_drafts_train_dev,three phase,98,98,100.0
+doi_Deva,teacher_drafts_train_dev,single phase,110,91,82.7
+doi_Deva,base,single phase,2,2,100.0
+doi_Deva,base+ph,single phase,2,0,0.0
+doi_Deva,base+cd,single phase,2,2,100.0
+doi_Deva,lora,single phase,2,2,100.0
+doi_Deva,lora+ph,single phase,2,0,0.0
+doi_Deva,lora+cd,single phase,2,2,100.0
+doi_Deva,teacher,single phase,2,2,100.0
+doi_Deva,lora_formal,single phase,2,0,0.0
+doi_Deva,lora_formal+ph,single phase,2,0,0.0
+doi_Deva,lora_formal+cd,single phase,2,0,0.0
+doi_Deva,lora_formal+hy,single phase,2,0,0.0
+doi_Deva,lora_joint_formal_v2,single phase,2,0,0.0
+doi_Deva,lora_joint_formal_v2+hy,single phase,2,0,0.0
+doi_Deva,lora_joint_formal_v2_s43,single phase,2,0,0.0
+doi_Deva,lora_joint_formal_v2_s43+hy,single phase,2,0,0.0
+doi_Deva,teacher_drafts_train_dev,earthing,97,71,73.2
+doi_Deva,base,earthing,5,4,80.0
+doi_Deva,base+ph,earthing,5,3,60.0
+doi_Deva,base+cd,earthing,5,5,100.0
+doi_Deva,lora,earthing,5,4,80.0
+doi_Deva,lora+ph,earthing,5,3,60.0
+doi_Deva,lora+cd,earthing,5,4,80.0
+doi_Deva,teacher,earthing,5,4,80.0
+doi_Deva,lora_formal,earthing,5,3,60.0
+doi_Deva,lora_formal+ph,earthing,5,3,60.0
+doi_Deva,lora_formal+cd,earthing,5,3,60.0
+doi_Deva,lora_formal+hy,earthing,5,3,60.0
+doi_Deva,lora_joint_formal_v2,earthing,5,3,60.0
+doi_Deva,lora_joint_formal_v2+hy,earthing,5,3,60.0
+doi_Deva,lora_joint_formal_v2_s43,earthing,5,3,60.0
+doi_Deva,lora_joint_formal_v2_s43+hy,earthing,5,3,60.0
+doi_Deva,teacher_drafts_train_dev,live wire,16,10,62.5
