@@ -9,7 +9,7 @@ import { TUNED } from '../lib/languages';
 export const SYSTEMS = [
   { model: 'base', name: 'Base model', detail: 'IndicTrans2 dist-200M, no domain training', color: 'var(--series-1)' },
   { model: 'raw', name: 'Distilled, raw drafts', detail: 'Run 4: LoRA on the teacher’s translations', color: 'var(--series-2)' },
-  { model: 'formal', name: 'Terminology-aware', detail: 'Run 5: LoRA on glossary-repaired translations', color: 'var(--series-3)' },
+  { model: 'formal', name: 'Terminology-aware', detail: 'Run 6: LoRA on glossary-repaired translations', color: 'var(--series-3)' },
 ];
 
 const EXAMPLES = [

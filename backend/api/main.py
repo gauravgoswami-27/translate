@@ -3,7 +3,8 @@
 Models:
   base    - IndicTrans2 en-indic dist-200M
   raw     - + LoRA adapter distilled on raw teacher drafts   (run 4, models/it2_lora_joint)
-  formal  - + LoRA adapter distilled on terminology-repaired drafts (run 5, models/it2_lora_joint_formal)
+  formal  - + LoRA distilled on terminology-repaired, case-fixed drafts (run 6, models/it2_lora_joint_formal_v2)
+  formal_run5 - the run-5 adapter (before the case-ending fix), kept for comparison
 
 Routing with model="auto": domain "electrician" + a domain language -> LOCALIZATION_DOMAIN_MODEL
 (default "formal"); everything else -> base.
@@ -43,11 +44,11 @@ from backend.localization_engine.metrics import normalize_indic, term_forms
 from backend.localization_engine.paths import MODELS_DIR
 from backend.localization_engine.terminology import translate_with_term_fallback
 
-ModelKey = Literal["base", "raw", "formal"]
 MODEL_PATHS: dict[str, str] = {
     "base": DEFAULT_MODEL_NAME,
     "raw": str(MODELS_DIR / "it2_lora_joint"),
-    "formal": str(MODELS_DIR / "it2_lora_joint_formal"),
+    "formal": str(MODELS_DIR / "it2_lora_joint_formal_v2"),
+    "formal_run5": str(MODELS_DIR / "it2_lora_joint_formal"),
 }
 DOMAIN_MODEL: str = os.getenv("LOCALIZATION_DOMAIN_MODEL", "formal")
 FORCE_FALLBACK = os.getenv("LOCALIZATION_FORCE_FALLBACK", "").strip().lower() in {"1", "true", "yes"}
@@ -107,7 +108,7 @@ class TranslateRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=5000)
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
-    model: Literal["auto", "base", "raw", "formal"] = "auto"
+    model: Literal["auto", "base", "raw", "formal", "formal_run5"] = "auto"
     terminology: Literal["hybrid", "none", "placeholder"] = Field(
         "hybrid",
         description='"hybrid": normal translation, re-translated with placeholders only if a glossary term is missing; '
@@ -119,7 +120,7 @@ class BatchTranslateRequest(BaseModel):
     texts: list[str] = Field(..., min_length=1, max_length=64)
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
-    model: Literal["auto", "base", "raw", "formal"] = "auto"
+    model: Literal["auto", "base", "raw", "formal", "formal_run5"] = "auto"
     terminology: Literal["hybrid", "none", "placeholder"] = "hybrid"
 
 

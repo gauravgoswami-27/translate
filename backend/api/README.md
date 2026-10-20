@@ -7,7 +7,8 @@ FastAPI service for English → Indic translation of electrician training conten
 |---|---|---|
 | `base` | IndicTrans2 en-indic dist-200M | all 22 languages |
 | `raw` | base + LoRA from run 4 (`models/it2_lora_joint`) | distilled on raw teacher drafts |
-| `formal` | base + LoRA from run 5 (`models/it2_lora_joint_formal`) | terminology-aware, formal register (default for electrician) |
+| `formal` | base + LoRA from run 6 (`models/it2_lora_joint_formal_v2`) | terminology-aware, formal register, case-fixed (default for electrician) |
+| `formal_run5` | base + LoRA from run 5 (`models/it2_lora_joint_formal`) | before the case-ending fix; for comparison |
 
 With `model: "auto"`, `domain: "electrician"` routes Hindi, Konkani, Maithili and Dogri to `formal`; everything else goes to `base`.
 

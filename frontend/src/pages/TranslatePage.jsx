@@ -17,7 +17,7 @@ const PRESETS = [
 
 const MODEL_OPTIONS = [
   { value: 'auto', label: 'Auto', hint: 'Electrician + tuned language → terminology-aware model; otherwise base' },
-  { value: 'formal', label: 'Formal', hint: 'Run 5: LoRA distilled on terminology-repaired drafts' },
+  { value: 'formal', label: 'Formal', hint: 'Run 6: LoRA distilled on terminology-repaired, case-fixed drafts' },
   { value: 'raw', label: 'Raw', hint: 'Run 4: LoRA distilled on raw teacher drafts' },
   { value: 'base', label: 'Base', hint: 'IndicTrans2 dist-200M, untouched' },
 ];
@@ -28,7 +28,7 @@ const TERMINOLOGY_OPTIONS = [
   { value: 'placeholder', label: 'Force', hint: 'Always force glossary terms via placeholders (less fluent)' },
 ];
 
-const MODEL_LABEL = { base: 'Base 200M', raw: 'LoRA · raw (run 4)', formal: 'LoRA · formal (run 5)' };
+const MODEL_LABEL = { base: 'Base 200M', raw: 'LoRA · raw (run 4)', formal: 'LoRA · formal (run 6)', formal_run5: 'LoRA · formal (run 5)' };
 
 export default function TranslatePage() {
   const [text, setText] = useState(PRESETS[0]);

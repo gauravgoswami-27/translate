@@ -155,7 +155,9 @@ Per-run training facts:
 |---|---|---|---|---|---|---|
 | 4 | raw | 96,248 | 15 / 31 / 15 / 19 | 4,000 | 82.70 (vs raw drafts) | 111 min |
 | 5 | formal | 96,074 | 13 / 24 / 13 / 14 | 4,500 | 82.14 (vs repaired drafts) | 117 min |
-| 6 | formal + case fix (seed 42; plus seed 43 and Hindi-only on GPU 1) | pending | | | | |
+| 6 | formal + case fix, seed 42 (main) | 96,074 | 13 / 24 / 13 / 14 | 4,500 | 82.33 (vs repaired drafts) | 123 min |
+| 6 | formal + case fix, seed 43 | 96,074 | same | 3,000 | 81.97 | 122 min |
+| 6 | formal + case fix, Hindi only (`--langs hin_Deva`) | 24,009 | 13 | 1,000 | 87.85 (Hindi dev only) | 25 min |
 
 The dev chrF++ values are measured against different references (raw vs repaired drafts), so they're not comparable across runs.
 
@@ -253,7 +255,7 @@ Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.
 | 4 | 2026-10-15 | ≈ `bc3a66b` (tag `v1-raw-distillation`), bundle `20261015T095502Z` | drafts, joint LoRA on raw drafts, domain eval (base/lora/teacher), IN22-Gen 22 languages + forgetting | `models/it2_lora_joint`, `results/*_run4.csv`, `results/in22_gen_*.csv`; archive `kaggle/runs/2026-10-15_run4/` |
 | 5 | 2026-10-15/16 | `0f0f7dc`, bundle `20261015T143013Z` | placeholder repair, joint LoRA on repaired drafts, 10-system eval, forgetting | `models/it2_lora_joint_formal`, `results/*_run5*.csv`, `term_repair_stats_*.json`, `in22_gen_lora_formal.csv`; archive `kaggle/runs/2026-10-15_run5/` |
 | local-hy | 2026-10-17 | `359a04e` (CPU, `.venv-api`) | hybrid terminology evaluation of the run-5 model | `results/*_local_hy.csv`, `*_run5_hy.csv` |
-| 6 | pending | bundle `20261017T103217Z` (commit: see git log) | `joint_formal_v2` (seed 42) on case-fixed drafts; `joint_formal_v2_s43` (seed variance); `hi_formal_v2` (Hindi-only ablation); eval plain + `+hy`; IN22-Gen forgetting for v2 | notebook `kaggle/run6_case_fixed.ipynb` (generator `kaggle/build_run6_notebook.py`) |
+| 6 | 2026-10-17 | `c88d42f`, bundle `20261017T103217Z` | `joint_formal_v2` (seed 42, main model) on case-fixed drafts; `joint_formal_v2_s43` (seed variance); `hi_formal_v2` (Hindi-only ablation); eval plain + `+hy`; IN22-Gen forgetting for v2. Merged scoring locally: tags `run6_all`, `run6_hi`; case endings: `analyze_case_endings.py` | `models/it2_lora_{joint_formal_v2,joint_formal_v2_s43,hi_formal_v2}`, `results/*_run6*.csv`, `in22_gen_lora_formal_v2.csv`, `case_endings.csv`; archive `kaggle/runs/2026-10-17_run6/` |
 
 Failed or aborted Kaggle attempts (environment and bug fixes, no results) are logged in `PROGRESS.md`. They don't affect the reported numbers.
 
@@ -263,7 +265,7 @@ Failed or aborted Kaggle attempts (environment and bug fixes, no results) are lo
 - **Post-editors:** consent, compensation and acknowledgement. Record here.
 
 ## 12. Known deviations and caveats to report
-- Single seed (42) per configuration.
+- Two seeds (42, 43) for the main run-6 configuration only; other configurations have a single seed. Measured seed variance: up to ~1 chrF++.
 - The domain test set is small (200 per language) and its references are post-edited, not translated from scratch.
 - Training targets are machine-generated (distillation), not human translations.
 - The glossary isn't validated yet for Konkani, Maithili and Dogri.
