@@ -123,6 +123,7 @@ def main() -> None:
             for t in sorted(primary[lang])
         ]
         for lang in DOMAIN_LANGS
+        if lang in primary
     }
 
     data = {
@@ -134,7 +135,7 @@ def main() -> None:
             "glossary": "backend/data/glossary/electrician_glossary.csv",
         },
         "systemLabels": SYSTEM_LABELS,
-        "domainLangs": list(DOMAIN_LANGS),
+        "domainLangs": [l for l in DOMAIN_LANGS if any(d["lang"] == l for d in domain)],
         "languageNames": LANGUAGE_NAMES,
         "corpus": corpus,
         "domain": domain,

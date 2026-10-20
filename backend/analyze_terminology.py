@@ -37,7 +37,11 @@ def main() -> None:
     splits = set(args.splits.split(","))
     rows = []
     for lang in args.langs.split(","):
-        drafts = [r for r in read_csv(CORPUS_DIR / f"drafts_{LANG_SHORT[lang]}.csv") if r["split"] in splits]
+        path = CORPUS_DIR / f"drafts_{LANG_SHORT[lang]}.csv"
+        if not path.exists():
+            print(f"{lang}: no drafts yet ({path.name}), skipped")
+            continue
+        drafts = [r for r in read_csv(path) if r["split"] in splits]
         normalized = [normalize_indic(r["target_sentence"]) for r in drafts]
         terms_of = [set(r["glossary_terms"].split(";")) for r in drafts]
         lang_hits = lang_total = 0

@@ -34,6 +34,15 @@ def load_indic_processor(inference: bool = True):
     return IndicProcessor(inference=inference)
 
 
+def adapter_languages(path: str) -> Optional[list[str]]:
+    """Languages an adapter was trained on (from finetune.py's training_metadata.json), or None."""
+    meta = Path(path) / "training_metadata.json"
+    if not meta.exists():
+        return None
+    langs = json.loads(meta.read_text(encoding="utf-8")).get("langs")
+    return langs.split(",") if isinstance(langs, str) else list(langs or [])
+
+
 def resolve_adapter(path: str) -> tuple[str, Optional[str]]:
     """Return (base_model, adapter_dir_or_None) for a model path."""
     config_file = Path(path) / "adapter_config.json"
@@ -70,6 +79,13 @@ def inject_placeholders(preprocessed: str, pairs: list[tuple[str, str]], id_map:
 ATTACHED_CASE_SUFFIXES: dict[str, tuple[str, ...]] = {
     "mai_Deva": ("केँ", "कें", "सँ", "सं", "मे", "क"),
     "gom_Deva": ("च्या", "ची", "चो", "चें", "चे", "चेर", "क"),
+    # Marathi: joined without the oblique stem vowel (…काचा), so only approximately right.
+    "mar_Deva": ("च्या", "चा", "ची", "चे", "मध्ये", "ला", "ने", "त"),
+    # Gujarati postpositions attach directly to the noun (તાંબાનો, બોર્ડમાં).
+    "guj_Gujr": ("નો", "ની", "નું", "ના", "માં", "થી", "ને", "પર"),
+    # Tamil, Telugu, Kannada: deliberately absent. Their suffixes attach with sandhi
+    # (மின்னழுத்தம் + ஐ -> மின்னழுத்தத்தை), which naive joining would get wrong; the
+    # effect of placeholder repair there is measured (analyze_case_endings) instead.
 }
 
 

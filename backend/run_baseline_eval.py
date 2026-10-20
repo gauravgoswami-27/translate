@@ -19,6 +19,7 @@ import os
 from pathlib import Path
 
 from backend.localization_engine import Translator
+from backend.localization_engine.translator import adapter_languages
 from backend.localization_engine.languages import (
     DEFAULT_MODEL_NAME,
     DOMAIN_LANGS,
@@ -67,7 +68,8 @@ def main() -> None:
 
     jobs = [] if args.skip_base else [("base", args.model, codes)]
     if args.adapter:
-        jobs.append(("lora", str(args.adapter), [c for c in codes if c in DOMAIN_LANGS]))
+        trained = adapter_languages(str(args.adapter)) or list(DOMAIN_LANGS)
+        jobs.append(("lora", str(args.adapter), [c for c in codes if c in trained]))
 
     rows = []
     for system, model, langs in jobs:

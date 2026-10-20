@@ -258,5 +258,25 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
   - GPU 0: seed 44 of the main joint model
   - GPU 1: Hindi-only LoRA rank sweep r = 4/8/32/64
 
+### Run 7 prepared: five more languages (2026-10-20)
+- **New languages:** Marathi, Gujarati, Tamil, Telugu, Kannada (`EXTENDED_DOMAIN_LANGS`). `DOMAIN_LANGS` is now all 9. The original 4 keep their data, models and results unchanged.
+- **Glossary:** +5 languages × 32 terms in both registers. All `proposed`, author-curated, partly cross-checked with Wikipedia interlanguage titles (`backend/data/glossary/wikipedia_langlinks_partial.json`; that query was partial, see DATA_SOURCES).
+- **Term matching:**
+  - spelling normalisation now covers all Indic scripts (Tamil excluded) and removes ZWJ/ZWNJ
+  - stem matching for the 5 new languages, because inflection changes the stem ending (மின்னழுத்தம் → மின்னழுத்தத்தை)
+- **Case endings:** attach lists for Gujarati and Marathi. Dravidian languages are deliberately not joined (sandhi); `analyze_case_endings.py` measures them with suffix probes.
+- **Data-driven language lists:**
+  - the API routes each language to the first model trained on it (from each adapter's `training_metadata.json`; `formal9` once installed)
+  - rescoring takes its languages from the prediction file
+  - the IN22 forgetting check uses the adapter's trained languages
+- **Run 7 notebook:** `kaggle/run7_new_languages.ipynb`, about 6 h.
+  - drafts + repair for the 5 new languages
+  - `joint9_formal` (GPU 0) and `new5_formal` (GPU 1), 2 epochs
+  - evaluation and IN22-Gen
+- **Run 8:** the seed-44 / rank-sweep notebook, renamed from run 7 and pinned to the original 4 languages.
+- **Bundle:** `20261020T092712Z` (used by runs 7 and 8).
+- **New ledger:** `paper/DATA_SOURCES.md` (sources, licences, model revisions, derived data, compute).
+- **Frontend:** the Glossary page shows all 9 languages; Noto fonts added for Gujarati, Tamil, Telugu and Kannada.
+
 ## Paper material
 Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.

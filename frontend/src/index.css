@@ -83,7 +83,7 @@
   --color-bad: var(--bad);
   --color-bad-soft: var(--bad-soft);
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-indic: "Noto Sans Devanagari", "Inter", system-ui, sans-serif;
+  --font-indic: "Noto Sans Devanagari", "Noto Sans Gujarati", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Inter", system-ui, sans-serif;
   --shadow-card: var(--shadow);
 }
 

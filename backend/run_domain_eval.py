@@ -37,7 +37,7 @@ from backend.localization_engine.terminology import translate_with_term_fallback
 
 def parse_args() -> argparse.Namespace:
     p = argparse.ArgumentParser(description="Evaluate translation systems on the domain test sets.")
-    p.add_argument("--langs", default=",".join(DOMAIN_LANGS))
+    p.add_argument("--langs", default=None, help="Comma-separated; default: all domain languages, or the languages in --from-predictions.")
     p.add_argument("--systems", default="base,lora,teacher")
     p.add_argument("--adapter", type=Path, default=MODELS_DIR / "it2_lora_joint", help="Adapter for 'lora'.")
     p.add_argument("--adapter-formal", type=Path, default=MODELS_DIR / "it2_lora_joint_formal", help="Adapter for 'lora_formal'.")
@@ -58,7 +58,13 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> None:
     args = parse_args()
-    langs = args.langs.split(",")
+    if args.langs:
+        langs = args.langs.split(",")
+    elif args.from_predictions:  # languages present in the saved predictions (older runs cover fewer languages)
+        with args.from_predictions[0].open(encoding="utf-8") as handle:
+            langs = list(dict.fromkeys(r["target_lang"] for r in csv.DictReader(handle)))
+    else:
+        langs = list(DOMAIN_LANGS)
     model_for = {
         "base": DEFAULT_MODEL_NAME,
         "lora": str(args.adapter),

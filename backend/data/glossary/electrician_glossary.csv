@@ -255,3 +255,323 @@ voltmeter,doi_Deva,formal,वोल्टमापी,,proposed,NCERT textbooks 
 voltmeter,doi_Deva,loanword,वोल्टमीटर,,legacy,v1 hand-written glossary
 wire stripper,doi_Deva,formal,तार छीलक,,proposed,
 wire stripper,doi_Deva,loanword,वायर स्ट्रिपर,,legacy,v1 hand-written glossary
+ac supply,mar_Deva,formal,प्रत्यावर्ती धारा पुरवठा,प्रत्यावर्ती प्रवाह पुरवठा,proposed,cross-checked with Wikipedia title (प्रत्यावर्ती धारा)
+ac supply,mar_Deva,loanword,एसी पुरवठा,,legacy,transliterated loanword (for comparison)
+ammeter,mar_Deva,formal,धारामापक,अँपिअरमापक,proposed,
+ammeter,mar_Deva,loanword,अॅमीटर,,legacy,transliterated loanword (for comparison)
+apprentice,mar_Deva,formal,प्रशिक्षणार्थी,शिकाऊ उमेदवार,proposed,
+apprentice,mar_Deva,loanword,अप्रेंटिस,,legacy,transliterated loanword (for comparison)
+cable,mar_Deva,formal,केबल,,loanword_kept,no established native term
+cable,mar_Deva,loanword,केबल,,legacy,transliterated loanword (for comparison)
+capacitor,mar_Deva,formal,धारित्र,संधारित्र,proposed,
+capacitor,mar_Deva,loanword,कॅपॅसिटर,,legacy,transliterated loanword (for comparison)
+circuit breaker,mar_Deva,formal,परिपथ विच्छेदक,परिपथ खंडक,proposed,
+circuit breaker,mar_Deva,loanword,सर्किट ब्रेकर,,legacy,transliterated loanword (for comparison)
+conduit,mar_Deva,formal,नळी,वाहिनी,proposed,
+conduit,mar_Deva,loanword,कंड्युट,,legacy,transliterated loanword (for comparison)
+control panel,mar_Deva,formal,नियंत्रण फलक,नियंत्रण पटल,proposed,
+control panel,mar_Deva,loanword,कंट्रोल पॅनल,,legacy,transliterated loanword (for comparison)
+copper conductor,mar_Deva,formal,तांब्याचा वाहक,तांबे वाहक,proposed,
+copper conductor,mar_Deva,loanword,कॉपर कंडक्टर,,legacy,transliterated loanword (for comparison)
+earthing,mar_Deva,formal,भूसंपर्क,भूयोजन,proposed,Wikipedia uses the loanword अर्थिंग
+earthing,mar_Deva,loanword,अर्थिंग,,legacy,transliterated loanword (for comparison)
+electric shock,mar_Deva,formal,विजेचा धक्का,विद्युत आघात,proposed,cross-checked with Wikipedia title
+electric shock,mar_Deva,loanword,शॉक,,legacy,transliterated loanword (for comparison)
+electrical load,mar_Deva,formal,विद्युत भार,,proposed,
+electrical load,mar_Deva,loanword,इलेक्ट्रिकल लोड,,legacy,transliterated loanword (for comparison)
+fuse,mar_Deva,formal,फ्यूज,,loanword_kept,
+fuse,mar_Deva,loanword,फ्यूज,,legacy,transliterated loanword (for comparison)
+insulation,mar_Deva,formal,विद्युतरोधन,निरोधन,proposed,
+insulation,mar_Deva,loanword,इन्सुलेशन,,legacy,transliterated loanword (for comparison)
+junction box,mar_Deva,formal,जोडणी पेटी,संधी पेटी,proposed,
+junction box,mar_Deva,loanword,जंक्शन बॉक्स,,legacy,transliterated loanword (for comparison)
+leakage current,mar_Deva,formal,गळती प्रवाह,गळती धारा,proposed,
+leakage current,mar_Deva,loanword,लिकेज करंट,,legacy,transliterated loanword (for comparison)
+live wire,mar_Deva,formal,विद्युन्मय तार,जिवंत तार,proposed,
+live wire,mar_Deva,loanword,लाइव्ह वायर,,legacy,transliterated loanword (for comparison)
+main switch,mar_Deva,formal,मुख्य स्विच,,loanword_kept,
+main switch,mar_Deva,loanword,मेन स्विच,,legacy,transliterated loanword (for comparison)
+megger,mar_Deva,formal,मेगर,,loanword_kept,
+megger,mar_Deva,loanword,मेगर,,legacy,transliterated loanword (for comparison)
+motor winding,mar_Deva,formal,मोटर कुंडली,मोटर गुंडाळी,proposed,
+motor winding,mar_Deva,loanword,मोटर वाइंडिंग,,legacy,transliterated loanword (for comparison)
+neutral wire,mar_Deva,formal,तटस्थ तार,उदासीन तार,proposed,
+neutral wire,mar_Deva,loanword,न्यूट्रल वायर,,legacy,transliterated loanword (for comparison)
+phase tester,mar_Deva,formal,कला परीक्षक,,proposed,phase = कला
+phase tester,mar_Deva,loanword,फेज टेस्टर,,legacy,transliterated loanword (for comparison)
+protective device,mar_Deva,formal,संरक्षक उपकरण,संरक्षण साधन,proposed,
+protective device,mar_Deva,loanword,प्रोटेक्टिव्ह डिव्हाइस,,legacy,transliterated loanword (for comparison)
+resistance,mar_Deva,formal,रोध,प्रतिरोध,proposed,
+resistance,mar_Deva,loanword,रेझिस्टन्स,,legacy,transliterated loanword (for comparison)
+safety shoes,mar_Deva,formal,सुरक्षा बूट,सुरक्षा पादत्राणे,proposed,
+safety shoes,mar_Deva,loanword,सेफ्टी शूज,,legacy,transliterated loanword (for comparison)
+single phase,mar_Deva,formal,एककला,एक कला,proposed,
+single phase,mar_Deva,loanword,सिंगल फेज,,legacy,transliterated loanword (for comparison)
+switch board,mar_Deva,formal,स्विच फलक,,proposed,
+switch board,mar_Deva,loanword,स्विच बोर्ड,,legacy,transliterated loanword (for comparison)
+terminal block,mar_Deva,formal,टर्मिनल ब्लॉक,,loanword_kept,
+terminal block,mar_Deva,loanword,टर्मिनल ब्लॉक,,legacy,transliterated loanword (for comparison)
+three phase,mar_Deva,formal,त्रिकला,तीन कला,proposed,
+three phase,mar_Deva,loanword,थ्री फेज,,legacy,transliterated loanword (for comparison)
+voltage,mar_Deva,formal,विभवांतर,व्होल्टता,proposed,cross-checked with Wikipedia title
+voltage,mar_Deva,loanword,व्होल्टेज,,legacy,transliterated loanword (for comparison)
+voltmeter,mar_Deva,formal,विभवांतरमापक,व्होल्टमापक,proposed,
+voltmeter,mar_Deva,loanword,व्होल्टमीटर,,legacy,transliterated loanword (for comparison)
+wire stripper,mar_Deva,formal,तार सोलक,,proposed,
+wire stripper,mar_Deva,loanword,वायर स्ट्रिपर,,legacy,transliterated loanword (for comparison)
+ac supply,guj_Gujr,formal,પ્રત્યાવર્તી પ્રવાહ પુરવઠો,પ્રત્યાવર્તી વિદ્યુત પુરવઠો,proposed,
+ac supply,guj_Gujr,loanword,એસી સપ્લાય,,legacy,transliterated loanword (for comparison)
+ammeter,guj_Gujr,formal,પ્રવાહમાપક,એમ્પિયરમાપક,proposed,
+ammeter,guj_Gujr,loanword,એમીટર,,legacy,transliterated loanword (for comparison)
+apprentice,guj_Gujr,formal,તાલીમાર્થી,શિખાઉ,proposed,
+apprentice,guj_Gujr,loanword,એપ્રેન્ટિસ,,legacy,transliterated loanword (for comparison)
+cable,guj_Gujr,formal,કેબલ,,loanword_kept,
+cable,guj_Gujr,loanword,કેબલ,,legacy,transliterated loanword (for comparison)
+capacitor,guj_Gujr,formal,સંધારિત્ર,ધારિત્ર,proposed,
+capacitor,guj_Gujr,loanword,કેપેસિટર,,legacy,transliterated loanword (for comparison)
+circuit breaker,guj_Gujr,formal,પરિપથ વિચ્છેદક,,proposed,
+circuit breaker,guj_Gujr,loanword,સર્કિટ બ્રેકર,,legacy,transliterated loanword (for comparison)
+conduit,guj_Gujr,formal,નળી,,proposed,
+conduit,guj_Gujr,loanword,કન્ડ્યુટ,,legacy,transliterated loanword (for comparison)
+control panel,guj_Gujr,formal,નિયંત્રણ ફલક,,proposed,
+control panel,guj_Gujr,loanword,કંટ્રોલ પેનલ,,legacy,transliterated loanword (for comparison)
+copper conductor,guj_Gujr,formal,તાંબાનો વાહક,તાંબાનું વાહક,proposed,
+copper conductor,guj_Gujr,loanword,કોપર કંડક્ટર,,legacy,transliterated loanword (for comparison)
+earthing,guj_Gujr,formal,ભૂસંપર્ક,ભૂસંપર્કન,proposed,Wikipedia uses the loanword અર્થીંગ
+earthing,guj_Gujr,loanword,અર્થિંગ,,legacy,transliterated loanword (for comparison)
+electric shock,guj_Gujr,formal,વીજ આંચકો,વીજળીનો આંચકો,proposed,
+electric shock,guj_Gujr,loanword,શોક,,legacy,transliterated loanword (for comparison)
+electrical load,guj_Gujr,formal,વિદ્યુત ભાર,વીજ ભાર,proposed,
+electrical load,guj_Gujr,loanword,ઇલેક્ટ્રિકલ લોડ,,legacy,transliterated loanword (for comparison)
+fuse,guj_Gujr,formal,ફ્યુઝ,,loanword_kept,
+fuse,guj_Gujr,loanword,ફ્યુઝ,,legacy,transliterated loanword (for comparison)
+insulation,guj_Gujr,formal,અવાહકતા,વિદ્યુતરોધન,proposed,
+insulation,guj_Gujr,loanword,ઇન્સ્યુલેશન,,legacy,transliterated loanword (for comparison)
+junction box,guj_Gujr,formal,જોડાણ પેટી,સંધિ પેટી,proposed,
+junction box,guj_Gujr,loanword,જંક્શન બોક્સ,,legacy,transliterated loanword (for comparison)
+leakage current,guj_Gujr,formal,ગળતર પ્રવાહ,,proposed,
+leakage current,guj_Gujr,loanword,લીકેજ કરંટ,,legacy,transliterated loanword (for comparison)
+live wire,guj_Gujr,formal,વિદ્યુતમય તાર,જીવંત તાર,proposed,
+live wire,guj_Gujr,loanword,લાઇવ વાયર,,legacy,transliterated loanword (for comparison)
+main switch,guj_Gujr,formal,મુખ્ય કળ,મુખ્ય સ્વિચ,proposed,cross-checked with Wikipedia title (કળ = switch)
+main switch,guj_Gujr,loanword,મેઇન સ્વિચ,,legacy,transliterated loanword (for comparison)
+megger,guj_Gujr,formal,મેગર,,loanword_kept,
+megger,guj_Gujr,loanword,મેગર,,legacy,transliterated loanword (for comparison)
+motor winding,guj_Gujr,formal,મોટર કુંડળી,,proposed,
+motor winding,guj_Gujr,loanword,મોટર વાઇન્ડિંગ,,legacy,transliterated loanword (for comparison)
+neutral wire,guj_Gujr,formal,તટસ્થ તાર,,proposed,
+neutral wire,guj_Gujr,loanword,ન્યુટ્રલ વાયર,,legacy,transliterated loanword (for comparison)
+phase tester,guj_Gujr,formal,કળા પરીક્ષક,,proposed,phase = કળા
+phase tester,guj_Gujr,loanword,ફેઝ ટેસ્ટર,,legacy,transliterated loanword (for comparison)
+protective device,guj_Gujr,formal,રક્ષણાત્મક ઉપકરણ,સંરક્ષક ઉપકરણ,proposed,
+protective device,guj_Gujr,loanword,પ્રોટેક્ટિવ ડિવાઇસ,,legacy,transliterated loanword (for comparison)
+resistance,guj_Gujr,formal,અવરોધ,,proposed,
+resistance,guj_Gujr,loanword,રેઝિસ્ટન્સ,,legacy,transliterated loanword (for comparison)
+safety shoes,guj_Gujr,formal,સલામતી જૂતાં,સુરક્ષા જૂતાં,proposed,
+safety shoes,guj_Gujr,loanword,સેફ્ટી શૂઝ,,legacy,transliterated loanword (for comparison)
+single phase,guj_Gujr,formal,એકકળા,એક કળા,proposed,
+single phase,guj_Gujr,loanword,સિંગલ ફેઝ,,legacy,transliterated loanword (for comparison)
+switch board,guj_Gujr,formal,સ્વિચ બોર્ડ,,loanword_kept,
+switch board,guj_Gujr,loanword,સ્વિચ બોર્ડ,,legacy,transliterated loanword (for comparison)
+terminal block,guj_Gujr,formal,ટર્મિનલ બ્લોક,,loanword_kept,
+terminal block,guj_Gujr,loanword,ટર્મિનલ બ્લોક,,legacy,transliterated loanword (for comparison)
+three phase,guj_Gujr,formal,ત્રિકળા,ત્રણ કળા,proposed,
+three phase,guj_Gujr,loanword,થ્રી ફેઝ,,legacy,transliterated loanword (for comparison)
+voltage,guj_Gujr,formal,વિભવાંતર,,proposed,
+voltage,guj_Gujr,loanword,વોલ્ટેજ,,legacy,transliterated loanword (for comparison)
+voltmeter,guj_Gujr,formal,વોલ્ટમાપક,,proposed,
+voltmeter,guj_Gujr,loanword,વોલ્ટમીટર,,legacy,transliterated loanword (for comparison)
+wire stripper,guj_Gujr,formal,તાર છોલક,,proposed,
+wire stripper,guj_Gujr,loanword,વાયર સ્ટ્રિપર,,legacy,transliterated loanword (for comparison)
+ac supply,tam_Taml,formal,மாறுதிசை மின்னோட்ட வழங்கல்,மாறுதிசை மின் வழங்கல்,proposed,cross-checked with Wikipedia title (மாறுதிசை மின்னோட்டம்)
+ac supply,tam_Taml,loanword,ஏசி சப்ளை,,legacy,transliterated loanword (for comparison)
+ammeter,tam_Taml,formal,மின்னோட்டமானி,ஆம்பியர் மானி|ஆம்ப்பியர் மானி,proposed,cross-checked with Wikipedia title
+ammeter,tam_Taml,loanword,அம்மீட்டர்,,legacy,transliterated loanword (for comparison)
+apprentice,tam_Taml,formal,தொழில் பழகுநர்,பயிற்சியாளர்,proposed,
+apprentice,tam_Taml,loanword,அப்ரெண்டிஸ்,,legacy,transliterated loanword (for comparison)
+cable,tam_Taml,formal,மின்வடம்,கம்பி வடம்,proposed,cross-checked with Wikipedia title
+cable,tam_Taml,loanword,கேபிள்,,legacy,transliterated loanword (for comparison)
+capacitor,tam_Taml,formal,மின்தேக்கி,,proposed,
+capacitor,tam_Taml,loanword,கெப்பாசிட்டர்,,legacy,transliterated loanword (for comparison)
+circuit breaker,tam_Taml,formal,மின்சுற்று முறிப்பான்,சுற்று முறிப்பான்,proposed,
+circuit breaker,tam_Taml,loanword,சர்க்யூட் பிரேக்கர்,,legacy,transliterated loanword (for comparison)
+conduit,tam_Taml,formal,மின்குழாய்,,proposed,
+conduit,tam_Taml,loanword,கான்ட்யூட்,,legacy,transliterated loanword (for comparison)
+control panel,tam_Taml,formal,கட்டுப்பாட்டுப் பலகை,கட்டுப்பாட்டு பலகை,proposed,
+control panel,tam_Taml,loanword,கண்ட்ரோல் பேனல்,,legacy,transliterated loanword (for comparison)
+copper conductor,tam_Taml,formal,செப்புக் கடத்தி,செப்பு கடத்தி,proposed,
+copper conductor,tam_Taml,loanword,காப்பர் கண்டக்டர்,,legacy,transliterated loanword (for comparison)
+earthing,tam_Taml,formal,புவியிணைப்பு,நிலத்தொடுப்பு|மண்ணிணைப்பு,proposed,
+earthing,tam_Taml,loanword,எர்த்திங்,,legacy,transliterated loanword (for comparison)
+electric shock,tam_Taml,formal,மின்னதிர்ச்சி,மின் அதிர்ச்சி,proposed,cross-checked with Wikipedia title
+electric shock,tam_Taml,loanword,ஷாக்,,legacy,transliterated loanword (for comparison)
+electrical load,tam_Taml,formal,மின்சுமை,,proposed,
+electrical load,tam_Taml,loanword,எலக்ட்ரிக்கல் லோடு,,legacy,transliterated loanword (for comparison)
+fuse,tam_Taml,formal,உருகி,உருகு இழை,proposed,native term
+fuse,tam_Taml,loanword,ஃபியூஸ்,,legacy,transliterated loanword (for comparison)
+insulation,tam_Taml,formal,மின்காப்பு,மின்காப்பான்,proposed,cross-checked with Wikipedia title (மின்காப்பான் = insulator)
+insulation,tam_Taml,loanword,இன்சுலேஷன்,,legacy,transliterated loanword (for comparison)
+junction box,tam_Taml,formal,இணைப்புப் பெட்டி,இணைப்பு பெட்டி,proposed,
+junction box,tam_Taml,loanword,ஜங்ஷன் பாக்ஸ்,,legacy,transliterated loanword (for comparison)
+leakage current,tam_Taml,formal,கசிவு மின்னோட்டம்,,proposed,
+leakage current,tam_Taml,loanword,லீக்கேஜ் கரண்ட்,,legacy,transliterated loanword (for comparison)
+live wire,tam_Taml,formal,மின்னோட்டக் கம்பி,மின்னோட்ட கம்பி,proposed,
+live wire,tam_Taml,loanword,லைவ் வயர்,,legacy,transliterated loanword (for comparison)
+main switch,tam_Taml,formal,முதன்மை நிலைமாற்றி,,proposed,cross-checked with Wikipedia title (நிலைமாற்றி = switch)
+main switch,tam_Taml,loanword,மெயின் ஸ்விட்ச்,,legacy,transliterated loanword (for comparison)
+megger,tam_Taml,formal,மெகர்,,loanword_kept,
+megger,tam_Taml,loanword,மெகர்,,legacy,transliterated loanword (for comparison)
+motor winding,tam_Taml,formal,மின்னோடிச் சுருள்,மோட்டார் சுருள்,proposed,
+motor winding,tam_Taml,loanword,மோட்டார் வைண்டிங்,,legacy,transliterated loanword (for comparison)
+neutral wire,tam_Taml,formal,நடுநிலைக் கம்பி,நடுநிலை கம்பி,proposed,
+neutral wire,tam_Taml,loanword,நியூட்ரல் வயர்,,legacy,transliterated loanword (for comparison)
+phase tester,tam_Taml,formal,அறுவாய் சோதிப்பான்,,proposed,phase = அறுவாய் (Wikipedia: முத்தறுவாய்)
+phase tester,tam_Taml,loanword,பேஸ் டெஸ்டர்,,legacy,transliterated loanword (for comparison)
+protective device,tam_Taml,formal,பாதுகாப்புச் சாதனம்,பாதுகாப்பு சாதனம்,proposed,
+protective device,tam_Taml,loanword,புரொடெக்டிவ் டிவைஸ்,,legacy,transliterated loanword (for comparison)
+resistance,tam_Taml,formal,மின்தடை,,proposed,
+resistance,tam_Taml,loanword,ரெசிஸ்டன்ஸ்,,legacy,transliterated loanword (for comparison)
+safety shoes,tam_Taml,formal,பாதுகாப்புக் காலணி,பாதுகாப்பு காலணி,proposed,
+safety shoes,tam_Taml,loanword,சேஃப்டி ஷூஸ்,,legacy,transliterated loanword (for comparison)
+single phase,tam_Taml,formal,ஒற்றை அறுவாய்,ஒருமுனை,proposed,
+single phase,tam_Taml,loanword,சிங்கிள் பேஸ்,,legacy,transliterated loanword (for comparison)
+switch board,tam_Taml,formal,நிலைமாற்றிப் பலகை,,proposed,
+switch board,tam_Taml,loanword,ஸ்விட்ச் போர்டு,,legacy,transliterated loanword (for comparison)
+terminal block,tam_Taml,formal,முனையத் தொகுதி,முனைய தொகுதி,proposed,native term
+terminal block,tam_Taml,loanword,டெர்மினல் பிளாக்,,legacy,transliterated loanword (for comparison)
+three phase,tam_Taml,formal,முத்தறுவாய்,மும்முனை,proposed,cross-checked with Wikipedia title
+three phase,tam_Taml,loanword,த்ரீ பேஸ்,,legacy,transliterated loanword (for comparison)
+voltage,tam_Taml,formal,மின்னழுத்தம்,,proposed,cross-checked with Wikipedia title
+voltage,tam_Taml,loanword,வோல்டேஜ்,,legacy,transliterated loanword (for comparison)
+voltmeter,tam_Taml,formal,மின்னழுத்தமானி,,proposed,cross-checked with Wikipedia title
+voltmeter,tam_Taml,loanword,வோல்ட்மீட்டர்,,legacy,transliterated loanword (for comparison)
+wire stripper,tam_Taml,formal,கம்பி உரிப்பான்,,proposed,
+wire stripper,tam_Taml,loanword,வயர் ஸ்ட்ரிப்பர்,,legacy,transliterated loanword (for comparison)
+ac supply,tel_Telu,formal,ద్విముఖ విద్యుత్ సరఫరా,ప్రత్యావర్తి విద్యుత్ సరఫరా,proposed,cross-checked with Wikipedia title (ద్విముఖ విద్యుత్ ప్రవాహం)
+ac supply,tel_Telu,loanword,ఏసీ సప్లై,,legacy,transliterated loanword (for comparison)
+ammeter,tel_Telu,formal,విద్యుత్ ప్రవాహ మాపకం,ప్రవాహ మాపకం,proposed,Wikipedia uses the loanword అమ్మీటరు
+ammeter,tel_Telu,loanword,అమ్మీటర్,,legacy,transliterated loanword (for comparison)
+apprentice,tel_Telu,formal,శిక్షణార్థి,,proposed,
+apprentice,tel_Telu,loanword,అప్రెంటిస్,,legacy,transliterated loanword (for comparison)
+cable,tel_Telu,formal,కేబుల్,,loanword_kept,
+cable,tel_Telu,loanword,కేబుల్,,legacy,transliterated loanword (for comparison)
+capacitor,tel_Telu,formal,ధారిత్రం,,proposed,
+capacitor,tel_Telu,loanword,కెపాసిటర్,,legacy,transliterated loanword (for comparison)
+circuit breaker,tel_Telu,formal,వలయ విచ్ఛేదకం,,proposed,circuit = వలయం
+circuit breaker,tel_Telu,loanword,సర్క్యూట్ బ్రేకర్,,legacy,transliterated loanword (for comparison)
+conduit,tel_Telu,formal,విద్యుత్ వాహిక,వాహిక,proposed,
+conduit,tel_Telu,loanword,కండ్యూట్,,legacy,transliterated loanword (for comparison)
+control panel,tel_Telu,formal,నియంత్రణ ఫలకం,,proposed,
+control panel,tel_Telu,loanword,కంట్రోల్ ప్యానెల్,,legacy,transliterated loanword (for comparison)
+copper conductor,tel_Telu,formal,రాగి వాహకం,,proposed,
+copper conductor,tel_Telu,loanword,కాపర్ కండక్టర్,,legacy,transliterated loanword (for comparison)
+earthing,tel_Telu,formal,భూసంధానం,,proposed,Wikipedia uses the loanword ఎర్తింగ్
+earthing,tel_Telu,loanword,ఎర్తింగ్,,legacy,transliterated loanword (for comparison)
+electric shock,tel_Telu,formal,విద్యుద్ఘాతం,విద్యుద్ఘాతము|విద్యుదాఘాతం,proposed,cross-checked with Wikipedia title
+electric shock,tel_Telu,loanword,షాక్,,legacy,transliterated loanword (for comparison)
+electrical load,tel_Telu,formal,విద్యుత్ భారం,,proposed,
+electrical load,tel_Telu,loanword,ఎలక్ట్రికల్ లోడ్,,legacy,transliterated loanword (for comparison)
+fuse,tel_Telu,formal,ఫ్యూజ్,,loanword_kept,
+fuse,tel_Telu,loanword,ఫ్యూజ్,,legacy,transliterated loanword (for comparison)
+insulation,tel_Telu,formal,అవాహకత,విద్యుత్ నిరోధకత,proposed,
+insulation,tel_Telu,loanword,ఇన్సులేషన్,,legacy,transliterated loanword (for comparison)
+junction box,tel_Telu,formal,సంధి పెట్టె,,proposed,
+junction box,tel_Telu,loanword,జంక్షన్ బాక్స్,,legacy,transliterated loanword (for comparison)
+leakage current,tel_Telu,formal,క్షరణ ప్రవాహం,,proposed,
+leakage current,tel_Telu,loanword,లీకేజ్ కరెంట్,,legacy,transliterated loanword (for comparison)
+live wire,tel_Telu,formal,విద్యుత్ ప్రవాహ తీగ,,proposed,
+live wire,tel_Telu,loanword,లైవ్ వైర్,,legacy,transliterated loanword (for comparison)
+main switch,tel_Telu,formal,ప్రధాన స్విచ్,,loanword_kept,
+main switch,tel_Telu,loanword,మెయిన్ స్విచ్,,legacy,transliterated loanword (for comparison)
+megger,tel_Telu,formal,మెగ్గర్,,loanword_kept,
+megger,tel_Telu,loanword,మెగ్గర్,,legacy,transliterated loanword (for comparison)
+motor winding,tel_Telu,formal,మోటారు చుట్ట,మోటారు చుట్టలు,proposed,
+motor winding,tel_Telu,loanword,మోటార్ వైండింగ్,,legacy,transliterated loanword (for comparison)
+neutral wire,tel_Telu,formal,తటస్థ తీగ,,proposed,
+neutral wire,tel_Telu,loanword,న్యూట్రల్ వైర్,,legacy,transliterated loanword (for comparison)
+phase tester,tel_Telu,formal,దశ పరీక్షకం,,proposed,phase = దశ (physics usage)
+phase tester,tel_Telu,loanword,ఫేజ్ టెస్టర్,,legacy,transliterated loanword (for comparison)
+protective device,tel_Telu,formal,రక్షణ పరికరం,,proposed,
+protective device,tel_Telu,loanword,ప్రొటెక్టివ్ డివైస్,,legacy,transliterated loanword (for comparison)
+resistance,tel_Telu,formal,నిరోధం,విద్యున్నిరోధం,proposed,cross-checked with Wikipedia title
+resistance,tel_Telu,loanword,రెసిస్టెన్స్,,legacy,transliterated loanword (for comparison)
+safety shoes,tel_Telu,formal,రక్షణ బూట్లు,భద్రతా బూట్లు,proposed,
+safety shoes,tel_Telu,loanword,సేఫ్టీ షూస్,,legacy,transliterated loanword (for comparison)
+single phase,tel_Telu,formal,ఏక దశ,ఏకదశ,proposed,
+single phase,tel_Telu,loanword,సింగిల్ ఫేజ్,,legacy,transliterated loanword (for comparison)
+switch board,tel_Telu,formal,స్విచ్ ఫలకం,,proposed,
+switch board,tel_Telu,loanword,స్విచ్ బోర్డ్,,legacy,transliterated loanword (for comparison)
+terminal block,tel_Telu,formal,టెర్మినల్ బ్లాక్,,loanword_kept,
+terminal block,tel_Telu,loanword,టెర్మినల్ బ్లాక్,,legacy,transliterated loanword (for comparison)
+three phase,tel_Telu,formal,త్రి దశ,త్రిదశ|మూడు దశల,proposed,
+three phase,tel_Telu,loanword,త్రీ ఫేజ్,,legacy,transliterated loanword (for comparison)
+voltage,tel_Telu,formal,విభవాంతరం,,proposed,Wikipedia uses the loanword వోల్టేజ్
+voltage,tel_Telu,loanword,వోల్టేజ్,,legacy,transliterated loanword (for comparison)
+voltmeter,tel_Telu,formal,విభవాంతర మాపకం,,proposed,
+voltmeter,tel_Telu,loanword,వోల్ట్‌మీటర్,,legacy,transliterated loanword (for comparison)
+wire stripper,tel_Telu,formal,తీగ ఒలుపు సాధనం,,proposed,
+wire stripper,tel_Telu,loanword,వైర్ స్ట్రిప్పర్,,legacy,transliterated loanword (for comparison)
+ac supply,kan_Knda,formal,ಪರ್ಯಾಯ ವಿದ್ಯುತ್ ಸರಬರಾಜು,,proposed,cross-checked with Wikipedia title (ಪರ್ಯಾಯ ವಿದ್ಯುತ್ ಪ್ರವಾಹ)
+ac supply,kan_Knda,loanword,ಎಸಿ ಸಪ್ಲೈ,,legacy,transliterated loanword (for comparison)
+ammeter,kan_Knda,formal,ವಿದ್ಯುತ್ ಪ್ರವಾಹ ಮಾಪಕ,ಪ್ರವಾಹ ಮಾಪಕ,proposed,
+ammeter,kan_Knda,loanword,ಅಮ್ಮೀಟರ್,,legacy,transliterated loanword (for comparison)
+apprentice,kan_Knda,formal,ಶಿಕ್ಷಾರ್ಥಿ,,proposed,
+apprentice,kan_Knda,loanword,ಅಪ್ರೆಂಟಿಸ್,,legacy,transliterated loanword (for comparison)
+cable,kan_Knda,formal,ಕೇಬಲ್,,loanword_kept,
+cable,kan_Knda,loanword,ಕೇಬಲ್,,legacy,transliterated loanword (for comparison)
+capacitor,kan_Knda,formal,ಧಾರಕ,,proposed,
+capacitor,kan_Knda,loanword,ಕೆಪಾಸಿಟರ್,,legacy,transliterated loanword (for comparison)
+circuit breaker,kan_Knda,formal,ಮಂಡಲ ವಿಚ್ಛೇದಕ,,proposed,circuit = ಮಂಡಲ
+circuit breaker,kan_Knda,loanword,ಸರ್ಕ್ಯೂಟ್ ಬ್ರೇಕರ್,,legacy,transliterated loanword (for comparison)
+conduit,kan_Knda,formal,ಕೊಳವೆ,,proposed,
+conduit,kan_Knda,loanword,ಕಂಡ್ಯೂಟ್,,legacy,transliterated loanword (for comparison)
+control panel,kan_Knda,formal,ನಿಯಂತ್ರಣ ಫಲಕ,,proposed,
+control panel,kan_Knda,loanword,ಕಂಟ್ರೋಲ್ ಪ್ಯಾನೆಲ್,,legacy,transliterated loanword (for comparison)
+copper conductor,kan_Knda,formal,ತಾಮ್ರದ ವಾಹಕ,,proposed,
+copper conductor,kan_Knda,loanword,ಕಾಪರ್ ಕಂಡಕ್ಟರ್,,legacy,transliterated loanword (for comparison)
+earthing,kan_Knda,formal,ಭೂಸಂಪರ್ಕ,,proposed,
+earthing,kan_Knda,loanword,ಅರ್ಥಿಂಗ್,,legacy,transliterated loanword (for comparison)
+electric shock,kan_Knda,formal,ವಿದ್ಯುತ್ ಆಘಾತ,ವಿದ್ಯುದಾಘಾತ,proposed,
+electric shock,kan_Knda,loanword,ಶಾಕ್,,legacy,transliterated loanword (for comparison)
+electrical load,kan_Knda,formal,ವಿದ್ಯುತ್ ಹೊರೆ,,proposed,
+electrical load,kan_Knda,loanword,ಎಲೆಕ್ಟ್ರಿಕಲ್ ಲೋಡ್,,legacy,transliterated loanword (for comparison)
+fuse,kan_Knda,formal,ಫ್ಯೂಸ್,,loanword_kept,
+fuse,kan_Knda,loanword,ಫ್ಯೂಸ್,,legacy,transliterated loanword (for comparison)
+insulation,kan_Knda,formal,ನಿರೋಧನ,ಅವಾಹಕ,proposed,cross-checked with Wikipedia title (ಅವಾಹಕ = insulator)
+insulation,kan_Knda,loanword,ಇನ್ಸುಲೇಶನ್,,legacy,transliterated loanword (for comparison)
+junction box,kan_Knda,formal,ಸಂಧಿ ಪೆಟ್ಟಿಗೆ,,proposed,
+junction box,kan_Knda,loanword,ಜಂಕ್ಷನ್ ಬಾಕ್ಸ್,,legacy,transliterated loanword (for comparison)
+leakage current,kan_Knda,formal,ಸೋರಿಕೆ ಪ್ರವಾಹ,,proposed,
+leakage current,kan_Knda,loanword,ಲೀಕೇಜ್ ಕರೆಂಟ್,,legacy,transliterated loanword (for comparison)
+live wire,kan_Knda,formal,ವಿದ್ಯುತ್‌ಪೂರಿತ ತಂತಿ,,proposed,
+live wire,kan_Knda,loanword,ಲೈವ್ ವೈರ್,,legacy,transliterated loanword (for comparison)
+main switch,kan_Knda,formal,ಮುಖ್ಯ ಸ್ವಿಚ್,,loanword_kept,
+main switch,kan_Knda,loanword,ಮೇನ್ ಸ್ವಿಚ್,,legacy,transliterated loanword (for comparison)
+megger,kan_Knda,formal,ಮೆಗ್ಗರ್,,loanword_kept,
+megger,kan_Knda,loanword,ಮೆಗ್ಗರ್,,legacy,transliterated loanword (for comparison)
+motor winding,kan_Knda,formal,ಮೋಟಾರ್ ಸುರುಳಿ,,proposed,
+motor winding,kan_Knda,loanword,ಮೋಟಾರ್ ವೈಂಡಿಂಗ್,,legacy,transliterated loanword (for comparison)
+neutral wire,kan_Knda,formal,ತಟಸ್ಥ ತಂತಿ,,proposed,
+neutral wire,kan_Knda,loanword,ನ್ಯೂಟ್ರಲ್ ವೈರ್,,legacy,transliterated loanword (for comparison)
+phase tester,kan_Knda,formal,ಹಂತ ಪರೀಕ್ಷಕ,,proposed,"phase = ಹಂತ (physics usage, as in ಹಂತ ವ್ಯತ್ಯಾಸ)"
+phase tester,kan_Knda,loanword,ಫೇಸ್ ಟೆಸ್ಟರ್,,legacy,transliterated loanword (for comparison)
+protective device,kan_Knda,formal,ರಕ್ಷಣಾ ಸಾಧನ,,proposed,
+protective device,kan_Knda,loanword,ಪ್ರೊಟೆಕ್ಟಿವ್ ಡಿವೈಸ್,,legacy,transliterated loanword (for comparison)
+resistance,kan_Knda,formal,ರೋಧ,ಪ್ರತಿರೋಧ,proposed,
+resistance,kan_Knda,loanword,ರೆಸಿಸ್ಟೆನ್ಸ್,,legacy,transliterated loanword (for comparison)
+safety shoes,kan_Knda,formal,ಸುರಕ್ಷತಾ ಬೂಟುಗಳು,ಸುರಕ್ಷತಾ ಬೂಟು,proposed,
+safety shoes,kan_Knda,loanword,ಸೇಫ್ಟಿ ಶೂಸ್,,legacy,transliterated loanword (for comparison)
+single phase,kan_Knda,formal,ಏಕ ಹಂತ,,proposed,
+single phase,kan_Knda,loanword,ಸಿಂಗಲ್ ಫೇಸ್,,legacy,transliterated loanword (for comparison)
+switch board,kan_Knda,formal,ಸ್ವಿಚ್ ಫಲಕ,,proposed,
+switch board,kan_Knda,loanword,ಸ್ವಿಚ್ ಬೋರ್ಡ್,,legacy,transliterated loanword (for comparison)
+terminal block,kan_Knda,formal,ಟರ್ಮಿನಲ್ ಬ್ಲಾಕ್,,loanword_kept,
+terminal block,kan_Knda,loanword,ಟರ್ಮಿನಲ್ ಬ್ಲಾಕ್,,legacy,transliterated loanword (for comparison)
+three phase,kan_Knda,formal,ಮೂರು ಹಂತ,ತ್ರಿಹಂತ,proposed,
+three phase,kan_Knda,loanword,ತ್ರೀ ಫೇಸ್,,legacy,transliterated loanword (for comparison)
+voltage,kan_Knda,formal,ವಿಭವಾಂತರ,,proposed,
+voltage,kan_Knda,loanword,ವೋಲ್ಟೇಜ್,,legacy,transliterated loanword (for comparison)
+voltmeter,kan_Knda,formal,ವಿಭವಾಂತರ ಮಾಪಕ,,proposed,Wikipedia uses the loanword ವೋಲ್ಟ್ಮೀಟರ್
+voltmeter,kan_Knda,loanword,ವೋಲ್ಟ್‌ಮೀಟರ್,,legacy,transliterated loanword (for comparison)
+wire stripper,kan_Knda,formal,ತಂತಿ ಸುಲಿಯುವ ಸಾಧನ,,proposed,
+wire stripper,kan_Knda,loanword,ವೈರ್ ಸ್ಟ್ರಿಪ್ಪರ್,,legacy,transliterated loanword (for comparison)

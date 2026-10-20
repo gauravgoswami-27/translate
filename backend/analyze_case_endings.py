@@ -18,10 +18,21 @@ import re
 from pathlib import Path
 
 from backend.localization_engine.glossary import ELECTRICIAN_GLOSSARIES, TERM_VARIANTS
+from backend.localization_engine.metrics import _stem
 from backend.localization_engine.paths import RESULTS_DIR
 from backend.localization_engine.translator import ATTACHED_CASE_SUFFIXES
 
 END = r"(?=[\s।.,;:!?)]|$)"
+
+# Dravidian languages have no attach list (suffixes join with sandhi), so detached forms are
+# probed with common case suffixes and "attached" counts any directly inflected term
+# (term immediately followed by a letter of the same script).
+DRAVIDIAN_PROBES = {
+    "tam_Taml": ("ஐ", "இல்", "க்கு", "ஆல்", "இன்", "உடன்", "யை", "யில்", "த்தை", "த்தில்", "த்தின்", "ஆக"),
+    "tel_Telu": ("ను", "కు", "లో", "తో", "ని", "కి", "యొక్క", "పై"),
+    "kan_Knda": ("ಅನ್ನು", "ವನ್ನು", "ಗೆ", "ಕ್ಕೆ", "ಇಂದ", "ದಿಂದ", "ದ", "ನ", "ಅಲ್ಲಿ", "ದಲ್ಲಿ"),
+}
+SCRIPT_LETTERS = {"tam_Taml": "\u0B80-\u0BFF", "tel_Telu": "\u0C00-\u0C7F", "kan_Knda": "\u0C80-\u0CFF"}
 
 
 def patterns(lang: str):
@@ -31,6 +42,12 @@ def patterns(lang: str):
         reverse=True,
     )
     term_re = "|".join(map(re.escape, terms))
+    if lang in DRAVIDIAN_PROBES:
+        probe_re = "|".join(map(re.escape, DRAVIDIAN_PROBES[lang]))
+        # inflection changes the stem ending, so "attached" matches the term or its stem + more letters
+        stems = sorted(set(terms) | {st for st in map(_stem, terms) if st}, key=len, reverse=True)
+        stem_re = "|".join(map(re.escape, stems))
+        return re.compile(f"(?:{term_re}) (?:{probe_re}){END}"), re.compile(f"(?:{stem_re})[{SCRIPT_LETTERS[lang]}]")
     suffix_re = "|".join(map(re.escape, ATTACHED_CASE_SUFFIXES[lang]))
     return re.compile(f"(?:{term_re}) (?:{suffix_re}){END}"), re.compile(f"(?:{term_re})(?:{suffix_re}){END}")
 
@@ -46,9 +63,11 @@ def main() -> None:
         with path.open(encoding="utf-8") as handle:
             rows = list(csv.DictReader(handle))
         systems = [c.removesuffix("_prediction") for c in rows[0] if c.endswith("_prediction")]
-        for lang in ATTACHED_CASE_SUFFIXES:
-            detached_re, attached_re = patterns(lang)
+        for lang in [*ATTACHED_CASE_SUFFIXES, *DRAVIDIAN_PROBES]:
             lang_rows = [r for r in rows if r["target_lang"] == lang]
+            if not lang_rows:
+                continue
+            detached_re, attached_re = patterns(lang)
             for system in systems:
                 texts = [r[f"{system}_prediction"] for r in lang_rows]
                 detached = sum(len(detached_re.findall(t)) for t in texts)

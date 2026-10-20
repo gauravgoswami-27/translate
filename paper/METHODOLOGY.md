@@ -30,7 +30,10 @@ NIMI Electrician PDFs ──► English sentences (24,636) ──► page-block 
 ## 2. Languages, models and terminology register
 
 - **Source language:** English (`eng_Latn`).
-- **Target languages:** Hindi (`hin_Deva`); Konkani (`gom_Deva`), Maithili (`mai_Deva`), Dogri (`doi_Deva`), all in Devanagari. Language codes follow IndicTrans2 / FLORES conventions `[gala2023indictrans2]`.
+- **Target languages:**
+  - Runs 4–6: Hindi (`hin_Deva`); Konkani (`gom_Deva`), Maithili (`mai_Deva`), Dogri (`doi_Deva`), all in Devanagari.
+  - **Added in run 7:** Marathi (`mar_Deva`), Gujarati (`guj_Gujr`), Tamil (`tam_Taml`), Telugu (`tel_Telu`), Kannada (`kan_Knda`): four scripts, including three Dravidian (agglutinative) languages.
+  - Since run 7, scripts default to all 9 languages, so reproducing runs 4–6 needs `--langs hin_Deva,gom_Deva,mai_Deva,doi_Deva`. Language codes follow IndicTrans2 / FLORES conventions `[gala2023indictrans2]`.
 - **Teacher:** `ai4bharat/indictrans2-en-indic-1B` (Hugging Face).
 - **Student / base:** `ai4bharat/indictrans2-en-indic-dist-200M`: 218,264,576 parameters including the LoRA modules; 6,488,064 trainable (2.97%).
 - Both models are gated on Hugging Face (accept the terms, then use a read token).
@@ -111,6 +114,7 @@ Result: **24,636 sentences.**
 - **Problem:** placeholder repair led the teacher to write attached case endings as separate words.
 - **Correction:** `attach_case_suffixes` was applied to the repaired rows of the existing formal drafts: 1,050 Maithili and 427 Konkani rows changed (`results/suffix_fix_stats.json`).
 - **Not affected:** Hindi and Dogri, where postpositions are separate words.
+- **Run-7 languages:** Gujarati and Marathi get attach lists (Gujarati joins cleanly; Marathi misses the oblique vowel). Tamil, Telugu and Kannada are deliberately left alone, because their suffixes join with sandhi, which rule-based joining would get wrong. `analyze_case_endings.py` measures detached suffixes there with probe lists. For them, "attached" counts any well-formed (inflected or bare) occurrence of the term or its stem.
 
 ## 5. Glossary
 
@@ -184,12 +188,13 @@ The dev chrF++ values are measured against different references (raw vs repaired
 
 ### 7.3 Metrics (`backend/localization_engine/metrics.py`)
 - **BLEU** `[papineni2002bleu]` and **chrF++** `[popovic2017chrf]` (character order 6, word order 2, β = 2) with sacreBLEU `[post2018call]`, default 13a tokenisation, corpus level. sacreBLEU 2.4.3 on Kaggle, 2.6.0 locally; scores are identical for these metrics.
-- **Spelling normalisation, used for term matching only:**
+- **Spelling normalisation, used for term matching only** (since run 7, applied per Unicode Indic block in all scripts except Tamil, plus removal of ZWJ/ZWNJ):
   - NFC
   - nukta removed
   - chandrabindu → anusvara
   - half-nasal before a consonant (ङ्/ञ्/ण्/न्/म्) → anusvara
   - hyphens → space
+- **Stem matching (run-7 languages only):** Marathi, Gujarati, Tamil, Telugu and Kannada inflect nouns by changing the stem ending (மின்னழுத்தம் → மின்னழுத்தத்தை). For them, the term with its final inflectable ending removed (last word, stem of at least 4 characters) is also accepted. Runs 4–6 languages are unaffected.
 - **Term accuracy:** among (sentence, term) pairs where the *reference* contains an accepted form of the glossary term, the share where the output also does.
 - **Term compliance** (reference-free): among all glossary-term occurrences in the *source*, the share where the output contains an accepted form. Primary terminology metric.
 - **Significance:** paired bootstrap resampling `[koehn2004statistical]` on chrF++. 1,000 resamples (numpy default_rng, seed 12345), every system against `base`; mean Δ, 95% percentile interval, p = share of resamples with Δ ≤ 0. Sentence-level sacreBLEU statistics are summed per resample.
@@ -255,12 +260,14 @@ Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.
 | 4 | 2026-10-15 | ≈ `bc3a66b` (tag `v1-raw-distillation`), bundle `20261015T095502Z` | drafts, joint LoRA on raw drafts, domain eval (base/lora/teacher), IN22-Gen 22 languages + forgetting | `models/it2_lora_joint`, `results/*_run4.csv`, `results/in22_gen_*.csv`; archive `kaggle/runs/2026-10-15_run4/` |
 | 5 | 2026-10-15/16 | `0f0f7dc`, bundle `20261015T143013Z` | placeholder repair, joint LoRA on repaired drafts, 10-system eval, forgetting | `models/it2_lora_joint_formal`, `results/*_run5*.csv`, `term_repair_stats_*.json`, `in22_gen_lora_formal.csv`; archive `kaggle/runs/2026-10-15_run5/` |
 | local-hy | 2026-10-17 | `359a04e` (CPU, `.venv-api`) | hybrid terminology evaluation of the run-5 model | `results/*_local_hy.csv`, `*_run5_hy.csv` |
-| 7 | pending | bundle `20261020T091304Z` | `joint_formal_v2_s44` (third seed of the main model); Hindi-only LoRA rank sweep r = 4, 8, 32, 64 (alpha = 2r) | notebook `kaggle/run7_seed_rank.ipynb` (generator `kaggle/build_run7_notebook.py`) |
+| 8 | pending | bundle `20261020T092712Z` | `joint_formal_v2_s44` (third seed of the main model); Hindi-only LoRA rank sweep r = 4, 8, 32, 64 (alpha = 2r) | notebook `kaggle/run8_seed_rank.ipynb` (generator `kaggle/build_run8_notebook.py`); seed 44 uses the original 4 languages explicitly |
+| 7 | pending | bundle `20261020T092712Z` | 5 new languages: teacher drafts + placeholder repair; `joint9_formal` (all 9 languages) and `new5_formal` (new 5), 2 epochs, eval-steps 1,000, 100 dev/language; evaluation of base/teacher/both models (+hy); IN22-Gen forgetting for joint-9 | notebook `kaggle/run7_new_languages.ipynb` (generator `kaggle/build_run7_notebook.py`) |
 | 6 | 2026-10-17 | `c88d42f`, bundle `20261017T103217Z` | `joint_formal_v2` (seed 42, main model) on case-fixed drafts; `joint_formal_v2_s43` (seed variance); `hi_formal_v2` (Hindi-only ablation); eval plain + `+hy`; IN22-Gen forgetting for v2. Merged scoring locally: tags `run6_all`, `run6_hi`; case endings: `analyze_case_endings.py` | `models/it2_lora_{joint_formal_v2,joint_formal_v2_s43,hi_formal_v2}`, `results/*_run6*.csv`, `in22_gen_lora_formal_v2.csv`, `case_endings.csv`; archive `kaggle/runs/2026-10-17_run6/` |
 
 Failed or aborted Kaggle attempts (environment and bug fixes, no results) are logged in `PROGRESS.md`. They don't affect the reported numbers.
 
 ## 11. Ethics, licensing and data availability (to finalise)
+See `DATA_SOURCES.md` for every source, its licence, and the compute ledger.
 - **Source texts:** government training material; CITS books marked "NOT TO BE REPUBLISHED". We release code, glossary, model adapters and scores. The corpus is offered on request for research, or as sentence IDs plus extraction scripts. **Decide before submission.**
 - **Models:** IndicTrans2 licence (verify; believed MIT), and the IN22 licence is CC-BY-4.0.
 - **Post-editors:** consent, compensation and acknowledgement. Record here.

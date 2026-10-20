@@ -29,19 +29,58 @@ def score_corpus(predictions: list[str], references: list[str]) -> CorpusScores:
     )
 
 
-_NASAL_BEFORE_CONSONANT = re.compile("[ङञणनम]्(?=[क-ह])")
+# Unicode Indic blocks share one layout (ISCII-derived), so the same offsets give the
+# nukta, chandrabindu, anusvara, virama and nasal consonants of every script below.
+# Tamil (U+0B80) is excluded: it has no anusvara/half-nasal alternation.
+_INDIC_BLOCKS = (0x0900, 0x0980, 0x0A00, 0x0A80, 0x0B00, 0x0C00, 0x0C80, 0x0D00)
+_NASAL_OFFSETS = (0x19, 0x1E, 0x23, 0x28, 0x2E)  # ङ ञ ण न म
+
+
+def _block_rules(base: int):
+    nasals = "".join(chr(base + o) for o in _NASAL_OFFSETS)
+    consonants = f"{chr(base + 0x15)}-{chr(base + 0x39)}"
+    half_nasal = re.compile(f"[{nasals}]{chr(base + 0x4D)}(?=[{consonants}])")
+    return chr(base + 0x3C), chr(base + 0x01), chr(base + 0x02), half_nasal
+
+
+_RULES = [_block_rules(b) for b in _INDIC_BLOCKS]
 
 
 def normalize_indic(text: str) -> str:
     """Orthographic normalisation for term matching only (not for BLEU/chrF).
 
-    Merges spelling variants of the same word: half-nasal + consonant vs anusvara
-    (इन्सुलेशन / इंसुलेशन), chandrabindu vs anusvara, nukta, and hyphen vs space.
+    Merges spelling variants of the same word in every Indic script: half-nasal + consonant
+    vs anusvara (इन्सुलेशन / इंसुलेशन), chandrabindu vs anusvara, nukta, zero-width
+    (non-)joiners, and hyphen vs space.
     """
-    text = unicodedata.normalize("NFC", text).replace("़", "").replace("ँ", "ं")
-    text = _NASAL_BEFORE_CONSONANT.sub("ं", text)
-    text = re.sub(r"[-‐–]", " ", text)
+    text = unicodedata.normalize("NFC", text).replace("\u200c", "").replace("\u200d", "")
+    for nukta, chandrabindu, anusvara, half_nasal in _RULES:
+        text = text.replace(nukta, "").replace(chandrabindu, anusvara)
+        text = half_nasal.sub(anusvara, text)
+    text = re.sub(r"[-\u2010\u2013]", " ", text)
     return re.sub(r"\s+", " ", text)
+
+
+# Languages added in run 7 inflect nouns by changing the stem ending (Tamil மின்னழுத்தம் ->
+# மின்னழுத்தத்தை, Telugu నిరోధం -> నిరోధాన్ని, Marathi त्रिकला -> त्रिकलेचा), so the full
+# glossary form is not a substring of a correctly inflected word. For them, the term with its
+# final inflectable ending removed (last word only) is accepted too. Runs 4-6 languages are
+# unchanged, which keeps their published numbers reproducible.
+STEM_MATCH_LANGS = {"mar_Deva", "guj_Gujr", "tam_Taml", "tel_Telu", "kan_Knda"}
+_FINAL_ENDING = re.compile(
+    "(?:\u0bae\u0bcd|\u0ba9\u0bcd"                      # Tamil -ம் / -ன்
+    "|[\u093e-\u094c\u0a82\u0abe-\u0acc\u0bbe-\u0bcc\u0c3e-\u0c4c\u0cbe-\u0ccc]"  # final vowel sign
+    "|[\u0902\u0c02\u0c82\u0bcd])$"                     # anusvara / Tamil pulli
+)
+MIN_STEM_CHARS = 4
+
+
+def _stem(form: str) -> str | None:
+    head, _, last = form.rpartition(" ")
+    stem = _FINAL_ENDING.sub("", last)
+    if stem == last or len(stem) < MIN_STEM_CHARS:
+        return None
+    return f"{head} {stem}" if head else stem
 
 
 def term_forms(term: str, target_lang: str) -> list[str]:
@@ -49,8 +88,10 @@ def term_forms(term: str, target_lang: str) -> list[str]:
     main = ELECTRICIAN_GLOSSARIES.get(target_lang, {}).get(term)
     if not main:
         return []
-    forms = [main, *TERM_VARIANTS.get(target_lang, {}).get(term, ())]
-    return [normalize_indic(f) for f in forms]
+    forms = [normalize_indic(f) for f in (main, *TERM_VARIANTS.get(target_lang, {}).get(term, ()))]
+    if target_lang in STEM_MATCH_LANGS:
+        forms += [st for st in map(_stem, forms) if st and st not in forms]
+    return forms
 
 
 def term_accuracy(
