@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
-import { AlertTriangle, BookText, FlaskConical, ShieldCheck, Target } from 'lucide-react';
+import { AlertTriangle, BookText, FlaskConical, Repeat, ShieldCheck, Target } from 'lucide-react';
 import results from '../data/results.json';
 import { ChartFrame, ChartTooltip, DataTable, Legend, useChartChrome, useCssVars } from '../components/charts';
 import { Alert, Badge, Card, CardHeader, PageHeader } from '../components/ui';
@@ -8,8 +8,8 @@ import { langName } from '../lib/languages';
 // Fixed colour slot per system (validated palette; never reassigned between charts).
 const SYSTEMS = [
   { key: 'base', label: 'Base 200M', color: 'var(--series-1)' },
-  { key: 'lora', label: 'Distilled, raw drafts', color: 'var(--series-2)' },
-  { key: 'lora_formal', label: 'Terminology-aware', color: 'var(--series-3)' },
+  { key: 'raw', label: 'Distilled, raw drafts', color: 'var(--series-2)' },
+  { key: 'formal', label: 'Terminology-aware', color: 'var(--series-3)' },
   { key: 'teacher', label: 'Teacher 1B', color: 'var(--series-4)' },
 ];
 const LANGS = results.domainLangs;
@@ -25,19 +25,19 @@ const complianceRows = LANGS.map((lang) => ({
 
 const forgetting = results.in22
   .filter((r) => LANGS.includes(r.lang))
-  .map((r) => ({ ...r, deltaFormal: r.lora_formal != null ? r.lora_formal - r.base : null, deltaRaw: r.lora != null ? r.lora - r.base : null }));
+  .map((r) => ({ ...r, deltaFormal: r.formal != null ? r.formal - r.base : null }));
 const maxForgetting = Math.max(...forgetting.map((r) => Math.abs(r.deltaFormal ?? 0)));
 
 const tiles = [
   {
     icon: Target,
-    value: `${fmt(mean(LANGS.map((l) => score(l, 'lora_formal').compliance)))}%`,
+    value: `${fmt(mean(LANGS.map((l) => score(l, 'formal').compliance)))}%`,
     label: 'formal-term use, terminology-aware model',
-    note: `vs ${fmt(mean(LANGS.map((l) => score(l, 'lora').compliance)))}% after plain distillation`,
+    note: `vs ${fmt(mean(LANGS.map((l) => score(l, 'raw').compliance)))}% after plain distillation`,
   },
   {
     icon: ShieldCheck,
-    value: `${fmt(mean(LANGS.map((l) => score(l, 'lora_formal+hy')?.compliance ?? 0)))}%`,
+    value: `${fmt(mean(LANGS.map((l) => score(l, 'formal+hy')?.compliance ?? 0)))}%`,
     label: 'with hybrid enforcement',
     note: 'placeholder retry only where a term is missing',
   },
@@ -72,12 +72,27 @@ const unverified = (
   </Badge>
 );
 
+// Inference-time modes were all measured on the run-5 model.
 const MODES = [
-  { key: 'lora_formal', label: 'Model only' },
-  { key: 'lora_formal+hy', label: 'Hybrid' },
-  { key: 'lora_formal+ph', label: 'Always placeholders' },
-  { key: 'lora_formal+cd', label: 'Constrained decoding' },
+  { key: 'formal_run5', label: 'Model only' },
+  { key: 'formal_run5+hy', label: 'Hybrid' },
+  { key: 'formal_run5+ph', label: 'Always placeholders' },
+  { key: 'formal_run5+cd', label: 'Constrained decoding' },
 ];
+
+const seedRows = LANGS.map((lang) => {
+  const a = score(lang, 'formal');
+  const b = score(lang, 'formal_s43');
+  return { key: lang, name: langName(lang), a, b, dChrf: Math.abs(a.chrf - b.chrf), dComp: Math.abs(a.compliance - b.compliance) };
+});
+
+const caseRows = ['mai_Deva', 'gom_Deva'].map((lang) => {
+  const pct = (system) => {
+    const r = results.caseEndings.find((c) => c.lang === lang && c.system === system);
+    return r && r.detached + r.attached ? (100 * r.detached) / (r.detached + r.attached) : null;
+  };
+  return { key: lang, name: langName(lang), run5: pct('formal_run5'), run6: pct('formal'), s43: pct('formal_s43') };
+});
 
 const SERIES_VARS = ['series-1', 'series-2', 'series-3', 'series-4'];
 // Bars grow in once; skipped for reduced-motion users and in headless screenshot runs (?static).
@@ -137,7 +152,7 @@ export default function ResultsPage() {
         <Card>
           <CardHeader
             title={<span className="inline-flex flex-wrap items-center gap-2">Ways to enforce terminology {unverified}</span>}
-            subtitle="Terminology-aware model with each inference mode: term use (%) and chrF++ against teacher drafts."
+            subtitle="Run-5 terminology-aware model with each inference mode: term use (%) · chrF++ against teacher drafts."
           />
           <div className="p-5 pt-4">
             <DataTable
@@ -206,6 +221,67 @@ export default function ResultsPage() {
           </div>
         </Card>
 
+        <Card>
+          <CardHeader
+            icon={Repeat}
+            title={<span className="inline-flex flex-wrap items-center gap-2">Robustness and ablations {unverified}</span>}
+            subtitle="How much results move between training runs, whether one joint model costs Hindi anything, and the case-ending fix."
+          />
+          <div className="grid gap-6 p-5 pt-4 lg:grid-cols-3">
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Seed 42 vs seed 43</h3>
+              <DataTable
+                caption="Seed variance"
+                minWidth={0}
+                columns={[
+                  { key: 'name', label: 'Language' },
+                  { key: 'chrf', label: 'chrF++', align: 'right', render: (r) => `${fmt(r.a.chrf, 2)} / ${fmt(r.b.chrf, 2)}` },
+                  { key: 'dChrf', label: '|Δ|', align: 'right', render: (r) => fmt(r.dChrf, 2) },
+                ]}
+                rows={seedRows}
+              />
+              <p className="text-xs text-ink-3">
+                Retraining with another seed moves chrF++ by up to {fmt(Math.max(...seedRows.map((r) => r.dChrf)), 1)}: smaller
+                differences between runs aren’t meaningful.
+              </p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Hindi: joint vs Hindi-only training</h3>
+              <DataTable
+                caption="Joint vs Hindi-only"
+                minWidth={0}
+                columns={[
+                  { key: 'label', label: 'Model' },
+                  { key: 'chrf', label: 'chrF++', align: 'right', render: (r) => fmt(r.chrf, 2) },
+                  { key: 'compliance', label: 'Terms', align: 'right', render: (r) => `${fmt(r.compliance)}%` },
+                ]}
+                rows={[
+                  { key: 'j', label: 'Joint (4 languages)', ...score('hin_Deva', 'formal') },
+                  { key: 'h', label: 'Hindi only', ...score('hin_Deva', 'formal_hi') },
+                ]}
+              />
+              <p className="text-xs text-ink-3">No measurable difference: one joint model serves all four languages without costing Hindi.</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-sm font-medium">Detached case endings after terms</h3>
+              <DataTable
+                caption="Detached case endings"
+                minWidth={0}
+                columns={[
+                  { key: 'name', label: 'Language' },
+                  { key: 'run5', label: 'Run 5', align: 'right', render: (r) => `${fmt(r.run5)}%` },
+                  { key: 'run6', label: 'Run 6', align: 'right', render: (r) => `${fmt(r.run6)}%` },
+                ]}
+                rows={caseRows}
+              />
+              <p className="text-xs text-ink-3">
+                Placeholder repair had taught the run-5 model to write case endings as separate words (विद्युतरोधन क). Retraining
+                on case-fixed data removed it.
+              </p>
+            </div>
+          </div>
+        </Card>
+
         <div className="grid gap-6 lg:grid-cols-5">
           <div className="lg:col-span-3">
             <ChartFrame
@@ -247,7 +323,7 @@ export default function ResultsPage() {
                   columns={[
                     { key: 'name', label: 'Language' },
                     { key: 'base', label: 'Base', align: 'right', render: (r) => fmt(r.base, 2) },
-                    { key: 'lora_formal', label: 'Term-aware', align: 'right', render: (r) => fmt(r.lora_formal, 2) },
+                    { key: 'formal', label: 'Term-aware', align: 'right', render: (r) => fmt(r.formal, 2) },
                     {
                       key: 'deltaFormal',
                       label: 'Δ',

@@ -1,15 +1,18 @@
 {
- "generated": "2026-10-17",
+ "generated": "2026-10-20",
  "sources": {
-  "domain": "backend/results/domain_scores_UNVERIFIED_run5_hy.csv",
+  "domain": "backend/results/domain_scores_UNVERIFIED_run6_all.csv (+ domain_scores_UNVERIFIED_run6_hi.csv)",
   "in22": "backend/results/in22_gen_*.csv",
   "repair": "backend/results/term_repair_stats_*.json",
   "glossary": "backend/data/glossary/electrician_glossary.csv"
  },
  "systemLabels": {
   "base": "Base 200M",
-  "lora": "LoRA, raw drafts (run 4)",
-  "lora_formal": "LoRA, terminology-aware (run 5)",
+  "raw": "LoRA, raw drafts (run 4)",
+  "formal": "LoRA, terminology-aware (run 6)",
+  "formal_run5": "LoRA, terminology-aware (run 5)",
+  "formal_s43": "Terminology-aware, seed 43",
+  "formal_hi": "Terminology-aware, Hindi only",
   "teacher": "Teacher 1B"
  },
  "domainLangs": [
@@ -62,57 +65,13 @@
   },
   {
    "lang": "hin_Deva",
-   "system": "base+ph",
-   "bleu": 72.05,
-   "chrf": 81.82,
-   "termAccuracy": 95.45,
-   "compliance": 97.14,
-   "deltaChrf": -4.81,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "hin_Deva",
-   "system": "base+cd",
-   "bleu": 46.65,
-   "chrf": 75.64,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -10.95,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "hin_Deva",
-   "system": "lora",
+   "system": "raw",
    "bleu": 79.02,
    "chrf": 87.36,
    "termAccuracy": 97.73,
    "compliance": 62.14,
    "deltaChrf": 0.72,
    "pValue": 0.14,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "hin_Deva",
-   "system": "lora+ph",
-   "bleu": 72.83,
-   "chrf": 82.29,
-   "termAccuracy": 98.86,
-   "compliance": 99.29,
-   "deltaChrf": -4.34,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "hin_Deva",
-   "system": "lora+cd",
-   "bleu": 46.59,
-   "chrf": 76.43,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -10.18,
-   "pValue": 1.0,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -128,7 +87,7 @@
   },
   {
    "lang": "hin_Deva",
-   "system": "lora_formal",
+   "system": "formal_run5",
    "bleu": 75.67,
    "chrf": 84.23,
    "termAccuracy": 100.0,
@@ -139,7 +98,7 @@
   },
   {
    "lang": "hin_Deva",
-   "system": "lora_formal+ph",
+   "system": "formal_run5+ph",
    "bleu": 73.2,
    "chrf": 82.29,
    "termAccuracy": 97.73,
@@ -150,7 +109,7 @@
   },
   {
    "lang": "hin_Deva",
-   "system": "lora_formal+cd",
+   "system": "formal_run5+cd",
    "bleu": 74.11,
    "chrf": 83.5,
    "termAccuracy": 100.0,
@@ -161,12 +120,45 @@
   },
   {
    "lang": "hin_Deva",
-   "system": "lora_formal+hy",
+   "system": "formal_run5+hy",
    "bleu": 75.68,
    "chrf": 84.21,
    "termAccuracy": 100.0,
    "compliance": 100.0,
    "deltaChrf": -2.42,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal",
+   "bleu": 74.78,
+   "chrf": 83.83,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": -2.79,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal+hy",
+   "bleu": 74.57,
+   "chrf": 83.65,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": -2.97,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_s43",
+   "bleu": 74.89,
+   "chrf": 83.87,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": -2.75,
    "pValue": 1.0,
    "reference": "teacher_draft_UNVERIFIED"
   },
@@ -183,57 +175,13 @@
   },
   {
    "lang": "gom_Deva",
-   "system": "base+ph",
-   "bleu": 45.47,
-   "chrf": 65.13,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -5.59,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "gom_Deva",
-   "system": "base+cd",
-   "bleu": 20.66,
-   "chrf": 64.04,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -6.72,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "gom_Deva",
-   "system": "lora",
+   "system": "raw",
    "bleu": 60.77,
    "chrf": 76.85,
    "termAccuracy": 68.57,
    "compliance": 20.71,
    "deltaChrf": 6.03,
    "pValue": 0.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "gom_Deva",
-   "system": "lora+ph",
-   "bleu": 54.42,
-   "chrf": 71.47,
-   "termAccuracy": 100.0,
-   "compliance": 99.29,
-   "deltaChrf": 0.71,
-   "pValue": 0.25,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "gom_Deva",
-   "system": "lora+cd",
-   "bleu": 30.19,
-   "chrf": 69.57,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -1.22,
-   "pValue": 0.82,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -249,7 +197,7 @@
   },
   {
    "lang": "gom_Deva",
-   "system": "lora_formal",
+   "system": "formal_run5",
    "bleu": 56.06,
    "chrf": 72.84,
    "termAccuracy": 97.14,
@@ -260,7 +208,7 @@
   },
   {
    "lang": "gom_Deva",
-   "system": "lora_formal+ph",
+   "system": "formal_run5+ph",
    "bleu": 54.2,
    "chrf": 71.48,
    "termAccuracy": 100.0,
@@ -271,7 +219,7 @@
   },
   {
    "lang": "gom_Deva",
-   "system": "lora_formal+cd",
+   "system": "formal_run5+cd",
    "bleu": 54.73,
    "chrf": 71.59,
    "termAccuracy": 100.0,
@@ -282,13 +230,46 @@
   },
   {
    "lang": "gom_Deva",
-   "system": "lora_formal+hy",
+   "system": "formal_run5+hy",
    "bleu": 55.77,
    "chrf": 72.44,
    "termAccuracy": 100.0,
    "compliance": 100.0,
    "deltaChrf": 1.68,
    "pValue": 0.07,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal",
+   "bleu": 55.74,
+   "chrf": 72.39,
+   "termAccuracy": 97.14,
+   "compliance": 95.0,
+   "deltaChrf": 1.61,
+   "pValue": 0.05,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal+hy",
+   "bleu": 54.9,
+   "chrf": 71.59,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.82,
+   "pValue": 0.23,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_s43",
+   "bleu": 56.75,
+   "chrf": 73.37,
+   "termAccuracy": 97.14,
+   "compliance": 91.43,
+   "deltaChrf": 2.57,
+   "pValue": 0.01,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -304,57 +285,13 @@
   },
   {
    "lang": "mai_Deva",
-   "system": "base+ph",
-   "bleu": 48.76,
-   "chrf": 69.25,
-   "termAccuracy": 97.78,
-   "compliance": 98.57,
-   "deltaChrf": -4.77,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "mai_Deva",
-   "system": "base+cd",
-   "bleu": 31.54,
-   "chrf": 63.95,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -10.08,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "mai_Deva",
-   "system": "lora",
+   "system": "raw",
    "bleu": 59.61,
    "chrf": 77.19,
    "termAccuracy": 98.89,
    "compliance": 63.57,
    "deltaChrf": 3.16,
    "pValue": 0.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "mai_Deva",
-   "system": "lora+ph",
-   "bleu": 53.32,
-   "chrf": 73.44,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -0.55,
-   "pValue": 0.7,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "mai_Deva",
-   "system": "lora+cd",
-   "bleu": 34.58,
-   "chrf": 67.45,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -6.54,
-   "pValue": 1.0,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -370,7 +307,7 @@
   },
   {
    "lang": "mai_Deva",
-   "system": "lora_formal",
+   "system": "formal_run5",
    "bleu": 57.35,
    "chrf": 75.16,
    "termAccuracy": 100.0,
@@ -381,7 +318,7 @@
   },
   {
    "lang": "mai_Deva",
-   "system": "lora_formal+ph",
+   "system": "formal_run5+ph",
    "bleu": 53.46,
    "chrf": 73.41,
    "termAccuracy": 100.0,
@@ -392,7 +329,7 @@
   },
   {
    "lang": "mai_Deva",
-   "system": "lora_formal+cd",
+   "system": "formal_run5+cd",
    "bleu": 55.46,
    "chrf": 74.14,
    "termAccuracy": 100.0,
@@ -403,13 +340,46 @@
   },
   {
    "lang": "mai_Deva",
-   "system": "lora_formal+hy",
+   "system": "formal_run5+hy",
    "bleu": 57.06,
    "chrf": 74.82,
    "termAccuracy": 100.0,
    "compliance": 100.0,
    "deltaChrf": 0.82,
    "pValue": 0.22,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal",
+   "bleu": 55.16,
+   "chrf": 74.38,
+   "termAccuracy": 100.0,
+   "compliance": 99.29,
+   "deltaChrf": 0.37,
+   "pValue": 0.35,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal+hy",
+   "bleu": 55.06,
+   "chrf": 74.24,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.23,
+   "pValue": 0.4,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_s43",
+   "bleu": 56.13,
+   "chrf": 74.05,
+   "termAccuracy": 100.0,
+   "compliance": 99.29,
+   "deltaChrf": 0.04,
+   "pValue": 0.48,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -425,57 +395,13 @@
   },
   {
    "lang": "doi_Deva",
-   "system": "base+ph",
-   "bleu": 57.13,
-   "chrf": 71.84,
-   "termAccuracy": 98.72,
-   "compliance": 99.29,
-   "deltaChrf": -3.75,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "doi_Deva",
-   "system": "base+cd",
-   "bleu": 36.81,
-   "chrf": 66.18,
-   "termAccuracy": 100.0,
-   "compliance": 98.57,
-   "deltaChrf": -9.42,
-   "pValue": 1.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "doi_Deva",
-   "system": "lora",
+   "system": "raw",
    "bleu": 71.75,
    "chrf": 82.6,
    "termAccuracy": 96.15,
    "compliance": 59.29,
    "deltaChrf": 6.97,
    "pValue": 0.0,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "doi_Deva",
-   "system": "lora+ph",
-   "bleu": 66.08,
-   "chrf": 77.55,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": 1.95,
-   "pValue": 0.03,
-   "reference": "teacher_draft_UNVERIFIED"
-  },
-  {
-   "lang": "doi_Deva",
-   "system": "lora+cd",
-   "bleu": 43.57,
-   "chrf": 72.96,
-   "termAccuracy": 100.0,
-   "compliance": 100.0,
-   "deltaChrf": -2.66,
-   "pValue": 0.98,
    "reference": "teacher_draft_UNVERIFIED"
   },
   {
@@ -491,7 +417,7 @@
   },
   {
    "lang": "doi_Deva",
-   "system": "lora_formal",
+   "system": "formal_run5",
    "bleu": 68.73,
    "chrf": 79.17,
    "termAccuracy": 100.0,
@@ -502,7 +428,7 @@
   },
   {
    "lang": "doi_Deva",
-   "system": "lora_formal+ph",
+   "system": "formal_run5+ph",
    "bleu": 66.33,
    "chrf": 77.61,
    "termAccuracy": 98.72,
@@ -513,7 +439,7 @@
   },
   {
    "lang": "doi_Deva",
-   "system": "lora_formal+cd",
+   "system": "formal_run5+cd",
    "bleu": 66.74,
    "chrf": 78.38,
    "termAccuracy": 100.0,
@@ -524,13 +450,57 @@
   },
   {
    "lang": "doi_Deva",
-   "system": "lora_formal+hy",
+   "system": "formal_run5+hy",
    "bleu": 68.36,
    "chrf": 78.89,
    "termAccuracy": 100.0,
    "compliance": 100.0,
    "deltaChrf": 3.27,
    "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal",
+   "bleu": 68.89,
+   "chrf": 79.31,
+   "termAccuracy": 98.72,
+   "compliance": 97.86,
+   "deltaChrf": 3.7,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal+hy",
+   "bleu": 68.58,
+   "chrf": 79.07,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 3.45,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_s43",
+   "bleu": 68.72,
+   "chrf": 79.33,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": 3.73,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_hi",
+   "bleu": 74.63,
+   "chrf": 83.94,
+   "termAccuracy": 100.0,
+   "compliance": 97.86,
+   "deltaChrf": -2.67,
+   "pValue": 1.0,
    "reference": "teacher_draft_UNVERIFIED"
   }
  ],
@@ -546,20 +516,24 @@
    "name": "Hindi",
    "base": 55.77,
    "baseBleu": 32.69,
-   "lora": 55.45,
-   "loraBleu": 32.66,
-   "lora_formal": 55.31,
-   "lora_formalBleu": 32.38
+   "raw": 55.45,
+   "rawBleu": 32.66,
+   "formal_run5": 55.31,
+   "formal_run5Bleu": 32.38,
+   "formal": 55.36,
+   "formalBleu": 32.45
   },
   {
    "lang": "doi_Deva",
    "name": "Dogri",
    "base": 54.02,
    "baseBleu": 28.44,
-   "lora": 54.49,
-   "loraBleu": 28.83,
-   "lora_formal": 54.15,
-   "lora_formalBleu": 28.5
+   "raw": 54.49,
+   "rawBleu": 28.83,
+   "formal_run5": 54.15,
+   "formal_run5Bleu": 28.5,
+   "formal": 54.22,
+   "formalBleu": 28.64
   },
   {
    "lang": "guj_Gujr",
@@ -602,10 +576,12 @@
    "name": "Maithili",
    "base": 47.68,
    "baseBleu": 18.08,
-   "lora": 47.66,
-   "loraBleu": 18.4,
-   "lora_formal": 47.47,
-   "lora_formalBleu": 18.33
+   "raw": 47.66,
+   "rawBleu": 18.4,
+   "formal_run5": 47.47,
+   "formal_run5Bleu": 18.33,
+   "formal": 47.7,
+   "formalBleu": 18.63
   },
   {
    "lang": "ben_Beng",
@@ -642,10 +618,12 @@
    "name": "Konkani",
    "base": 43.71,
    "baseBleu": 18.35,
-   "lora": 43.48,
-   "loraBleu": 18.52,
-   "lora_formal": 43.51,
-   "lora_formalBleu": 18.36
+   "raw": 43.48,
+   "rawBleu": 18.52,
+   "formal_run5": 43.51,
+   "formal_run5Bleu": 18.36,
+   "formal": 43.46,
+   "formalBleu": 18.31
   },
   {
    "lang": "ory_Orya",
@@ -738,6 +716,128 @@
    "minutes": 5.9
   }
  },
+ "caseEndings": [
+  {
+   "lang": "mai_Deva",
+   "system": "base",
+   "detached": 1,
+   "attached": 69
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "raw",
+   "detached": 2,
+   "attached": 71
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "teacher",
+   "detached": 5,
+   "attached": 52
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5",
+   "detached": 18,
+   "attached": 74
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+ph",
+   "detached": 75,
+   "attached": 2
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+cd",
+   "detached": 19,
+   "attached": 77
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+hy",
+   "detached": 0,
+   "attached": 93
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "base",
+   "detached": 0,
+   "attached": 12
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "raw",
+   "detached": 0,
+   "attached": 2
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "teacher",
+   "detached": 0,
+   "attached": 2
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5",
+   "detached": 14,
+   "attached": 13
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+ph",
+   "detached": 25,
+   "attached": 3
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+cd",
+   "detached": 16,
+   "attached": 13
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+hy",
+   "detached": 0,
+   "attached": 27
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal",
+   "detached": 1,
+   "attached": 92
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal+hy",
+   "detached": 0,
+   "attached": 94
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal",
+   "detached": 0,
+   "attached": 31
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal+hy",
+   "detached": 0,
+   "attached": 32
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_s43",
+   "detached": 0,
+   "attached": 97
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_s43",
+   "detached": 0,
+   "attached": 20
+  }
+ ],
  "glossary": {
   "hin_Deva": [
    {

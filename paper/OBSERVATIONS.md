@@ -110,6 +110,33 @@ Same test set; compliance (%) / chrF++ against teacher drafts **[provisional]**.
   - Message: a terminology-aware model plus a targeted fallback gets full compliance at near-zero fluency cost. Always-placeholder costs 1.5–2 chrF++; constrained decoding is worse still.
 - **Local inference speed (CPU, Intel i7 laptop, 200M + merged LoRA):** about 0.9 s per single sentence, 0.33 s per sentence in batches of 4. First load (download + merge) took about 6 minutes; later loads take about 6 seconds.
 
+## 7c. Run 6: case-fixed retraining, seed variance and Hindi-only ablation (2026-10-17, analysed 2026-10-20)
+Models: `joint_formal_v2` (seed 42; **new main model**), `joint_formal_v2_s43` (seed 43), `hi_formal_v2` (Hindi only). All trained on the case-fixed formal drafts (96,074 / 96,074 / 24,009 pairs). Scores: `results/domain_scores_UNVERIFIED_run6_all.csv`, `…run6_hi.csv`, `results/case_endings.csv`.
+
+- **The case-ending fix worked in the model itself** (`backend/analyze_case_endings.py`). Share of glossary terms followed by a detached case ending on the test set: **[final for this test set]**
+
+  | | Run 5 | Run 6 (s42) | Run 6 (s43) | base |
+  |---|---|---|---|---|
+  | Maithili | 19.6% (18/92) | **1.1%** (1/93) | **0.0%** (0/97) | 1.4% |
+  | Konkani | 51.9% (14/27) | **0.0%** (0/31) | **0.0%** (0/20) | 0.0% |
+
+  - Run 6 is at or below the base model's level, so the defect is gone.
+  - Hybrid post-processing alone also reaches 0%, but fixing the data is the principled fix.
+- **Terminology unchanged by the fix:** compliance 98.6 / 95.0 / 99.3 / 97.9% (hi / gom / mai / doi), against 98.6 / 95.7 / 98.6 / 98.6% in run 5. With hybrid mode: 100% everywhere (retries 2 / 7 / 1 / 2 of 200 sentences). **[provisional: glossary]**
+- **Seed variance (important for interpreting all differences):** seed 42 vs 43 gives |Δ chrF++| 0.04 / 0.98 / 0.33 / 0.02 and |Δ compliance| 0.0 / 3.6 / 0.0 / 0.7 (hi / gom / mai / doi).
+  - Differences of ≲1 chrF++ between single runs are therefore within training noise.
+  - Konkani is the least stable language (smallest effective glossary signal: 35 reference-term occurrences).
+  - Run 5 vs run 6 chrF++ differences (−0.4 to −0.8) fall in this range. **[final as a variance estimate; 2 seeds only]**
+- **chrF++ against teacher drafts (run 6, Δ vs base, paired bootstrap)** **[provisional]**:
+  - hi −2.79 (CI −4.38 to −1.03)
+  - gom +1.61 (−0.38 to 3.57, p=0.05)
+  - mai +0.37 (n.s.)
+  - doi **+3.70** (1.85 to 5.56, p=0.001)
+  - Still biased against formal output (loanword references).
+- **Joint vs Hindi-only training (Hindi test set):** chrF++ 83.83 vs 83.94; compliance 98.6 vs 97.9%. No measurable difference. One joint 4-language model costs Hindi nothing. Training: 123 min joint (4 languages) vs 25 min Hindi only. **[provisional references; the conclusion is robust given the seed variance]**
+- **No forgetting:** IN22-Gen chrF++ base → run 6: hi 55.77→55.36, gom 43.71→43.46, mai 47.68→47.70, doi 54.02→54.22 (all within ±0.41). **[final]**
+- **Dev chrF++ (selection):** s42 82.33 (step 4,500), s43 81.97 (step 3,000), Hindi-only 87.85 (step 1,000).
+
 ## 8. General benchmark: IN22-Gen [final]
 IndicTrans2-dist-200M, English → 22 scheduled languages, 1,024 sentences each, chrF++ / BLEU (sacreBLEU `[post2018call]`, chrF++ `[popovic2017chrf]`):
 
@@ -144,5 +171,7 @@ IndicTrans2-dist-200M, English → 22 scheduled languages, 1,024 sentences each,
 ## 11. Open items that affect the paper
 - [ ] Glossary review → possibly re-run run 5 (~3 h on Kaggle).
 - [ ] Post-edited test sets → final domain BLEU/chrF++/term accuracy (CPU rescoring).
-- [ ] Optional ablations: Hindi-only vs joint training, LoRA rank, 3 seeds.
+- [x] Hindi-only vs joint (run 6): no difference.
+- [x] Second seed (run 6): chrF++ noise ≈ ≤1 point.
+- [ ] Optional: third seed, LoRA rank ablation.
 - [ ] Optional COMET `[rei2020comet]`. Check coverage for Konkani, Maithili and Dogri first.

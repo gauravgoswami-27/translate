@@ -19,11 +19,31 @@ from backend.localization_engine.languages import DOMAIN_LANGS, LANGUAGE_NAMES
 from backend.localization_engine.paths import BACKEND_DIR, CORPUS_DIR, RESULTS_DIR
 
 OUT = BACKEND_DIR.parent / "frontend" / "src" / "data" / "results.json"
-DOMAIN_SCORES = RESULTS_DIR / "domain_scores_UNVERIFIED_run5_hy.csv"   # base/lora/lora_formal(+ph/+cd/+hy)/teacher
+# Merged scores of all systems (run 4/5 systems + run 6); Hindi-only ablation scored separately.
+DOMAIN_SCORES = RESULTS_DIR / "domain_scores_UNVERIFIED_run6_all.csv"
+HINDI_SCORES = RESULTS_DIR / "domain_scores_UNVERIFIED_run6_hi.csv"
+CASE_ENDINGS = RESULTS_DIR / "case_endings.csv"
+# Run-specific system names -> stable keys used by the frontend.
+SYSTEM_KEYS = {
+    "base": "base",
+    "lora": "raw",                                   # run 4: distilled on raw teacher drafts
+    "lora_joint_formal_v2": "formal",                # run 6: terminology-aware, case-fixed (main model)
+    "lora_joint_formal_v2+hy": "formal+hy",
+    "lora_joint_formal_v2_s43": "formal_s43",        # run 6: second seed
+    "lora_formal": "formal_run5",                    # run 5 and its inference-time modes
+    "lora_formal+ph": "formal_run5+ph",
+    "lora_formal+cd": "formal_run5+cd",
+    "lora_formal+hy": "formal_run5+hy",
+    "teacher": "teacher",
+    "lora_hi_formal_v2": "formal_hi",                # run 6: Hindi-only ablation
+}
 SYSTEM_LABELS = {
     "base": "Base 200M",
-    "lora": "LoRA, raw drafts (run 4)",
-    "lora_formal": "LoRA, terminology-aware (run 5)",
+    "raw": "LoRA, raw drafts (run 4)",
+    "formal": "LoRA, terminology-aware (run 6)",
+    "formal_run5": "LoRA, terminology-aware (run 5)",
+    "formal_s43": "Terminology-aware, seed 43",
+    "formal_hi": "Terminology-aware, Hindi only",
     "teacher": "Teacher 1B",
 }
 
@@ -44,7 +64,7 @@ def main() -> None:
     domain = [
         {
             "lang": r["target_lang"],
-            "system": r["system"],
+            "system": SYSTEM_KEYS[r["system"]],
             "bleu": num(r["bleu"]),
             "chrf": num(r["chrf_pp"]),
             "termAccuracy": num(r["term_accuracy"]),
@@ -53,11 +73,18 @@ def main() -> None:
             "pValue": num(r.get("p_value")),
             "reference": r["reference_type"],
         }
-        for r in rows(DOMAIN_SCORES)
+        for path in (DOMAIN_SCORES, HINDI_SCORES)
+        for r in rows(path)
+        if r["system"] in SYSTEM_KEYS and (path == DOMAIN_SCORES or r["system"] == "lora_hi_formal_v2")
     ]
 
     in22 = {}
-    for name, path in [("base", "in22_gen_scores.csv"), ("lora", "in22_gen_lora.csv"), ("lora_formal", "in22_gen_lora_formal.csv")]:
+    for name, path in [
+        ("base", "in22_gen_scores.csv"),
+        ("raw", "in22_gen_lora.csv"),
+        ("formal_run5", "in22_gen_lora_formal.csv"),
+        ("formal", "in22_gen_lora_formal_v2.csv"),
+    ]:
         p = RESULTS_DIR / path
         if p.exists():
             for r in rows(p):
@@ -66,6 +93,12 @@ def main() -> None:
                 in22.setdefault(r["language_code"], {"lang": r["language_code"], "name": LANGUAGE_NAMES[r["language_code"]]})
                 in22[r["language_code"]][name] = num(r["chrf_pp"])
                 in22[r["language_code"]][f"{name}Bleu"] = num(r["bleu"])
+
+    case_endings = [
+        {"lang": r["target_lang"], "system": SYSTEM_KEYS[r["system"]], "detached": int(r["detached"]), "attached": int(r["attached"])}
+        for r in rows(CASE_ENDINGS)
+        if r["system"] in SYSTEM_KEYS
+    ] if CASE_ENDINGS.exists() else []
 
     repair = {}
     for p in sorted(RESULTS_DIR.glob("term_repair_stats_*_*.json")):
@@ -95,7 +128,7 @@ def main() -> None:
     data = {
         "generated": date.today().isoformat(),
         "sources": {
-            "domain": f"backend/results/{DOMAIN_SCORES.name}",
+            "domain": f"backend/results/{DOMAIN_SCORES.name} (+ {HINDI_SCORES.name})",
             "in22": "backend/results/in22_gen_*.csv",
             "repair": "backend/results/term_repair_stats_*.json",
             "glossary": "backend/data/glossary/electrician_glossary.csv",
@@ -107,6 +140,7 @@ def main() -> None:
         "domain": domain,
         "in22": sorted(in22.values(), key=lambda r: -(r.get("base") or 0)),
         "repair": repair,
+        "caseEndings": case_endings,
         "glossary": glossary,
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -241,5 +241,14 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **Results data:** `backend/export_frontend_results.py` → `frontend/src/data/results.json`. Re-run after every experiment.
 - **Checked** with headless-Chrome screenshots (light, dark, mobile); the reader page was checked against the live API.
 
+### Run 6 results (2026-10-20)
+- **Case-ending fix confirmed in the model:** detached endings after glossary terms dropped from 19.6% to 1.1% (Maithili) and from 51.9% to 0% (Konkani). Compliance unchanged at 95–99%, 100% with hybrid mode.
+- **Seed variance:** up to ~1 chrF++ (Konkani 0.98), so run-to-run differences below that are noise.
+- **Hindi-only vs joint:** no difference (83.94 vs 83.83 chrF++).
+- **Forgetting:** none, within ±0.41.
+- **Run 6 is now the main model:** API `formal` → `it2_lora_joint_formal_v2`; run 5 stays available as `formal_run5`.
+- **Frontend:** results exporter and Results page updated, with a new Robustness section (seeds, Hindi-only ablation, case endings).
+- **New script:** `backend/analyze_case_endings.py`.
+
 ## Paper material
 Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
