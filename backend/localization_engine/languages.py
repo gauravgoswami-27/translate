@@ -53,7 +53,9 @@ SUPPORTED_LANGUAGE_CODES = set(LANGUAGE_NAMES)
 # Domain fine-tuning scope.
 PRIMARY_DOMAIN_LANGS = ("hin_Deva",)
 STRETCH_DOMAIN_LANGS = ("gom_Deva", "mai_Deva", "doi_Deva")
-DOMAIN_LANGS = PRIMARY_DOMAIN_LANGS + STRETCH_DOMAIN_LANGS
+ORIGINAL_DOMAIN_LANGS = PRIMARY_DOMAIN_LANGS + STRETCH_DOMAIN_LANGS  # runs 4-6
+EXTENDED_DOMAIN_LANGS = ("mar_Deva", "guj_Gujr", "tam_Taml", "tel_Telu", "kan_Knda")  # added in run 7
+DOMAIN_LANGS = ORIGINAL_DOMAIN_LANGS + EXTENDED_DOMAIN_LANGS
 
 
 def validate_target_lang(target_lang: str) -> None:

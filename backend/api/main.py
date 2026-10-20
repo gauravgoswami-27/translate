@@ -39,9 +39,16 @@ from backend.localization_engine.glossary import (
     TERM_VARIANTS,
     find_glossary_terms,
 )
-from backend.localization_engine.languages import DEFAULT_MODEL_NAME, DOMAIN_LANGS, LANGUAGE_NAMES, validate_target_lang
+from backend.localization_engine.languages import (
+    DEFAULT_MODEL_NAME,
+    DOMAIN_LANGS,
+    LANGUAGE_NAMES,
+    ORIGINAL_DOMAIN_LANGS,
+    validate_target_lang,
+)
 from backend.localization_engine.metrics import normalize_indic, term_forms
 from backend.localization_engine.paths import MODELS_DIR
+from backend.localization_engine.translator import adapter_languages
 from backend.localization_engine.terminology import translate_with_term_fallback
 
 MODEL_PATHS: dict[str, str] = {
@@ -49,6 +56,7 @@ MODEL_PATHS: dict[str, str] = {
     "raw": str(MODELS_DIR / "it2_lora_joint"),
     "formal": str(MODELS_DIR / "it2_lora_joint_formal_v2"),
     "formal_run5": str(MODELS_DIR / "it2_lora_joint_formal"),
+    "formal9": str(MODELS_DIR / "it2_lora_joint9_formal"),  # run 7: 9 languages (used once installed)
 }
 DOMAIN_MODEL: str = os.getenv("LOCALIZATION_DOMAIN_MODEL", "formal")
 FORCE_FALLBACK = os.getenv("LOCALIZATION_FORCE_FALLBACK", "").strip().lower() in {"1", "true", "yes"}
@@ -56,6 +64,13 @@ FORCE_FALLBACK = os.getenv("LOCALIZATION_FORCE_FALLBACK", "").strip().lower() in
 
 def model_available(key: str) -> bool:
     return key == "base" or os.path.exists(os.path.join(MODEL_PATHS[key], "adapter_config.json"))
+
+
+def model_languages(key: str) -> list[str]:
+    """Languages a model is trained for (all 22 for the base model)."""
+    if key == "base":
+        return list(LANGUAGE_NAMES)
+    return adapter_languages(MODEL_PATHS[key]) or list(ORIGINAL_DOMAIN_LANGS)
 
 
 class ModelPool:
@@ -108,7 +123,7 @@ class TranslateRequest(BaseModel):
     text: str = Field(..., min_length=1, max_length=5000)
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
-    model: Literal["auto", "base", "raw", "formal", "formal_run5"] = "auto"
+    model: Literal["auto", "base", "raw", "formal", "formal_run5", "formal9"] = "auto"
     terminology: Literal["hybrid", "none", "placeholder"] = Field(
         "hybrid",
         description='"hybrid": normal translation, re-translated with placeholders only if a glossary term is missing; '
@@ -120,7 +135,7 @@ class BatchTranslateRequest(BaseModel):
     texts: list[str] = Field(..., min_length=1, max_length=64)
     target_lang: str = "hin_Deva"
     domain: Literal["general", "electrician"] = "general"
-    model: Literal["auto", "base", "raw", "formal", "formal_run5"] = "auto"
+    model: Literal["auto", "base", "raw", "formal", "formal_run5", "formal9"] = "auto"
     terminology: Literal["hybrid", "none", "placeholder"] = "hybrid"
 
 
@@ -156,12 +171,14 @@ def select_model(requested: str, domain: str, target_lang: str) -> tuple[str, st
         if not model_available(requested):
             raise HTTPException(status_code=400, detail=f"Model '{requested}' is not installed (missing adapter).")
         warning = None
-        if requested != "base" and target_lang not in DOMAIN_LANGS:
-            warning = f"The '{requested}' adapter was trained only on {', '.join(DOMAIN_LANGS)}; output for {target_lang} is unvalidated."
+        trained = model_languages(requested)
+        if requested != "base" and target_lang not in trained:
+            warning = f"The '{requested}' adapter was trained only on {', '.join(trained)}; output for {target_lang} is unvalidated."
         return requested, warning
-    if domain == "electrician" and target_lang in DOMAIN_LANGS:
-        for key in (DOMAIN_MODEL, "formal", "raw"):
-            if key in MODEL_PATHS and model_available(key):
+    if domain == "electrician":
+        # First installed model in the preference order that was trained on this language.
+        for key in dict.fromkeys((DOMAIN_MODEL, "formal9", "formal", "raw")):
+            if key in MODEL_PATHS and model_available(key) and target_lang in model_languages(key):
                 return key, None
     return "base", None
 
@@ -233,6 +250,7 @@ def health() -> dict[str, object]:
         "status": "ok",
         "device": "cuda" if torch.cuda.is_available() else "cpu",
         "models_available": {k: model_available(k) for k in MODEL_PATHS},
+        "model_languages": {k: model_languages(k) for k in MODEL_PATHS if k != "base" and model_available(k)},
         "models_loaded": POOL.loaded(),
         "domain_model": DOMAIN_MODEL,
         "domain_langs": list(DOMAIN_LANGS),

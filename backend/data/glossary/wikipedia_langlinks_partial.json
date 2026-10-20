@@ -1,0 +1,194 @@
+{
+ "retrieved": "2026-10-20",
+ "source": "en.wikipedia.org API, prop=langlinks",
+ "concepts": {
+  "ac supply": {
+   "enwiki": "Alternating current",
+   "titles": {
+    "hi": "प्रत्यावर्ती धारा",
+    "kn": "ಪರ್ಯಾಯ(ಸರದಿಯಂತೆ ಬರುವ) ವಿದ್ಯುತ್ ಪ್ರವಾಹ",
+    "mr": "प्रत्यावर्ती धारा",
+    "ta": "மாறுதிசை மின்னோட்டம்",
+    "te": "ద్విముఖ విద్యుత్ ప్రవాహం"
+   }
+  },
+  "ammeter": {
+   "enwiki": "Ammeter",
+   "titles": {
+    "hi": "अमीटर",
+    "ta": "ஆம்ப்பியர் மானி",
+    "te": "అమ్మీటరు"
+   }
+  },
+  "cable": {
+   "enwiki": "Electrical cable",
+   "titles": {
+    "hi": "केबल",
+    "ta": "கம்பி வடம்",
+    "te": "కేబుల్"
+   }
+  },
+  "capacitor": {
+   "enwiki": "Capacitor",
+   "titles": {}
+  },
+  "circuit breaker": {
+   "enwiki": "Circuit breaker",
+   "titles": {
+    "hi": "परिपथ विच्छेदक"
+   }
+  },
+  "conduit": {
+   "enwiki": "Electrical conduit",
+   "titles": {}
+  },
+  "control panel": {
+   "enwiki": "Control panel (engineering)",
+   "titles": {}
+  },
+  "copper conductor": {
+   "enwiki": "Copper conductor",
+   "titles": {}
+  },
+  "earthing": {
+   "enwiki": "Ground (electricity)",
+   "titles": {
+    "gu": "અર્થીંગ",
+    "hi": "भूसम्पर्कन",
+    "mr": "अर्थिंग",
+    "te": "ఎర్తింగ్"
+   }
+  },
+  "electric shock": {
+   "enwiki": "Electrical injury",
+   "titles": {
+    "hi": "विद्युत स्पर्शाघात",
+    "mr": "विजेचा धक्का",
+    "ta": "மின் அதிர்ச்சி",
+    "te": "విద్యుద్ఘాతము"
+   }
+  },
+  "electrical load": {
+   "enwiki": "Electrical load",
+   "titles": {}
+  },
+  "fuse": {
+   "enwiki": "Fuse (electrical)",
+   "titles": {}
+  },
+  "insulation": {
+   "enwiki": "Insulator (electricity)",
+   "titles": {
+    "hi": "विद्युतरोधी",
+    "kn": "ಅವಾಹಕ",
+    "ta": "மின்காப்பான்"
+   }
+  },
+  "junction box": {
+   "enwiki": "Junction box",
+   "titles": {}
+  },
+  "leakage current": {
+   "enwiki": "Leakage (electronics)",
+   "titles": {}
+  },
+  "megger": {
+   "enwiki": "Megohmmeter",
+   "titles": {}
+  },
+  "motor winding": {
+   "enwiki": "Electromagnetic coil",
+   "titles": {
+    "hi": "विद्युत्-चुम्बकीय कुंडली"
+   }
+  },
+  "neutral wire": {
+   "enwiki": "Ground and neutral",
+   "titles": {}
+  },
+  "resistance": {
+   "enwiki": "Electrical resistance and conductance",
+   "titles": {
+    "te": "విద్యున్నిరోధం, వాహకత్వం"
+   }
+  },
+  "safety shoes": {
+   "enwiki": "Steel-toe boot",
+   "titles": {}
+  },
+  "single phase": {
+   "enwiki": "Single-phase electric power",
+   "titles": {}
+  },
+  "switch board": {
+   "enwiki": "Distribution board",
+   "titles": {}
+  },
+  "terminal block": {
+   "enwiki": "Terminal block",
+   "titles": {}
+  },
+  "three phase": {
+   "enwiki": "Three-phase electric power",
+   "titles": {
+    "hi": "तीन फेज विद्युत शक्ति",
+    "ta": "முத்தறுவாய் மின்திறன்"
+   }
+  },
+  "voltage": {
+   "enwiki": "Voltage",
+   "titles": {
+    "hi": "विभवांतर",
+    "mr": "विभवांतर",
+    "ta": "மின்னழுத்தம்",
+    "te": "వోల్టేజ్"
+   }
+  },
+  "voltmeter": {
+   "enwiki": "Voltmeter",
+   "titles": {
+    "hi": "वोल्टमीटर",
+    "kn": "ವೋಲ್ಟ್ಮೀಟರ್",
+    "ta": "மின்னழுத்தமானி",
+    "te": "వోల్ట్ మీటర్"
+   }
+  },
+  "wire stripper": {
+   "enwiki": "Wire stripper",
+   "titles": {}
+  },
+  "electric current": {
+   "enwiki": "Electric current",
+   "titles": {
+    "hi": "विद्युत धारा",
+    "kn": "ವಿದ್ಯುತ್ ಪ್ರವಾಹ",
+    "mr": "विद्युत धारा",
+    "ta": "மின்னோட்டம்"
+   }
+  },
+  "electric motor": {
+   "enwiki": "Electric motor",
+   "titles": {
+    "gu": "વિદ્યુત મોટર",
+    "hi": "विद्युत मोटर",
+    "kn": "ವಿದ್ಯುತ್ ಮೋಟಾರ್"
+   }
+  },
+  "switch": {
+   "enwiki": "Switch",
+   "titles": {
+    "gu": "કળ",
+    "hi": "स्विच",
+    "ta": "நிலைமாற்றி"
+   }
+  },
+  "electrical conductor": {
+   "enwiki": "Electrical conductor",
+   "titles": {}
+  },
+  "electric power": {
+   "enwiki": "Electric power",
+   "titles": {}
+  }
+ }
+}

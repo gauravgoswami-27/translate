@@ -1,8 +1,10 @@
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
 import results from '../data/results.json';
-import { Badge, Card, PageHeader, Segmented } from '../components/ui';
-import { TUNED } from '../lib/languages';
+import { Badge, Card, PageHeader, Segmented, Select } from '../components/ui';
+import { langByCode } from '../lib/languages';
+
+const GLOSSARY_LANGS = Object.keys(results.glossary);
 
 const STATUS = {
   standard: { tone: 'good', label: 'standard', hint: 'Established NCERT / CSTT usage' },
@@ -28,7 +30,7 @@ export default function GlossaryPage() {
     return entries.filter(
       (e) =>
         (status === 'all' || e.status === status) &&
-        (!q || e.english.includes(q) || e.term.includes(query.trim()) || e.loanword.includes(query.trim())),
+        (!q || e.english.includes(q) || e.term.includes(query.trim()) || e.variants.some((v) => v.includes(query.trim())) || e.loanword.includes(query.trim())),
     );
   }, [entries, query, status]);
 
@@ -43,7 +45,13 @@ export default function GlossaryPage() {
 
       <Card className="mb-5 p-4">
         <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.2fr)_minmax(0,1fr)] md:items-center">
-          <Segmented label="Language" size="sm" value={lang} onChange={setLang} options={TUNED.map((l) => ({ value: l.code, label: l.name }))} />
+          <Select value={lang} onChange={setLang} aria-label="Glossary language">
+            {GLOSSARY_LANGS.map((code) => (
+              <option key={code} value={code}>
+                {langByCode[code]?.name ?? code} · {langByCode[code]?.native}
+              </option>
+            ))}
+          </Select>
           <label className="relative block">
             <span className="sr-only">Search terms</span>
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-3" aria-hidden />
