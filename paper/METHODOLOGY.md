@@ -124,7 +124,7 @@ Result: **24,636 sentences.**
   - `proposed`: needs expert review (all non-loanword Konkani, Maithili and Dogri entries; 16 Hindi entries)
   - `loanword_kept`: no native term in use (cable, fuse, megger, main switch, terminal block)
 - **Variants** are spelling or form alternatives of the *same* term only. Wrong-sense renderings (चरण for phase, पृथ्वी for earthing) are never listed.
-- **Review (pending):** native speakers and instructors validate the `proposed` entries. Record the reviewers, the changes and the final glossary version here before the final runs.
+- **Review: not done (project decision, 2026-10-20).** There was no native-speaker review. `proposed` entries are used as final, so the glossary is author-curated: NCERT/CSTT-based for Hindi, and by analogy for Konkani, Maithili and Dogri. State this as a limitation; all terminology metrics measure adherence to *this* glossary.
 
 ## 6. Student fine-tuning (`backend/finetune.py`)
 
@@ -255,6 +255,7 @@ Notebooks: `kaggle/run4_raw_distillation.ipynb`, `kaggle/run5_terminology_aware.
 | 4 | 2026-10-15 | ≈ `bc3a66b` (tag `v1-raw-distillation`), bundle `20261015T095502Z` | drafts, joint LoRA on raw drafts, domain eval (base/lora/teacher), IN22-Gen 22 languages + forgetting | `models/it2_lora_joint`, `results/*_run4.csv`, `results/in22_gen_*.csv`; archive `kaggle/runs/2026-10-15_run4/` |
 | 5 | 2026-10-15/16 | `0f0f7dc`, bundle `20261015T143013Z` | placeholder repair, joint LoRA on repaired drafts, 10-system eval, forgetting | `models/it2_lora_joint_formal`, `results/*_run5*.csv`, `term_repair_stats_*.json`, `in22_gen_lora_formal.csv`; archive `kaggle/runs/2026-10-15_run5/` |
 | local-hy | 2026-10-17 | `359a04e` (CPU, `.venv-api`) | hybrid terminology evaluation of the run-5 model | `results/*_local_hy.csv`, `*_run5_hy.csv` |
+| 7 | pending | bundle `20261020T091304Z` | `joint_formal_v2_s44` (third seed of the main model); Hindi-only LoRA rank sweep r = 4, 8, 32, 64 (alpha = 2r) | notebook `kaggle/run7_seed_rank.ipynb` (generator `kaggle/build_run7_notebook.py`) |
 | 6 | 2026-10-17 | `c88d42f`, bundle `20261017T103217Z` | `joint_formal_v2` (seed 42, main model) on case-fixed drafts; `joint_formal_v2_s43` (seed variance); `hi_formal_v2` (Hindi-only ablation); eval plain + `+hy`; IN22-Gen forgetting for v2. Merged scoring locally: tags `run6_all`, `run6_hi`; case endings: `analyze_case_endings.py` | `models/it2_lora_{joint_formal_v2,joint_formal_v2_s43,hi_formal_v2}`, `results/*_run6*.csv`, `in22_gen_lora_formal_v2.csv`, `case_endings.csv`; archive `kaggle/runs/2026-10-17_run6/` |
 
 Failed or aborted Kaggle attempts (environment and bug fixes, no results) are logged in `PROGRESS.md`. They don't affect the reported numbers.
@@ -268,6 +269,6 @@ Failed or aborted Kaggle attempts (environment and bug fixes, no results) are lo
 - Two seeds (42, 43) for the main run-6 configuration only; other configurations have a single seed. Measured seed variance: up to ~1 chrF++.
 - The domain test set is small (200 per language) and its references are post-edited, not translated from scratch.
 - Training targets are machine-generated (distillation), not human translations.
-- The glossary isn't validated yet for Konkani, Maithili and Dogri.
+- The glossary wasn't reviewed by native speakers (all languages). Konkani, Maithili and Dogri entries are by analogy with the Hindi NCERT/CSTT register.
 - Placeholder insertion can't inflect the term; case endings are re-attached by rule (Maithili, Konkani), but the Konkani oblique stem vowel isn't restored.
 - Dev chrF++ used for model selection is measured against teacher drafts (raw or repaired), not human references.

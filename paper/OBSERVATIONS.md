@@ -169,9 +169,9 @@ IndicTrans2-dist-200M, English → 22 scheduled languages, 1,024 sentences each,
 - Formal terms may be less familiar to trainees (register trade-off).
 
 ## 11. Open items that affect the paper
-- [ ] Glossary review → possibly re-run run 5 (~3 h on Kaggle).
+- [x] Glossary review: **skipped by decision (2026-10-20)**. Report the glossary as author-curated (limitation).
 - [ ] Post-edited test sets → final domain BLEU/chrF++/term accuracy (CPU rescoring).
 - [x] Hindi-only vs joint (run 6): no difference.
 - [x] Second seed (run 6): chrF++ noise ≈ ≤1 point.
-- [ ] Optional: third seed, LoRA rank ablation.
+- [ ] Run 7 (prepared): third seed (s44) + Hindi-only LoRA rank sweep (r = 4/8/32/64).
 - [ ] Optional COMET `[rei2020comet]`. Check coverage for Konkani, Maithili and Dogri first.
