@@ -250,5 +250,13 @@ Short overview of what was changed and why. The full findings are in [AUDIT.md](
 - **Frontend:** results exporter and Results page updated, with a new Robustness section (seeds, Hindi-only ablation, case endings).
 - **New script:** `backend/analyze_case_endings.py`.
 
+### Decisions and run 7 prepared (2026-10-20)
+- **Native-speaker glossary review skipped** (user decision). `proposed` entries are treated as final and reported as a limitation.
+- **No new languages for now:** 4 languages (1 high-resource + 3 low-resource) cover the claim, and more unreviewed glossaries would weaken it. If more are added later, Marathi is the cheapest (Devanagari, standardised vocabulary).
+- **Recommended:** the user post-edits the Hindi test set, to get one language with fully verified domain numbers.
+- **Run 7:** `kaggle/run7_seed_rank.ipynb`, bundle `20261020T091304Z`.
+  - GPU 0: seed 44 of the main joint model
+  - GPU 1: Hindi-only LoRA rank sweep r = 4/8/32/64
+
 ## Paper material
 Observations, methodology (replication guide) and references are kept in `paper/` (OBSERVATIONS.md, METHODOLOGY.md, references.bib), updated after each run.
