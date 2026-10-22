@@ -26,3 +26,6 @@
 /backend/data/corpus_v2/postedit/
 /backend/results/domain_predictions_*.csv
 /backend/.venv-api/
+
+# Turnitin reports for the paper (contain the submission and institution details)
+/paper_turnitin/
