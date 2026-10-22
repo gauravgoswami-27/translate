@@ -1,4 +1,6 @@
-# Frontend
+# Frontend (demonstration)
+
+This web app is a **demonstration** of the translation model and its evaluation results. It is not a production application, so it has no authentication, user accounts or deployment setup.
 
 React 19 + Vite + Tailwind v4 + Recharts. Five pages: Translate, Compare, Results, Glossary, Course reader.
 Light, dark and system themes (toggle in the header; `?theme=dark|light|system` in the URL also works).

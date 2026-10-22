@@ -1,5 +1,0 @@
-system,model,language_code,language_name,bleu,chrf_pp,num_sentences,benchmark
-lora,backend/models/it2_lora_joint_formal,doi_Deva,Dogri,28.5,54.15,1024,IN22-Gen
-lora,backend/models/it2_lora_joint_formal,hin_Deva,Hindi,32.38,55.31,1024,IN22-Gen
-lora,backend/models/it2_lora_joint_formal,gom_Deva,Konkani,18.36,43.51,1024,IN22-Gen
-lora,backend/models/it2_lora_joint_formal,mai_Deva,Maithili,18.33,47.47,1024,IN22-Gen

@@ -1,24 +1,0 @@
-translate hin_Deva:   0%|          | 0/200 [00:00<?, ?sent/s]translate hin_Deva:  12%|█▏        | 24/200 [00:03<00:24,  7.10sent/s]translate hin_Deva:  27%|██▋       | 54/200 [00:06<00:15,  9.25sent/s]translate hin_Deva:  43%|████▎     | 86/200 [00:08<00:10, 10.90sent/s]translate hin_Deva:  59%|█████▉    | 118/200 [00:10<00:06, 13.13sent/s]translate hin_Deva:  75%|███████▌  | 150/200 [00:11<00:03, 15.29sent/s]translate hin_Deva:  91%|█████████ | 182/200 [00:12<00:00, 18.43sent/s]translate hin_Deva: 100%|██████████| 200/200 [00:13<00:00, 19.50sent/s]translate hin_Deva: 100%|██████████| 200/200 [00:13<00:00, 14.80sent/s]
-translate gom_Deva:   0%|          | 0/200 [00:00<?, ?sent/s]translate gom_Deva:  12%|█▏        | 24/200 [00:02<00:20,  8.58sent/s]translate gom_Deva:  27%|██▋       | 54/200 [00:05<00:13, 10.60sent/s]translate gom_Deva:  43%|████▎     | 86/200 [00:07<00:09, 11.62sent/s]translate gom_Deva:  59%|█████▉    | 118/200 [00:09<00:05, 13.79sent/s]translate gom_Deva:  75%|███████▌  | 150/200 [00:10<00:03, 16.42sent/s]translate gom_Deva:  91%|█████████ | 182/200 [00:11<00:00, 20.02sent/s]translate gom_Deva: 100%|██████████| 200/200 [00:12<00:00, 20.92sent/s]translate gom_Deva: 100%|██████████| 200/200 [00:12<00:00, 16.10sent/s]
-translate mai_Deva:   0%|          | 0/200 [00:00<?, ?sent/s]translate mai_Deva:  12%|█▏        | 24/200 [00:02<00:19,  9.26sent/s]translate mai_Deva:  27%|██▋       | 54/200 [00:05<00:13, 10.70sent/s]translate mai_Deva:  43%|████▎     | 86/200 [00:07<00:09, 11.97sent/s]translate mai_Deva:  59%|█████▉    | 118/200 [00:09<00:05, 14.30sent/s]translate mai_Deva:  75%|███████▌  | 150/200 [00:10<00:02, 16.86sent/s]translate mai_Deva:  91%|█████████ | 182/200 [00:11<00:00, 20.32sent/s]translate mai_Deva: 100%|██████████| 200/200 [00:12<00:00, 21.33sent/s]translate mai_Deva: 100%|██████████| 200/200 [00:12<00:00, 16.52sent/s]
-translate doi_Deva:   0%|          | 0/200 [00:00<?, ?sent/s]translate doi_Deva:  12%|█▏        | 24/200 [00:02<00:21,  8.38sent/s]translate doi_Deva:  27%|██▋       | 54/200 [00:05<00:14, 10.09sent/s]translate doi_Deva:  43%|████▎     | 86/200 [00:07<00:09, 11.42sent/s]translate doi_Deva:  59%|█████▉    | 118/200 [00:09<00:06, 13.36sent/s]translate doi_Deva:  75%|███████▌  | 150/200 [00:11<00:03, 15.77sent/s]translate doi_Deva:  91%|█████████ | 182/200 [00:12<00:00, 18.92sent/s]translate doi_Deva: 100%|██████████| 200/200 [00:12<00:00, 20.06sent/s]translate doi_Deva: 100%|██████████| 200/200 [00:12<00:00, 15.49sent/s]
-  lora_joint_formal_v2_s43+hy hin_Deva: placeholder retry for 2/200 sentences
-  lora_joint_formal_v2_s43+hy gom_Deva: placeholder retry for 12/200 sentences
-  lora_joint_formal_v2_s43+hy mai_Deva: placeholder retry for 1/200 sentences
-  lora_joint_formal_v2_s43+hy doi_Deva: placeholder retry for 2/200 sentences
-hin_Deva lora_joint_formal_v2_s43 BLEU  74.89  chrF++  83.87  term-acc 100.0 (n=88)  compliance[formal] 98.57 (n=140)
-hin_Deva lora_joint_formal_v2_s43+hy BLEU  74.66  chrF++  83.70  term-acc 100.0 (n=88)  compliance[formal] 100.0 (n=140)
-gom_Deva lora_joint_formal_v2_s43 BLEU  56.75  chrF++  73.37  term-acc 97.14 (n=35)  compliance[formal] 91.43 (n=140)
-gom_Deva lora_joint_formal_v2_s43+hy BLEU  55.12  chrF++  71.98  term-acc 100.0 (n=35)  compliance[formal] 100.0 (n=140)
-mai_Deva lora_joint_formal_v2_s43 BLEU  56.13  chrF++  74.05  term-acc 100.0 (n=90)  compliance[formal] 99.29 (n=140)
-mai_Deva lora_joint_formal_v2_s43+hy BLEU  56.03  chrF++  73.92  term-acc 100.0 (n=90)  compliance[formal] 100.0 (n=140)
-doi_Deva lora_joint_formal_v2_s43 BLEU  68.72  chrF++  79.33  term-acc 100.0 (n=78)  compliance[formal] 98.57 (n=140)
-doi_Deva lora_joint_formal_v2_s43+hy BLEU  68.47  chrF++  79.13  term-acc 98.72 (n=78)  compliance[formal] 99.29 (n=140)
-
-Wrote results to /kaggle/working/project/backend/results (*_UNVERIFIED_run6b.csv)
-translate hin_Deva:   0%|          | 0/200 [00:00<?, ?sent/s]translate hin_Deva:  12%|█▏        | 24/200 [00:03<00:23,  7.42sent/s]translate hin_Deva:  27%|██▋       | 54/200 [00:05<00:15,  9.40sent/s]translate hin_Deva:  43%|████▎     | 86/200 [00:08<00:10, 10.96sent/s]translate hin_Deva:  59%|█████▉    | 118/200 [00:10<00:06, 13.00sent/s]translate hin_Deva:  75%|███████▌  | 150/200 [00:11<00:03, 15.40sent/s]translate hin_Deva:  91%|█████████ | 182/200 [00:12<00:00, 18.73sent/s]translate hin_Deva: 100%|██████████| 200/200 [00:13<00:00, 19.93sent/s]translate hin_Deva: 100%|██████████| 200/200 [00:13<00:00, 15.01sent/s]
-  lora_hi_formal_v2+hy hin_Deva: placeholder retry for 3/200 sentences
-hin_Deva lora_hi_formal_v2 BLEU  74.63  chrF++  83.94  term-acc 100.0 (n=88)  compliance[formal] 97.86 (n=140)
-hin_Deva lora_hi_formal_v2+hy BLEU  74.37  chrF++  83.70  term-acc 100.0 (n=88)  compliance[formal] 100.0 (n=140)
-
-Wrote results to /kaggle/working/project/backend/results (*_UNVERIFIED_run6c.csv)
