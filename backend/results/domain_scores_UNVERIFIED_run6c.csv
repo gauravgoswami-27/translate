@@ -1,3 +1,0 @@
-target_lang,system,model,term_guidance,bleu,chrf_pp,term_accuracy,term_occurrences,term_compliance,term_compliance_occurrences,term_register,num_sentences,reference_type
-hin_Deva,lora_hi_formal_v2,/kaggle/working/project/backend/models/it2_lora_hi_formal_v2,none,74.63,83.94,100.0,88,97.86,140,formal,200,teacher_draft_UNVERIFIED
-hin_Deva,lora_hi_formal_v2+hy,/kaggle/working/project/backend/models/it2_lora_hi_formal_v2,hy,74.37,83.7,100.0,88,100.0,140,formal,200,teacher_draft_UNVERIFIED

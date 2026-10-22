@@ -1,142 +1,56 @@
-# Vocational Content Localization Engine
+# Backend: model pipeline and API
 
-Research scaffold for fine-tuning IndicTrans2 on vocational/electrician-domain
-English-to-Indic translation. The primary demonstrated pair is English to Hindi
-(`eng_Latn` -> `hin_Deva`), with Konkani, Maithili, and Dogri left as stretch
-targets.
+Everything runs from the **repository root** as modules (`python -m backend.<script>`). Paths come from `localization_engine/paths.py` and can be overridden with `LE_DATA_DIR`, `LE_CORPUS_DIR`, `LE_MODELS_DIR` and `LE_RESULTS_DIR`. On Kaggle they point to `/kaggle/working`.
 
-The repository is designed to support an IEEE-format paper:
+## Environments
 
-- baseline IndicTrans2 inference and evaluation,
-- electrician-domain corpus construction,
-- lightweight fine-tuning artifact preparation,
-- baseline vs domain comparison,
-- a small FastAPI integration endpoint,
-- methodology and results notes.
+| Use | Environment | Requirements |
+|---|---|---|
+| API / CPU inference | Python 3.12, `backend/.venv-api` | `requirements-api.txt` (transformers 4.46.x, needed by IndicTrans2's model code) |
+| Corpus building, analysis | any recent Python, `backend/.venv` | `requirements.txt` |
+| GPU training / evaluation | Kaggle, 2 x T4 | `../kaggle/requirements-kaggle.txt` |
 
-## Current Status
+## Pipeline
 
-The local project is runnable without a downloaded model. If the IndicTrans2
-dependencies or gated Hugging Face model are unavailable, scripts use a clearly
-marked glossary fallback so the pipeline can be smoke-tested end to end. This
-fallback is not a research result and must not be reported as IndicTrans2 model
-quality.
+| Step | Script | Output |
+|---|---|---|
+| 1. Download the NIMI electrician books | `fetch_real_materials.py` | `data/raw/*.pdf` |
+| 2. Extract and filter sentences; page-block train/dev/test split | `build_corpus.py` | `data/corpus_v2/en_sentences.csv` |
+| 3. Teacher translations (IndicTrans2-1B, beam 5) | `generate_drafts.py` | `data/corpus_v2/drafts_<lang>.csv` |
+| 4. Terminology repair of train/dev drafts (placeholders, validation, case endings) | `repair_drafts.py` | `data/corpus_v2/drafts_<lang>_formal.csv` |
+| 5. LoRA fine-tuning of the 200M student (joint, all languages) | `finetune.py` | `models/it2_lora_*` |
+| 6. Domain evaluation (compliance, chrF++, BLEU, bootstrap) | `run_domain_eval.py` | `results/domain_*` |
+| 7. General benchmark (IN22-Gen) | `run_baseline_eval.py` | `results/in22_gen_*` |
+| Analysis | `analyze_terminology.py`, `analyze_term_breakdown.py`, `analyze_case_endings.py` | `results/*.csv` |
+| Demo data | `export_frontend_results.py` | `../frontend/src/data/results.json` |
 
-Generated local artifacts:
+Steps 3–7 need a GPU and run on Kaggle (see `../kaggle/README.md`). Each script has `--help`.
 
-- `data/corpus/electrician_en_hi_train.csv`
-- `data/corpus/electrician_en_hi_test.csv`
-- `results/baseline_scores.csv`
-- `results/comparison_scores.csv`
-- `results/qualitative_examples.csv`
-- `models/finetuned_hin_Deva/training_metadata.json`
-
-## Setup
+Quick single-sentence check:
 
 ```bash
-python3 -m venv .venv
-source .venv/bin/activate
-pip install -r requirements.txt
+python -m backend.baseline_inference --model backend/models/it2_lora_joint_formal_v2 \
+  --text "Test the insulation with a megger." --target-lang hin_Deva
 ```
 
-The default model path is:
+## Package `localization_engine/`
 
-```text
-ai4bharat/indictrans2-en-indic-dist-200M
-```
+- `translator.py`: IndicTrans2 loading (base + LoRA), batched beam search, placeholder injection/restoration, case-ending re-attachment
+- `terminology.py`: hybrid mode (re-translate with placeholders only when a glossary term is missing)
+- `glossary.py`: loads `data/glossary/electrician_glossary.csv` (formal and loanword registers)
+- `metrics.py`: Indic spelling normalisation, term compliance, chrF++/BLEU, paired bootstrap
+- `languages.py`, `data.py`, `paths.py`: language codes, CSV I/O, file locations
 
-You may need to accept the model conditions on Hugging Face before downloads
-work locally.
+## Models in `models/`
 
-## Phase Commands
+| Folder | Run | Description |
+|---|---|---|
+| `it2_lora_joint_formal_v2` | 6 | **default**: terminology-aware, case-fixed formal drafts (hi, gom, mai, doi) |
+| `it2_lora_joint_formal` | 5 | terminology-aware, before the case-ending fix |
+| `it2_lora_joint` | 4 | distilled on raw teacher drafts (comparison) |
 
-Phase 1, inference:
+Each folder holds the LoRA adapter (r=16, ~25 MB) and `training_metadata.json` (hyperparameters, data sizes, dev curve). The base model `ai4bharat/indictrans2-en-indic-dist-200M` is downloaded from Hugging Face.
 
-```bash
-python3 baseline_inference.py \
-  --text "Check the insulation resistance with a megger." \
-  --target-lang hin_Deva
-```
+## Data
 
-For an offline smoke test:
-
-```bash
-python3 baseline_inference.py \
-  --text "Check the insulation resistance with a megger." \
-  --target-lang hin_Deva \
-  --force-fallback
-```
-
-Phase 2, baseline evaluation:
-
-```bash
-python3 run_baseline_eval.py
-```
-
-Until the official IN22 files are placed under `data/in22`, use:
-
-```bash
-python3 run_baseline_eval.py --allow-sample-fallback --force-fallback
-```
-
-Phase 3, corpus construction:
-
-```bash
-python3 extract_terms.py --lang hin_Deva --rows 240
-```
-
-Add official PMKVY/NCVET/ITI text material to `data/raw/` and run:
-
-```bash
-python3 extract_terms.py --from-raw --lang hin_Deva --rows 240
-```
-
-Phase 4, fine-tuning artifact preparation:
-
-```bash
-python3 finetune.py --prepare-only
-```
-
-Phase 5, comparative evaluation:
-
-```bash
-python3 run_domain_eval.py
-```
-
-Phase 6, API:
-
-```bash
-uvicorn api.main:app --reload
-```
-
-Then open `http://127.0.0.1:8000/docs`.
-
-## Project Layout
-
-```text
-.
-├── api/
-├── data/
-│   ├── raw/
-│   └── corpus/
-├── docs/
-├── localization_engine/
-├── models/
-├── results/
-├── baseline_inference.py
-├── extract_terms.py
-├── finetune.py
-├── run_baseline_eval.py
-├── run_domain_eval.py
-└── requirements.txt
-```
-
-## Research Notes
-
-Every generated seed row is marked `needs_manual_review=True`. Replace or
-validate these rows against official bilingual training material before treating
-the corpus as a publishable dataset.
-
-For paper-grade fine-tuning, use the official IndicTrans2 repository scripts and
-the exported parallel files under `models/finetuned_hin_Deva/`.
-# translate
+`data/glossary/electrician_glossary.csv` has 32 terms × 9 languages × 2 registers with a review status (`standard`, `proposed`, `loanword_kept`). The corpus, drafts and results are **not** in the repository, because the source books are marked "not to be republished". Steps 1–4 rebuild them.
