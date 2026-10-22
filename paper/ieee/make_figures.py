@@ -19,6 +19,10 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from matplotlib.font_manager import FontProperties
+from matplotlib.patches import PathPatch
+from matplotlib.textpath import TextPath
+from matplotlib.transforms import Affine2D, ScaledTranslation
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "backend" / "results"
@@ -60,6 +64,23 @@ def style(ax, ygrid=True):
         ax.set_axisbelow(True)
 
 
+def text_as_path(ax, x, y, s, size, color):
+    """Draw s centred at data point (x, y) as a filled outline (size in points)."""
+    prop = FontProperties(family=plt.rcParams["font.family"])
+    tp = TextPath((0, 0), s, size=size, prop=prop)
+    bb = tp.get_extents()
+    # Centre vertically on the "lp" line box, as matplotlib does for va="center" text,
+    # so the outlines line up with the ordinary text labels.
+    ref = TextPath((0, 0), "lp", size=size, prop=prop).get_extents()
+    cy = (ref.y0 + max(ref.y1, bb.y1)) / 2
+    trans = (
+        Affine2D().translate(-(bb.x0 + bb.width / 2), -cy).scale(1 / 72)
+        + ax.figure.dpi_scale_trans
+        + ScaledTranslation(x, y, ax.transData)
+    )
+    ax.add_patch(PathPatch(tp, transform=trans, facecolor=color, edgecolor="none", zorder=3))
+
+
 def save(fig, name):
     fig.savefig(OUT / f"{name}.pdf")
     fig.savefig(OUT / f"{name}.png", dpi=220)
@@ -93,7 +114,12 @@ def fig_teacher_heatmap():
     for i in range(piv.shape[0]):
         for j in range(piv.shape[1]):
             v = piv.values[i, j]
-            ax.text(j, i, f"{v:.0f}", ha="center", va="center", fontsize=6.5, color="white" if v > 60 else INK)
+            if v > 60:
+                # White labels are drawn as outlines, not text: white text in a PDF is
+                # reported as "hidden text" by plagiarism checkers (Turnitin).
+                text_as_path(ax, j, i, f"{v:.0f}", 6.5, "white")
+            else:
+                ax.text(j, i, f"{v:.0f}", ha="center", va="center", fontsize=6.5, color=INK)
     ax.set_xticks(range(len(LANGS)), [LANG_NAME[l] for l in LANGS])
     ax.set_yticks(range(len(terms)), [f"{x} ({n[x]})" for x in terms])
     ax.tick_params(length=0)

@@ -74,7 +74,7 @@ Our contributions are:
 Large parallel corpora such as Samanantar~\cite{ramesh2022samanantar} and monolingual resources such as IndicNLPSuite~\cite{kakwani2020indicnlpsuite} enabled strong Indic MT systems. IndicTrans2~\cite{gala2023indictrans2} provides Transformer~\cite{vaswani2017attention} models for all 22 scheduled languages, trained on the BPCC corpus and evaluated on the IN22 benchmark, in a 1B-parameter version and distilled 200M versions; it covers all four of our target languages, and the two model sizes suit a teacher--student setup. NLLB-200~\cite{nllb2022} extends a single model to 200 languages. Both follow the tagged multilingual design~\cite{johnson2017google,dabre2020survey}, are trained mostly on general-domain data, and are not tuned to any technical register.
 
 \subsection{Domain Adaptation and Parameter-Efficient Fine-Tuning}
-Domain mismatch is a known weakness of neural MT~\cite{koehn2017six}, and continued training on in-domain data is the standard remedy~\cite{luong2015stanford,freitag2016fast,chu2018survey,saunders2022domain}. Full fine-tuning can degrade general-domain quality (catastrophic forgetting), which motivates regularized training~\cite{thompson2019overcoming}. Adapter modules~\cite{houlsby2019parameter,bapna2019simple} and low-rank adaptation (LoRA)~\cite{hu2022lora} train a small number of added parameters while the base model stays fixed, which limits forgetting and keeps per-domain artifacts small. We use LoRA and measure forgetting on IN22-Gen.
+Domain mismatch is a known weakness of neural MT~\cite{koehn2017six}, and continued training on in-domain data is the standard remedy~\cite{luong2015stanford,freitag2016fast,chu2018survey,saunders2022domain}. Full fine-tuning can degrade general-domain quality (catastrophic forgetting), which motivates regularized training~\cite{thompson2019overcoming}. Adapter modules~\cite{houlsby2019parameter,bapna2019simple} and low-rank adaptation (LoRA)~\cite{hu2022lora} freeze the pretrained network and learn only a compact set of extra weights, so forgetting is limited and each domain needs only a small file. We use LoRA and measure forgetting on IN22-Gen.
 
 \subsection{Distillation and Synthetic Parallel Data}
 Sequence-level knowledge distillation trains a student on the teacher's beam-search output~\cite{kim2016sequence}. When only source-side text exists, forward translation of in-domain monolingual data is a related form of self-training~\cite{zhang2016exploiting}, complementary to back-translation of target-side text~\cite{sennrich2016improving}. Work in this line usually measures overall quality. We look at a specific property, terminology, and show that the teacher's systematic term choices pass into the student.
@@ -332,14 +332,14 @@ Against the teacher's translations, the raw-draft student is the closest to the 
 The examples in Table~\ref{tab:examples} show typical changes. The base model and the raw-draft student write \dev{एकल चरण} for \emph{single phase}; the terminology-aware student writes \dev{एकल कला}. In Hindi, Maithili and Dogri, base and raw-draft outputs contain \dev{चरण} in both \emph{single phase} test sentences, and r6 outputs in neither. The student also inflects formal terms by itself (\dev{परिपथ वियोजकों}, plural oblique), which an inference-time substitution cannot do.
 
 \begin{table}[t]
-\caption{Test-set examples (excerpts). Glossary terms in bold.}
+\caption{Test-set examples (excerpts). Glossary terms in bold; English sources from~\cite{nimi_electrician}.}
 \label{tab:examples}
 \centering
 \footnotesize
 \setlength{\tabcolsep}{3pt}
 \begin{tabular}{@{}p{0.11\columnwidth}p{0.83\columnwidth}@{}}
 \toprule
-\multicolumn{2}{@{}p{0.96\columnwidth}}{\emph{\dots\ service line pole for \textbf{single phase} 230 V distribution\dots} (Hindi)} \\
+\multicolumn{2}{@{}p{0.96\columnwidth}}{\emph{\dots\ for \textbf{single phase} 230 V distribution\dots} (Hindi)} \\
 Base & \dev{खुले स्थान में \textbf{एकल चरण} 230 वी वितरण प्रणाली के लिए…} \\
 Raw & \dev{खुले स्थान में \textbf{एकल चरण} 230 वी वितरण प्रणाली के लिए…} \\
 r6 & \dev{खुले स्थान में \textbf{एकल कला} 230 वी वितरण प्रणाली के लिए…} \\
@@ -455,7 +455,7 @@ Term-aware r6, seed 43 & 0 / 97 (0\%) & 0 / 20 (0\%) \\
 
 \emph{Why repair the data instead of the output.} Enforcing terms at inference time works on any model, but it either damages the sentence (constrained decoding) or blocks morphology (placeholders), and it slows decoding. A model trained on repaired data produces the formal terms with normal fluency and inflects them, and the hybrid fallback is then needed for only 1.5\% of test sentences. The remaining misses concentrate on a few terms, such as \emph{circuit breaker} in Konkani (67\% compliance) and \emph{electric shock} in Hindi and Dogri.
 
-\emph{Deployment.} We expose the models through a REST service that routes electrician content in the four languages to the r6 adapter with the hybrid fallback, and other languages to the base model. On a laptop CPU it needs about 0.9 s per sentence, or 0.33 s per sentence in batches of four, which is enough for on-demand localization of course pages.
+\emph{Deployment.} A REST service serves the models: electrician content requested in Hindi, Konkani, Maithili or Dogri goes to the r6 adapter with the hybrid fallback, and requests for any other language use the base model. On a laptop CPU it needs about 0.9 s per sentence, or 0.33 s per sentence in batches of four, which is enough for on-demand localization of course pages.
 
 % ============================================================================
 \section{Limitations and Ethical Considerations}
