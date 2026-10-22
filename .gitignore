@@ -1,15 +1,42 @@
+# ---------------------------------------------------------------- local only
+# Paper, Turnitin reports, audit/progress notes and old docs: kept on this machine, not pushed.
+/research/
+/.claude/
 .env
 .commandcode
+.~lock.*#
 
+# ---------------------------------------------------------------- Python / Node
 /backend/.venv/
+/backend/.venv-api/
+__pycache__/
+*.pyc
+/frontend/dist/
+/frontend/node_modules/
+
+# ---------------------------------------------------------------- data
+# Text derived from the NIMI books is marked "NOT TO BE REPUBLISHED": keep it out of the
+# public repo (it lives locally and in the private Kaggle dataset). The glossary is tracked.
 /backend/data/raw/
-/backend/models/**/*.safetensors
+/backend/data/corpus/
+/backend/data/corpus_v2/*.csv
+/backend/data/corpus_v2/postedit/
+
+# Experiment outputs (scores, predictions, logs). The frontend's copy is frontend/src/data/results.json.
+/backend/results/
+
+# ---------------------------------------------------------------- models
+# Only the adapters used by the API are pushed: run 6 (formal, default), run 4 (raw), run 5 (formal_run5).
+/backend/models/*
+!/backend/models/it2_lora_joint_formal_v2/
+!/backend/models/it2_lora_joint/
+!/backend/models/it2_lora_joint_formal/
+/backend/models/**/checkpoints/
 /backend/models/**/*.bin
 /backend/models/**/*.pt
 /backend/models/**/*.pth
 
-/frontend/dist/
-/frontend/node_modules/
-
-/backend/**/__pycache__/
-/backend/**/*.pyc
+# ---------------------------------------------------------------- Kaggle build outputs
+/kaggle/dist/
+/kaggle/BUNDLE_VERSION
+/kaggle/runs/

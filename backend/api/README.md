@@ -1,97 +1,50 @@
-# Vocational Content Localization Engine - REST API
+# Vocational Content Localization Engine: REST API (local)
 
-This API provides integration-ready translation endpoints for LMS (Learning Management System) platforms such as MSDE (Ministry of Skill Development and Entrepreneurship), NCVET (National Council for Vocational Education and Training), PMKVY, and ITI portals.
+FastAPI service for English → Indic translation of electrician training content. It's designed as an integration-ready endpoint for LMS platforms (NCVET / MSDE / ITI portals). This is an architecture demonstration, not a live integration.
 
----
+## Models
+| key | model | notes |
+|---|---|---|
+| `base` | IndicTrans2 en-indic dist-200M | all 22 languages |
+| `raw` | base + LoRA from run 4 (`models/it2_lora_joint`) | distilled on raw teacher drafts |
+| `formal` | base + LoRA from run 6 (`models/it2_lora_joint_formal_v2`) | terminology-aware, formal register, case-fixed (default for electrician) |
+| `formal_run5` | base + LoRA from run 5 (`models/it2_lora_joint_formal`) | before the case-ending fix; for comparison |
 
-## Features
+With `model: "auto"`, `domain: "electrician"` routes Hindi, Konkani, Maithili and Dogri to `formal`; everything else goes to `base`.
 
-- **RESTful Endpoints**: Standardized HTTP JSON request and response interface (`/translate`, `/health`).
-- **Dynamic Domain Routing**: Automatically routes English-to-Indic translation requests to domain-adapted fine-tuned model checkpoints (`models/finetuned_<target_lang>`) when `domain="electrician"` is requested; otherwise falls back to the baseline multi-lingual NMT model.
-- **Multi-Language Support**: Supports Hindi (`hin_Deva`), Konkani (`gom_Deva`), Maithili (`mai_Deva`), Dogri (`doi_Deva`), and all 22 scheduled Indian languages.
-
----
-
-## Server Launch
-
-Launch the API server locally using `uvicorn`:
-
+## Setup (once)
 ```bash
-PYTHONPATH=. python3 -m uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+# Python 3.12 environment (IndicTrans2's model code needs transformers 4.46.x)
+uv venv -p 3.12 backend/.venv-api
+VIRTUAL_ENV=backend/.venv-api uv pip install --index-strategy unsafe-best-match -r backend/requirements-api.txt
+# access to the gated base model (accept its terms on huggingface.co first)
+backend/.venv-api/bin/hf auth login
 ```
+The models download on first use (~1.1 GB) and are cached in `~/.cache/huggingface`. Inference runs on CPU unless a CUDA build of PyTorch and a working NVIDIA driver are present.
 
-Interactive Swagger UI documentation is available at `http://127.0.0.1:8000/docs`.
-
----
-
-## Endpoint Specifications
-
-### 1. Health Check (`GET /health`)
-
+## Run
+From the repository root:
 ```bash
-curl -X GET http://127.0.0.1:8000/health
+backend/.venv-api/bin/uvicorn backend.api.main:app --port 8000
+# optional: LOCALIZATION_PRELOAD=formal,base loads the models at startup instead of on the first request
 ```
+Interactive docs: http://localhost:8000/docs
 
-**Response**:
-```json
-{
-  "status": "ok",
-  "baseline_backend": "indictrans2"
-}
-```
+## Endpoints
+- `GET /health`: device, available and loaded models, domain model, terminology register
+- `GET /languages`: the 22 supported languages and the 4 domain languages
+- `GET /glossary/{target_lang}`: formal glossary (terms, variants, review status)
+- `POST /translate`
+  ```json
+  {"text": "Check the three phase supply.", "target_lang": "hin_Deva",
+   "domain": "electrician", "model": "auto", "terminology": "none"}
+  ```
+  Returns `translated_text`, the `model` used, `backend`, `latency_ms`, a `warning` if any, and `glossary_terms`: each glossary term found in the source, with its formal term and whether the output used it.
+- `POST /translate/batch`: `{"texts": [...], ...}`, up to 64 sentences per request
 
----
+`terminology` (electrician requests only): `"hybrid"` (default) translates normally and re-translates with entity placeholders only the sentences where a glossary term is missing (`placeholder_retry: true` in the response). `"placeholder"` always forces the terms; run 5 found this costs fluency (−4 to −6 chrF++). `"none"` returns the raw model output.
 
-### 2. Translate Text (`POST /translate`)
-
-**Request Headers**: `Content-Type: application/json`
-
-**Payload Schema**:
-```json
-{
-  "text": "Check the insulation resistance with a megger.",
-  "target_lang": "hin_Deva",
-  "domain": "electrician"
-}
-```
-
-**Example Request**:
-```bash
-curl -X POST http://127.0.0.1:8000/translate \
-  -H "Content-Type: application/json" \
-  -d '{
-    "text": "Inspect the circuit breaker before opening the control panel.",
-    "target_lang": "hin_Deva",
-    "domain": "electrician"
-  }'
-```
-
-**Example Response**:
-```json
-{
-  "translated_text": "नियंत्रण पैनल खोलने से पहले सर्किट ब्रेकर का निरीक्षण करें।",
-  "target_lang": "hin_Deva",
-  "backend": "indictrans2",
-  "model_name_or_path": "models/finetuned_hin_Deva",
-  "warning": null
-}
-```
-
----
-
-## Integration Architecture for NCVET / MSDE LMS
-
-```
-+--------------------------+       JSON Request       +------------------------------------+
-|  NCVET / ITI LMS Server  | -----------------------> |  Vocational Localization Engine    |
-| (Course Content Platform)| <----------------------- |          FastAPI Server            |
-+--------------------------+       JSON Response      +------------------------------------+
-                                                                    |
-                                                  +-----------------+-----------------+
-                                                  |                                   |
-                                       domain == "electrician"               domain == "general"
-                                                  |                                   |
-                                                  v                                   v
-                                       Fine-Tuned Domain Model              Baseline Indic NMT Model
-                                     (models/finetuned_<lang>)             (facebook/nllb / IndicTrans2)
-```
+## Notes
+- Requests to the same model are serialised, because IndicTrans2's pre/post-processor keeps per-batch state.
+- `LOCALIZATION_FORCE_FALLBACK=1` runs a glossary-substitution stand-in (clearly labelled `fallback`) for frontend work without a model.
+- CORS allows any local origin (`localhost` / `127.0.0.1`, any port); add others with `CORS_ORIGINS`.

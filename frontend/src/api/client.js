@@ -1,74 +1,50 @@
-const API_BASE_URL = 'http://localhost:8000';
+// Client for the local FastAPI service (backend/api/main.py).
+// No fake fallback: if the API is down, callers get an ApiError and show how to start it.
 
-const GLOSSARY_MAP = {
-  hin_Deva: {
-    'voltmeter': 'वोल्टमीटर',
-    'ammeter': 'अमीटर',
-    'megger': 'मेगर',
-    'turn off': 'बंद करें',
-    'switch off': 'बंद करें',
-    'turn on': 'चालू करें',
-    'insulation resistance': 'इन्सुलेशन प्रतिरोध',
-    'circuit breaker': 'सर्किट ब्रेकर',
-    'control panel': 'कंट्रोल पैनल',
-    'neutral wire': 'न्यूट्रल वायर',
-    'live wire': 'लाइव तार',
-    'fuse': 'फ्यूज',
-    'voltage': 'वोल्टेज',
-    'resistance': 'प्रतिरोध',
-    'check': 'जांच करें',
-    'inspect': 'निरीक्षण करें',
-    'connect': 'जोड़ें',
-    'the': '',
-  }
-};
+export const API_BASE_URL = import.meta.env.VITE_API_URL ?? 'http://localhost:8000';
+export const START_COMMAND = 'backend/.venv-api/bin/uvicorn backend.api.main:app --port 8000';
 
-export async function checkHealth() {
-  try {
-    const res = await fetch(`${API_BASE_URL}/health`);
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return await res.json();
-  } catch (err) {
-    return { status: 'offline', error: err.message };
+export class ApiError extends Error {
+  constructor(message, { status = 0, offline = false } = {}) {
+    super(message);
+    this.status = status;
+    this.offline = offline;
   }
 }
 
-export async function translateText({ text, target_lang = 'hin_Deva', domain = 'electrician' }) {
-  const startTime = performance.now();
+async function request(path, { method = 'GET', body, signal } = {}) {
+  let res;
   try {
-    const res = await fetch(`${API_BASE_URL}/translate`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text, target_lang, domain }),
+    res = await fetch(`${API_BASE_URL}${path}`, {
+      method,
+      signal,
+      headers: body ? { 'Content-Type': 'application/json' } : undefined,
+      body: body ? JSON.stringify(body) : undefined,
     });
-
-    if (!res.ok) {
-      const errData = await res.json().catch(() => ({}));
-      throw new Error(errData.detail || `Server returned status ${res.status}`);
-    }
-
-    const data = await res.json();
-    const duration = Math.round(performance.now() - startTime);
-    return { ...data, latencyMs: duration };
   } catch (err) {
-    // Dynamic rule-based fallback translation for dynamic user input when offline/reconnecting
-    const duration = Math.round(performance.now() - startTime);
-    let fallbackText = text;
-    const dict = GLOSSARY_MAP[target_lang] || GLOSSARY_MAP['hin_Deva'];
-    
-    // Perform dynamic phrase/term replacement
-    for (const [eng, tgt] of Object.entries(dict)) {
-      const regex = new RegExp(`\\b${eng}\\b`, 'gi');
-      fallbackText = fallbackText.replace(regex, tgt);
-    }
-    fallbackText = fallbackText.replace(/\s+/g, ' ').strip ? fallbackText.strip() : fallbackText.trim();
-
-    return {
-      translated_text: fallbackText || text,
-      target_lang,
-      backend: domain === 'electrician' ? 'models/finetuned_' + target_lang : 'facebook/nllb-200-distilled-600M',
-      warning: `Note: ${err.message}. Showing local domain translation fallback.`,
-      latencyMs: duration,
-    };
+    if (err.name === 'AbortError') throw err;
+    throw new ApiError(`Can't reach the translation API at ${API_BASE_URL}.`, { offline: true });
   }
+  if (!res.ok) {
+    const data = await res.json().catch(() => ({}));
+    const detail = Array.isArray(data.detail) ? data.detail.map((d) => d.msg).join('; ') : data.detail;
+    throw new ApiError(detail || `The API returned an error (HTTP ${res.status}).`, { status: res.status });
+  }
+  return res.json();
 }
+
+export const api = {
+  health: (signal) => request('/health', { signal }),
+  translate: ({ text, targetLang, domain = 'electrician', model = 'auto', terminology = 'hybrid' }, signal) =>
+    request('/translate', {
+      method: 'POST',
+      signal,
+      body: { text, target_lang: targetLang, domain, model, terminology },
+    }),
+  translateBatch: ({ texts, targetLang, domain = 'electrician', model = 'auto', terminology = 'hybrid' }, signal) =>
+    request('/translate/batch', {
+      method: 'POST',
+      signal,
+      body: { texts, target_lang: targetLang, domain, model, terminology },
+    }),
+};

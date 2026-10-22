@@ -2,147 +2,88 @@
 
 from __future__ import annotations
 
+import csv
+import os
 import re
+from pathlib import Path
+
+from .paths import DATA_DIR
 
 
-ELECTRICIAN_GLOSSARIES: dict[str, dict[str, str]] = {
-    "hin_Deva": {
-        "ac supply": "एसी आपूर्ति",
-        "ammeter": "अमीटर",
-        "apprentice": "प्रशिक्षु",
-        "cable": "केबल",
-        "capacitor": "संधारित्र",
-        "circuit breaker": "सर्किट ब्रेकर",
-        "conduit": "कंड्यूट",
-        "control panel": "नियंत्रण पैनल",
-        "copper conductor": "तांबा चालक",
-        "earthing": "अर्थिंग",
-        "electric shock": "बिजली का झटका",
-        "electrical load": "विद्युत भार",
-        "fuse": "फ्यूज",
-        "insulation": "इन्सुलेशन",
-        "junction box": "जंक्शन बॉक्स",
-        "leakage current": "लीकेज करंट",
-        "live wire": "लाइव तार",
-        "main switch": "मुख्य स्विच",
-        "megger": "मेगर",
-        "motor winding": "मोटर वाइंडिंग",
-        "neutral wire": "न्यूट्रल तार",
-        "phase tester": "फेज टेस्टर",
-        "protective device": "सुरक्षा उपकरण",
-        "resistance": "प्रतिरोध",
-        "safety shoes": "सुरक्षा जूते",
-        "single phase": "सिंगल फेज",
-        "switch board": "स्विच बोर्ड",
-        "terminal block": "टर्मिनल ब्लॉक",
-        "three phase": "थ्री फेज",
-        "voltage": "वोल्टेज",
-        "voltmeter": "वोल्टमीटर",
-        "wire stripper": "वायर स्ट्रिपर",
-    },
-    "gom_Deva": {
-        "ac supply": "एसी पुरवठो",
-        "ammeter": "अमीटर",
-        "apprentice": "प्रशिक्षु",
-        "cable": "केबल",
-        "capacitor": "कॅपॅसिटर",
-        "circuit breaker": "सर्किट ब्रेकर",
-        "conduit": "कंड्यूट",
-        "control panel": "कंट्रोल पॅनल",
-        "copper conductor": "तांब्याचो वाहक",
-        "earthing": "अर्थिंग",
-        "electric shock": "विजेचो धक्का",
-        "electrical load": "विद्युत भार",
-        "fuse": "फ्यूज",
-        "insulation": "इन्सुलेशन",
-        "junction box": "जंक्शन बॉक्स",
-        "leakage current": "लीकेज करंट",
-        "live wire": "लाइव वायर",
-        "main switch": "मुखेल स्विच",
-        "megger": "मेगर",
-        "motor winding": "मोटर वाइंडिंग",
-        "neutral wire": "न्यूट्रल वायर",
-        "phase tester": "फेज टेस्टर",
-        "protective device": "सुरक्षा उपकरण",
-        "resistance": "प्रतिकार",
-        "safety shoes": "सुरक्षा बूट",
-        "single phase": "सिंगल फेज",
-        "switch board": "स्विच बोर्ड",
-        "terminal block": "टर्मिनल ब्लॉक",
-        "three phase": "थ्री फेज",
-        "voltage": "व्होल्टेज",
-        "voltmeter": "व्होल्टमीटर",
-        "wire stripper": "वायर स्ट्रिपर",
-    },
-    "mai_Deva": {
-        "ac supply": "एसी आपूर्ति",
-        "ammeter": "अमीटर",
-        "apprentice": "प्रशिक्षु",
-        "cable": "केबल",
-        "capacitor": "कैपेसिटर",
-        "circuit breaker": "सर्किट ब्रेकर",
-        "conduit": "कंड्यूट",
-        "control panel": "कंट्रोल पैनल",
-        "copper conductor": "तांबा चालक",
-        "earthing": "अर्थिंग",
-        "electric shock": "बिजलीक झटका",
-        "electrical load": "विद्युत भार",
-        "fuse": "फ्यूज",
-        "insulation": "इन्सुलेशन",
-        "junction box": "जंक्शन बॉक्स",
-        "leakage current": "लीकेज करंट",
-        "live wire": "लाइव तार",
-        "main switch": "मुख्य स्विच",
-        "megger": "मेगर",
-        "motor winding": "मोटर वाइंडिंग",
-        "neutral wire": "न्यूट्रल तार",
-        "phase tester": "फेज टेस्टर",
-        "protective device": "सुरक्षा उपकरण",
-        "resistance": "प्रतिरोध",
-        "safety shoes": "सुरक्षा जूता",
-        "single phase": "सिंगल फेज",
-        "switch board": "स्विच बोर्ड",
-        "terminal block": "टर्मिनल ब्लॉक",
-        "three phase": "थ्री फेज",
-        "voltage": "वोल्टेज",
-        "voltmeter": "वोल्टमीटर",
-        "wire stripper": "वायर स्ट्रिपर",
-    },
-    "doi_Deva": {
-        "ac supply": "एसी सप्लाई",
-        "ammeter": "अमीटर",
-        "apprentice": "प्रशिक्षु",
-        "cable": "केबल",
-        "capacitor": "कैपेसिटर",
-        "circuit breaker": "सर्किट ब्रेकर",
-        "conduit": "कंड्यूट",
-        "control panel": "कंट्रोल पैनल",
-        "copper conductor": "तांबे दा चालक",
-        "earthing": "अर्थिंग",
-        "electric shock": "बिजली दा झटका",
-        "electrical load": "विद्युत भार",
-        "fuse": "फ्यूज",
-        "insulation": "इन्सुलेशन",
-        "junction box": "जंक्शन बॉक्स",
-        "leakage current": "लीकेज करंट",
-        "live wire": "लाइव तार",
-        "main switch": "मुख्य स्विच",
-        "megger": "मेगर",
-        "motor winding": "मोटर वाइंडिंग",
-        "neutral wire": "न्यूट्रल तार",
-        "phase tester": "फेज टेस्टर",
-        "protective device": "सुरक्षा उपकरण",
-        "resistance": "प्रतिरोध",
-        "safety shoes": "सुरक्षा जूते",
-        "single phase": "सिंगल फेज",
-        "switch board": "स्विच बोर्ड",
-        "terminal block": "टर्मिनल ब्लॉक",
-        "three phase": "थ्री फेज",
-        "voltage": "वोल्टेज",
-        "voltmeter": "वोल्टमीटर",
-        "wire stripper": "वायर स्ट्रिपर",
-    },
-}
+# The glossary lives in data/glossary/electrician_glossary.csv so language experts can edit
+# it in a spreadsheet. Two registers per language:
+#   formal   - native/standard technical terms (active; project decision 2026-10-15)
+#   loanword - the v1 hand-written English-loanword glossary, kept for comparison
+# Status of formal entries: standard (NCERT/CSTT usage), proposed (needs expert check),
+# loanword_kept (no established native term in use, e.g. मेगर).
+# Variants are alternative spellings/forms of the SAME term. Wrong-sense renderings such as
+# चरण ("stage") for "phase" or पृथ्वी ("planet") for "earthing" must never be listed.
+GLOSSARY_FILE = DATA_DIR / "glossary" / "electrician_glossary.csv"
+ACTIVE_REGISTER = os.getenv("LE_TERM_REGISTER", "formal")
+
+
+def load_glossary(register: str = ACTIVE_REGISTER, path: Path = GLOSSARY_FILE):
+    """Returns ({lang: {english: primary}}, {lang: {english: (variants...)}}, {lang: {english: status}})."""
+    primary: dict[str, dict[str, str]] = {}
+    variants: dict[str, dict[str, tuple[str, ...]]] = {}
+    status: dict[str, dict[str, str]] = {}
+    with path.open(encoding="utf-8") as handle:
+        for row in csv.DictReader(handle):
+            if row["register"] != register:
+                continue
+            lang, term = row["target_lang"], row["english_term"]
+            primary.setdefault(lang, {})[term] = row["term"]
+            variants.setdefault(lang, {})[term] = tuple(v for v in row["variants"].split("|") if v)
+            status.setdefault(lang, {})[term] = row["status"]
+    if not primary:
+        raise ValueError(f"No '{register}' entries in {path}")
+    return primary, variants, status
+
+
+ELECTRICIAN_GLOSSARIES, TERM_VARIANTS, TERM_STATUS = load_glossary()
+
+
+# English-only electrician vocabulary used to find terminology-rich sentences
+# (test-set stratification). Term scoring only uses the glossary file above, because it
+# needs a target term per language.
+EXTRA_DOMAIN_TERMS: tuple[str, ...] = (
+    "alternator", "armature", "battery", "bus bar", "busbar", "capacitance", "commutator",
+    "conductor", "contactor", "continuity", "current transformer", "distribution board",
+    "earth electrode", "earth resistance", "earth tester", "energy meter", "field winding",
+    "frequency", "galvanometer", "generator", "inductance", "induction motor", "insulation resistance",
+    "insulator", "kilowatt", "lamp", "megohm", "miniature circuit breaker", "multimeter", "ohm",
+    "overload relay", "potential difference", "power factor", "rectifier", "relay", "rheostat",
+    "rotor", "short circuit", "solder", "soldering iron", "starter", "stator", "step-down",
+    "transformer", "transistor", "diode", "wattmeter", "wiring", "watt", "volt", "ampere",
+    "test lamp", "neon tester", "plier", "screw driver", "elcb", "rccb", "mcb", "ups", "inverter",
+)
+
+
+_SOURCE_TERM_RE = re.compile(
+    r"\b(" + "|".join(re.escape(t) for t in sorted(next(iter(ELECTRICIAN_GLOSSARIES.values())), key=len, reverse=True)) + r")s?\b",
+    re.IGNORECASE,
+)
+
+
+def find_glossary_terms(english_text: str) -> list[str]:
+    """English glossary terms occurring in a source sentence (same matching as build_corpus)."""
+    return sorted({m.group(1).lower() for m in _SOURCE_TERM_RE.finditer(english_text)})
+
+
+def constraint_forms(term: str, target_lang: str) -> list[str]:
+    """Surface forms the decoder may be forced to produce for a term: the glossary term and its
+    variants, each as written and in normalised spelling (deduplicated, order kept)."""
+    from .metrics import normalize_indic  # local import: metrics imports this module
+
+    main = ELECTRICIAN_GLOSSARIES.get(target_lang, {}).get(term)
+    if not main:
+        return []
+    forms: list[str] = []
+    for form in (main, *TERM_VARIANTS.get(target_lang, {}).get(term, ())):
+        for candidate in (form, normalize_indic(form)):
+            if candidate not in forms:
+                forms.append(candidate)
+    return forms
 
 
 def glossary_translate(text: str, target_lang: str) -> str:

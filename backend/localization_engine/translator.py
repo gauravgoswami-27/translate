@@ -1,7 +1,15 @@
-"""Model loading and translation utilities."""
+"""IndicTrans2 model loading and (batched) translation.
+
+``model_name_or_path`` may be a Hugging Face model id, a local full checkpoint,
+or a LoRA adapter folder produced by ``finetune.py`` (detected through its
+``adapter_config.json``; the base model is loaded and the adapter merged in).
+"""
 
 from __future__ import annotations
 
+import json
+import os
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -18,11 +26,119 @@ class TranslationResult:
     warning: Optional[str] = None
 
 
-class Translator:
-    """Translate English text with IndicTrans2 when available.
+def load_indic_processor(inference: bool = True):
+    try:
+        from IndicTransToolkit.processor import IndicProcessor
+    except ImportError:  # older toolkit releases
+        from IndicTransToolkit import IndicProcessor
+    return IndicProcessor(inference=inference)
 
-    If model dependencies/checkpoints are missing, the class falls back to a
-    transparent glossary backend. Set ``allow_fallback=False`` to fail fast.
+
+def adapter_languages(path: str) -> Optional[list[str]]:
+    """Languages an adapter was trained on (from finetune.py's training_metadata.json), or None."""
+    meta = Path(path) / "training_metadata.json"
+    if not meta.exists():
+        return None
+    langs = json.loads(meta.read_text(encoding="utf-8")).get("langs")
+    return langs.split(",") if isinstance(langs, str) else list(langs or [])
+
+
+def resolve_adapter(path: str) -> tuple[str, Optional[str]]:
+    """Return (base_model, adapter_dir_or_None) for a model path."""
+    config_file = Path(path) / "adapter_config.json"
+    if config_file.exists():
+        base = json.loads(config_file.read_text())["base_model_name_or_path"]
+        return base, str(path)
+    return path, None
+
+
+# Ways IndicTrans2 writes "ID" in its output (the toolkit's own restoration handles the same set).
+_ID_SPELLINGS = r"(?:ID|Id|id|आईडी|आइडी|आई\s*\.?\s*डी\s*\.?|आइ\s*\.?\s*डी\s*\.?|आय\s*\.?\s*डी\s*\.?|آی\s*ڈی|ꯑꯥꯏꯗꯤ)"
+
+
+def inject_placeholders(preprocessed: str, pairs: list[tuple[str, str]], id_map: dict[int, str]) -> str:
+    """Replace English glossary terms in a preprocessed source sentence with entity placeholders.
+
+    Numbering continues after the toolkit's own placeholders (URLs, numbers, ...) so the two
+    never collide. Fills ``id_map`` with {placeholder id: target term}.
+    """
+    used = [int(n) for n in re.findall(r"ID\s*(\d+)", preprocessed)]
+    next_id = max(used, default=0) + 1
+    for english, target in pairs:
+        pattern = re.compile(rf"\b{re.escape(english)}s?\b", re.IGNORECASE)
+        if pattern.search(preprocessed):
+            preprocessed = pattern.sub(f"< ID{next_id} >", preprocessed)
+            id_map[next_id] = target
+            next_id += 1
+    return preprocessed
+
+
+# Case endings that are written attached to the noun. With a placeholder the model writes
+# them as a separate word ("<ID1> क"), which run-5 analysis found in 1,211 Maithili and
+# hundreds of Konkani repaired drafts. Hindi/Dogri postpositions are separate words: no entry.
+ATTACHED_CASE_SUFFIXES: dict[str, tuple[str, ...]] = {
+    "mai_Deva": ("केँ", "कें", "सँ", "सं", "मे", "क"),
+    "gom_Deva": ("च्या", "ची", "चो", "चें", "चे", "चेर", "क"),
+    # Marathi: joined without the oblique stem vowel (…काचा), so only approximately right.
+    "mar_Deva": ("च्या", "चा", "ची", "चे", "मध्ये", "ला", "ने", "त"),
+    # Gujarati postpositions attach directly to the noun (તાંબાનો, બોર્ડમાં).
+    "guj_Gujr": ("નો", "ની", "નું", "ના", "માં", "થી", "ને", "પર"),
+    # Tamil, Telugu, Kannada: deliberately absent. Their suffixes attach with sandhi
+    # (மின்னழுத்தம் + ஐ -> மின்னழுத்தத்தை), which naive joining would get wrong; the
+    # effect of placeholder repair there is measured (analyze_case_endings) instead.
+}
+
+
+def attach_case_suffixes(text: str, terms, target_lang: str) -> str:
+    """Re-attach detached case endings that directly follow one of ``terms``."""
+    suffixes = ATTACHED_CASE_SUFFIXES.get(target_lang)
+    terms = sorted({t for t in terms if t}, key=len, reverse=True)
+    if not suffixes or not terms:
+        return text
+    pattern = re.compile(
+        "(" + "|".join(map(re.escape, terms)) + ") (" + "|".join(map(re.escape, suffixes)) + r")(?=[\s।.,;:!?)]|$)"
+    )
+    return pattern.sub(r"\1\2", text)
+
+
+def restore_placeholders(text: str, id_map: dict[int, str], target_lang: str = "") -> str:
+    """Put the target terms back where the model copied the placeholders; drop leftovers."""
+    for n, target in id_map.items():
+        pattern = re.compile(rf"(?:[<\[]\s*)?{_ID_SPELLINGS}\s*{n}(?!\d)(?:\s*[>\]])?")
+
+        def put_term(match: re.Match, target: str = target) -> str:
+            # No space after the term, so case endings stay attached (Maithili <ID2>क -> ...क);
+            # add one before it only if it would otherwise fuse with the previous word.
+            before = match.string[match.start() - 1] if match.start() else " "
+            return (target if before.isspace() or before in "([\"'“" else " " + target)
+
+        text = pattern.sub(put_term, text)
+    text = re.sub(r"\s{2,}", " ", text).strip()
+    return attach_case_suffixes(text, id_map.values(), target_lang)
+
+
+def prune_alternatives(alternatives: list[list[int]]) -> list[list[int]]:
+    """Make token-id alternatives valid for a Hugging Face DisjunctiveConstraint.
+
+    It rejects alternatives that are a prefix of another one. If A is a prefix of B, any
+    output containing B also contains A, so the longer alternative is redundant: keep A.
+    """
+    unique = []
+    for ids in alternatives:
+        if ids and ids not in unique:
+            unique.append(ids)
+    return [
+        ids for ids in unique
+        if not any(other != ids and len(other) < len(ids) and ids[: len(other)] == other for other in unique)
+    ]
+
+
+class Translator:
+    """Translate English text with IndicTrans2.
+
+    If the model stack is missing, falls back to a clearly-labelled glossary
+    substitution (``backend == "fallback"``). Set ``allow_fallback=False`` to fail fast;
+    all experiment scripts do this so results can never silently come from the fallback.
     """
 
     def __init__(
@@ -31,42 +147,94 @@ class Translator:
         device: Optional[str] = None,
         allow_fallback: bool = True,
         force_fallback: bool = False,
+        fp16: bool = True,
     ) -> None:
-        self.model_name_or_path = model_name_or_path
+        self.model_name_or_path = str(model_name_or_path)
         self.device_name = device
         self.allow_fallback = allow_fallback
-        self.force_fallback = force_fallback
+        self.fp16 = fp16
         self.backend = "fallback"
         self.warning: Optional[str] = None
         self._torch = None
         self._tokenizer = None
         self._model = None
         self._processor = None
+        self._constraint_processor = None
 
         if not force_fallback:
-            self._load_indictrans2()
+            self._load()
 
-    def translate(
-        self,
-        text: str,
-        target_lang: str,
-        source_lang: str = SOURCE_LANG,
-        max_new_tokens: int = 256,
-    ) -> TranslationResult:
+    # ------------------------------------------------------------------ loading
+
+    def _load(self) -> None:
+        try:
+            import torch
+            from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+        except Exception as exc:  # pragma: no cover - depends on optional stack
+            self._fallback_or_raise(f"Model dependencies are unavailable: {exc}")
+            return
+
+        try:  # pragma: no cover - needs model weights
+            device = self.device_name or ("cuda" if torch.cuda.is_available() else "cpu")
+            base_model, adapter = resolve_adapter(self.model_name_or_path)
+            token = os.getenv("HF_TOKEN")
+
+            tokenizer = AutoTokenizer.from_pretrained(base_model, trust_remote_code=True, token=token)
+            model = AutoModelForSeq2SeqLM.from_pretrained(
+                base_model,
+                trust_remote_code=True,
+                attn_implementation="eager",
+                low_cpu_mem_usage=True,
+                token=token,
+            )
+            if adapter:
+                from peft import PeftModel
+
+                model = PeftModel.from_pretrained(model, adapter).merge_and_unload()
+
+            model.to(device)
+            if device.startswith("cuda") and self.fp16:
+                model.half()
+            model.eval()
+
+            self._torch = torch
+            self._tokenizer = tokenizer
+            self._model = model
+            self._processor = load_indic_processor(inference=True)
+            self.device_name = device
+            self.backend = "indictrans2_lora" if adapter else "indictrans2"
+            self.warning = None
+        except Exception as exc:
+            self._fallback_or_raise(f"Could not load IndicTrans2 model '{self.model_name_or_path}': {exc}")
+
+    def _fallback_or_raise(self, warning: str) -> None:
+        if not self.allow_fallback:
+            raise RuntimeError(warning)
+        self.warning = warning
+        self.backend = "fallback"
+
+    def unload(self) -> None:
+        """Release the model and clear the CUDA cache."""
+        self._model = None
+        self._tokenizer = None
+        self._processor = None
+        if self._torch is not None and self._torch.cuda.is_available():
+            import gc
+
+            gc.collect()
+            self._torch.cuda.empty_cache()
+
+    # -------------------------------------------------------------- translation
+
+    def translate(self, text: str, target_lang: str, source_lang: str = SOURCE_LANG) -> TranslationResult:
         validate_target_lang(target_lang)
         if not text or not text.strip():
             raise ValueError("Input text must not be empty.")
 
-        clean_text = text.strip()
-        if self.backend == "indictrans2":
-            translated = self._translate_with_indictrans2(
-                clean_text,
-                source_lang=source_lang,
-                target_lang=target_lang,
-                max_new_tokens=max_new_tokens,
-            )
+        if self.backend == "fallback":
+            translated = glossary_translate(text.strip(), target_lang)
         else:
-            translated = glossary_translate(clean_text, target_lang)
+            translated = self.translate_batch([text.strip()], target_lang, source_lang=source_lang)[0]
 
         return TranslationResult(
             translated_text=translated,
@@ -75,115 +243,158 @@ class Translator:
             warning=self.warning,
         )
 
-    def _load_indictrans2(self) -> None:
-        try:
-            import torch
-            from IndicTransToolkit.processor import IndicProcessor
-            from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
-        except Exception as exc:  # pragma: no cover - depends on optional stack
-            self._fallback_or_raise(f"IndicTrans2 dependencies are unavailable: {exc}")
-            return
-
-        try:  # pragma: no cover - depends on optional model files
-            device = self.device_name or ("cuda" if torch.cuda.is_available() else "cpu")
-            model_path = str(Path(self.model_name_or_path)) if Path(self.model_name_or_path).exists() else self.model_name_or_path
-            
-            # Try loading tokenizer from model_path, fallback to base model if path is a fine-tuned checkpoint without full tokenizer files
-            try:
-                tokenizer = AutoTokenizer.from_pretrained(model_path, trust_remote_code=True)
-            except Exception:
-                tokenizer = AutoTokenizer.from_pretrained(DEFAULT_MODEL_NAME, trust_remote_code=True)
-
-            model_kwargs = {"trust_remote_code": True}
-            if device == "cuda" and torch.cuda.is_available():
-                model_kwargs["dtype"] = torch.float16
-
-            model = AutoModelForSeq2SeqLM.from_pretrained(model_path, **model_kwargs)
-            model.to(device)
-            model.eval()
-            
-            self._torch = torch
-            self._tokenizer = tokenizer
-            self._model = model
-            self._processor = IndicProcessor(inference=True)
-            self.device_name = device
-            self.backend = "indictrans2"
-            self.warning = None
-        except Exception as exc:
-            self._fallback_or_raise(f"Could not load IndicTrans2 model '{self.model_name_or_path}': {exc}")
-
-    def unload(self) -> None:
-        """Unload model from GPU memory and clear PyTorch CUDA cache."""
-        self._model = None
-        self._tokenizer = None
-        self._processor = None
-        if self._torch is not None and self._torch.cuda.is_available():
-            import gc
-            gc.collect()
-            self._torch.cuda.empty_cache()
-
-    def _fallback_or_raise(self, warning: str) -> None:
-        if not self.allow_fallback:
-            raise RuntimeError(warning)
-        self.warning = warning
-        self.backend = "fallback"
-
-    def _translate_with_indictrans2(
+    def translate_batch(
         self,
-        text: str,
-        source_lang: str,
+        texts: list[str],
         target_lang: str,
-        max_new_tokens: int,
-    ) -> str:
-        assert self._torch is not None
-        assert self._tokenizer is not None
-        assert self._model is not None
+        source_lang: str = SOURCE_LANG,
+        batch_size: int = 32,
+        num_beams: int = 5,
+        max_length: int = 256,
+        max_tokens: int = 8000,
+        show_progress: bool = False,
+        constraints: Optional[list[list[list[str]]]] = None,
+        term_placeholders: Optional[list[list[tuple[str, str]]]] = None,
+    ) -> list[str]:
+        """Translate many sentences; output order matches input order.
 
-        if hasattr(self._tokenizer, "convert_tokens_to_ids") and not hasattr(self, "_processor_active"):
+        Batches are capped both by ``batch_size`` and by a token budget
+        (sentences x padded source length x beams <= ``max_tokens``), so batches of
+        long sentences shrink automatically. On CUDA OOM the budget is halved and
+        the batch retried.
+
+        ``constraints`` (optional, one entry per sentence) enables lexically constrained
+        beam search: each sentence gets a list of constraint groups, each group a list of
+        alternative target strings of which at least one must appear in the output
+        (e.g. [["त्रिकला", "तीन कला"], ["भूसंपर्कन"]]). Sentences are batched per
+        identical constraint set, because Hugging Face applies constraints per batch.
+
+        ``term_placeholders`` (optional, one entry per sentence) is the faster and more
+        fluent alternative: each (english_term, target_term) pair is replaced in the source
+        by an IndicTrans2 entity placeholder (``< IDn >``), which the model copies through
+        translation at the right position, and the placeholder is then replaced by the
+        target term. Unrestored placeholders are removed (the term is then missing, which
+        callers can detect).
+        """
+        validate_target_lang(target_lang)
+        if self.backend == "fallback":
+            return [glossary_translate(t, target_lang) for t in texts]
+        assert self._model is not None and self._tokenizer is not None and self._processor is not None
+        if constraints is not None and len(constraints) != len(texts):
+            raise ValueError("constraints must have one entry per text")
+        if term_placeholders is not None and len(term_placeholders) != len(texts):
+            raise ValueError("term_placeholders must have one entry per text")
+        if constraints is not None and term_placeholders is not None:
+            raise ValueError("use either constraints or term_placeholders, not both")
+
+        groups: dict[tuple, list[int]] = {}
+        for i in range(len(texts)):
+            key = tuple(tuple(group) for group in constraints[i] if group) if constraints else ()
+            groups.setdefault(key, []).append(i)
+
+        outputs: list[str] = [""] * len(texts)
+        progress = None
+        if show_progress:
             try:
-                self._tokenizer.src_lang = source_lang
-            except Exception:
-                pass
-            inputs = self._tokenizer(
-                text,
-                truncation=True,
-                padding="longest",
-                return_tensors="pt",
-                return_attention_mask=True,
-            ).to(self.device_name)
-            forced_bos = self._tokenizer.convert_tokens_to_ids(target_lang)
-            gen_kwargs = {"max_new_tokens": max_new_tokens, "num_beams": 5, "num_return_sequences": 1}
-            if forced_bos is not None and forced_bos != getattr(self._tokenizer, "unk_token_id", None):
-                gen_kwargs["forced_bos_token_id"] = forced_bos
+                from tqdm.auto import tqdm
 
-            with self._torch.inference_mode():
-                generated_tokens = self._model.generate(**inputs, **gen_kwargs)
-            decoded = self._tokenizer.batch_decode(
-                generated_tokens.detach().cpu().tolist(),
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=True,
+                progress = tqdm(total=len(texts), desc=f"translate {target_lang}", unit="sent")
+            except ImportError:
+                pass
+
+        for key, indices in groups.items():
+            force_words_ids = self._constraint_token_ids(key, target_lang) if key else None
+            beams = max(num_beams, 2) if force_words_ids else num_beams  # constrained search needs beams
+            self._translate_indices(
+                texts, indices, outputs, source_lang, target_lang, batch_size, beams, max_length, max_tokens,
+                force_words_ids, progress, term_placeholders,
             )
-            return decoded[0].strip()
-        else:
-            assert self._processor is not None
-            batch = self._processor.preprocess_batch([text], src_lang=source_lang, tgt_lang=target_lang)
-            inputs = self._tokenizer(
-                batch,
-                truncation=True,
-                padding="longest",
-                return_tensors="pt",
-                return_attention_mask=True,
-            ).to(self.device_name)
-            with self._torch.inference_mode():
-                generated_tokens = self._model.generate(
-                    **inputs,
-                    max_new_tokens=max_new_tokens,
-                    num_beams=5,
-                    num_return_sequences=1,
-                )
-            decoded = self._tokenizer.batch_decode(
-                generated_tokens.detach().cpu().tolist(),
-                skip_special_tokens=True,
-                clean_up_tokenization_spaces=True,
+
+        if progress is not None:
+            progress.close()
+        return outputs
+
+    def _translate_indices(
+        self, texts, indices, outputs, source_lang, target_lang, batch_size, num_beams, max_length, max_tokens,
+        force_words_ids, progress, term_placeholders=None,
+    ) -> None:
+        # Length-sorted (longest first) batches waste little padding and hit any OOM early.
+        order = sorted(indices, key=lambda i: len(texts[i]), reverse=True)
+        extra = {"force_words_ids": force_words_ids} if force_words_ids else {}
+        start = 0
+        while start < len(order):
+            idx = order[start : start + batch_size]
+            inject = [term_placeholders[i] for i in idx] if term_placeholders else None
+            inputs, id_maps = self._encode([texts[i] for i in idx], source_lang, target_lang, inject)
+            src_len = inputs["input_ids"].shape[1]
+            allowed = max(1, max_tokens // (src_len * num_beams))
+            if allowed < len(idx):
+                idx = idx[:allowed]
+                self._reset_processor(target_lang)
+                inject = inject[:allowed] if inject else None
+                inputs, id_maps = self._encode([texts[i] for i in idx], source_lang, target_lang, inject)
+
+            try:
+                with self._torch.inference_mode():
+                    generated = self._model.generate(
+                        **inputs,
+                        use_cache=True,
+                        min_length=0,
+                        # Targets are rarely >2x the source length; stops runaway generations.
+                        max_length=min(max_length, 2 * src_len + (32 if force_words_ids else 16)),
+                        num_beams=num_beams,
+                        num_return_sequences=1,
+                        **extra,
+                    )
+            except self._torch.cuda.OutOfMemoryError:
+                if max_tokens <= 256:
+                    raise
+                max_tokens //= 2
+                print(f"CUDA OOM; retrying with max_tokens={max_tokens}")
+                del inputs
+                self._reset_processor(target_lang)
+                self._torch.cuda.empty_cache()
+                continue
+
+            decoded = self._tokenizer.batch_decode(generated, skip_special_tokens=True, clean_up_tokenization_spaces=True)
+            for i, translation, id_map in zip(idx, self._processor.postprocess_batch(decoded, lang=target_lang), id_maps):
+                outputs[i] = restore_placeholders(translation, id_map, target_lang) if id_map else translation
+            start += len(idx)
+            if progress is not None:
+                progress.update(len(idx))
+
+    def _constraint_token_ids(self, key: tuple, target_lang: str) -> list[list[list[int]]]:
+        """Target-vocabulary token ids for each constraint group (disjunctive alternatives)."""
+        if self._constraint_processor is None:
+            # Separate training-mode processor: target-side normalisation without touching
+            # the inference processor's placeholder queue.
+            self._constraint_processor = load_indic_processor(inference=False)
+        force = []
+        for group in key:
+            prepared = self._constraint_processor.preprocess_batch(
+                list(group), src_lang=target_lang, tgt_lang=SOURCE_LANG, is_target=True
             )
-            return self._processor.postprocess_batch(decoded, lang=target_lang)[0]
+            # One batched call per context: IndicTrans2's remote tokenizer switches itself back to
+            # source mode after a call, so a second call inside the same context would tokenize
+            # the target text as a tagged source sentence (and crash).
+            with self._tokenizer.as_target_tokenizer():
+                ids = self._tokenizer(prepared, add_special_tokens=False)["input_ids"]
+            force.append(prune_alternatives(ids))
+        return force
+    def _encode(self, sentences: list[str], source_lang: str, target_lang: str, inject=None):
+        """Returns (model inputs, per-sentence {placeholder id: target term} maps)."""
+        # IndicProcessor queues one placeholder map per preprocessed sentence and
+        # postprocess_batch consumes them, so every preprocess must be followed by
+        # exactly one postprocess (or a _reset_processor call).
+        batch = self._processor.preprocess_batch(sentences, src_lang=source_lang, tgt_lang=target_lang)
+        id_maps: list[dict[int, str]] = [{} for _ in batch]
+        if inject:
+            batch = [inject_placeholders(text, pairs, id_map) for text, pairs, id_map in zip(batch, inject, id_maps)]
+        inputs = self._tokenizer(
+            batch, truncation=True, padding="longest", return_tensors="pt", return_attention_mask=True
+        ).to(self.device_name)
+        return inputs, id_maps
+
+    def _reset_processor(self, target_lang: str) -> None:
+        """Drop queued placeholder maps from a preprocessed batch that was not translated."""
+        self._processor.postprocess_batch([], lang=target_lang)

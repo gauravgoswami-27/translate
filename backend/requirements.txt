@@ -1,12 +1,17 @@
+# Local development (API, corpus building, CPU tooling).
+# GPU training/evaluation on Kaggle uses kaggle/requirements-kaggle.txt (pinned).
 torch
-transformers<5
+transformers<5  # Kaggle pins 4.46.3: IndicTrans2 remote code uses the legacy (tuple) KV-cache API
+peft
+accelerate
+datasets<4
+huggingface-hub<1.0
 sentencepiece
 IndicTransToolkit
 sacrebleu
 pandas
+pymupdf
+matplotlib
+tqdm
 fastapi
 uvicorn[standard]
-matplotlib
-requests
-beautifulsoup4
-pypdf

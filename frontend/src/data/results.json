@@ -1,0 +1,3195 @@
+{
+ "generated": "2026-10-20",
+ "sources": {
+  "domain": "backend/results/domain_scores_UNVERIFIED_run6_all.csv (+ domain_scores_UNVERIFIED_run6_hi.csv)",
+  "in22": "backend/results/in22_gen_*.csv",
+  "repair": "backend/results/term_repair_stats_*.json",
+  "glossary": "backend/data/glossary/electrician_glossary.csv"
+ },
+ "systemLabels": {
+  "base": "Base 200M",
+  "raw": "LoRA, raw drafts (run 4)",
+  "formal": "LoRA, terminology-aware (run 6)",
+  "formal_run5": "LoRA, terminology-aware (run 5)",
+  "formal_s43": "Terminology-aware, seed 43",
+  "formal_hi": "Terminology-aware, Hindi only",
+  "teacher": "Teacher 1B"
+ },
+ "domainLangs": [
+  "hin_Deva",
+  "gom_Deva",
+  "mai_Deva",
+  "doi_Deva"
+ ],
+ "languageNames": {
+  "asm_Beng": "Assamese",
+  "ben_Beng": "Bengali",
+  "brx_Deva": "Bodo",
+  "doi_Deva": "Dogri",
+  "guj_Gujr": "Gujarati",
+  "hin_Deva": "Hindi",
+  "kan_Knda": "Kannada",
+  "kas_Arab": "Kashmiri",
+  "gom_Deva": "Konkani",
+  "mai_Deva": "Maithili",
+  "mal_Mlym": "Malayalam",
+  "mni_Mtei": "Manipuri",
+  "mar_Deva": "Marathi",
+  "npi_Deva": "Nepali",
+  "ory_Orya": "Odia",
+  "pan_Guru": "Punjabi",
+  "san_Deva": "Sanskrit",
+  "sat_Olck": "Santali",
+  "snd_Deva": "Sindhi",
+  "tam_Taml": "Tamil",
+  "tel_Telu": "Telugu",
+  "urd_Arab": "Urdu"
+ },
+ "corpus": {
+  "sentences": 24636,
+  "train": 24082,
+  "dev": 354,
+  "test": 200
+ },
+ "domain": [
+  {
+   "lang": "hin_Deva",
+   "system": "base",
+   "bleu": 77.97,
+   "chrf": 86.64,
+   "termAccuracy": 95.45,
+   "compliance": 61.43,
+   "deltaChrf": null,
+   "pValue": null,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "raw",
+   "bleu": 79.02,
+   "chrf": 87.36,
+   "termAccuracy": 97.73,
+   "compliance": 62.14,
+   "deltaChrf": 0.72,
+   "pValue": 0.14,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "teacher",
+   "bleu": 99.71,
+   "chrf": 99.85,
+   "termAccuracy": 100.0,
+   "compliance": 62.86,
+   "deltaChrf": 13.19,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_run5",
+   "bleu": 75.67,
+   "chrf": 84.23,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": -2.4,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_run5+ph",
+   "bleu": 73.2,
+   "chrf": 82.29,
+   "termAccuracy": 97.73,
+   "compliance": 98.57,
+   "deltaChrf": -4.36,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_run5+cd",
+   "bleu": 74.11,
+   "chrf": 83.5,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": -3.11,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_run5+hy",
+   "bleu": 75.68,
+   "chrf": 84.21,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": -2.42,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal",
+   "bleu": 74.78,
+   "chrf": 83.83,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": -2.79,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal+hy",
+   "bleu": 74.57,
+   "chrf": 83.65,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": -2.97,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_s43",
+   "bleu": 74.89,
+   "chrf": 83.87,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": -2.75,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "base",
+   "bleu": 51.5,
+   "chrf": 70.78,
+   "termAccuracy": 82.86,
+   "compliance": 39.29,
+   "deltaChrf": null,
+   "pValue": null,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "raw",
+   "bleu": 60.77,
+   "chrf": 76.85,
+   "termAccuracy": 68.57,
+   "compliance": 20.71,
+   "deltaChrf": 6.03,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "teacher",
+   "bleu": 98.81,
+   "chrf": 99.38,
+   "termAccuracy": 100.0,
+   "compliance": 25.0,
+   "deltaChrf": 28.61,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5",
+   "bleu": 56.06,
+   "chrf": 72.84,
+   "termAccuracy": 97.14,
+   "compliance": 95.71,
+   "deltaChrf": 2.08,
+   "pValue": 0.02,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+ph",
+   "bleu": 54.2,
+   "chrf": 71.48,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.73,
+   "pValue": 0.26,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+cd",
+   "bleu": 54.73,
+   "chrf": 71.59,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.83,
+   "pValue": 0.24,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+hy",
+   "bleu": 55.77,
+   "chrf": 72.44,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 1.68,
+   "pValue": 0.07,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal",
+   "bleu": 55.74,
+   "chrf": 72.39,
+   "termAccuracy": 97.14,
+   "compliance": 95.0,
+   "deltaChrf": 1.61,
+   "pValue": 0.05,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal+hy",
+   "bleu": 54.9,
+   "chrf": 71.59,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.82,
+   "pValue": 0.23,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_s43",
+   "bleu": 56.75,
+   "chrf": 73.37,
+   "termAccuracy": 97.14,
+   "compliance": 91.43,
+   "deltaChrf": 2.57,
+   "pValue": 0.01,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "base",
+   "bleu": 55.8,
+   "chrf": 74.06,
+   "termAccuracy": 96.67,
+   "compliance": 64.29,
+   "deltaChrf": null,
+   "pValue": null,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "raw",
+   "bleu": 59.61,
+   "chrf": 77.19,
+   "termAccuracy": 98.89,
+   "compliance": 63.57,
+   "deltaChrf": 3.16,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "teacher",
+   "bleu": 99.09,
+   "chrf": 99.5,
+   "termAccuracy": 100.0,
+   "compliance": 64.29,
+   "deltaChrf": 25.5,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5",
+   "bleu": 57.35,
+   "chrf": 75.16,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": 1.18,
+   "pValue": 0.14,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+ph",
+   "bleu": 53.46,
+   "chrf": 73.41,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": -0.58,
+   "pValue": 0.7,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+cd",
+   "bleu": 55.46,
+   "chrf": 74.14,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.14,
+   "pValue": 0.47,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+hy",
+   "bleu": 57.06,
+   "chrf": 74.82,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.82,
+   "pValue": 0.22,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal",
+   "bleu": 55.16,
+   "chrf": 74.38,
+   "termAccuracy": 100.0,
+   "compliance": 99.29,
+   "deltaChrf": 0.37,
+   "pValue": 0.35,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal+hy",
+   "bleu": 55.06,
+   "chrf": 74.24,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 0.23,
+   "pValue": 0.4,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_s43",
+   "bleu": 56.13,
+   "chrf": 74.05,
+   "termAccuracy": 100.0,
+   "compliance": 99.29,
+   "deltaChrf": 0.04,
+   "pValue": 0.48,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "base",
+   "bleu": 61.07,
+   "chrf": 75.62,
+   "termAccuracy": 93.59,
+   "compliance": 55.71,
+   "deltaChrf": null,
+   "pValue": null,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "raw",
+   "bleu": 71.75,
+   "chrf": 82.6,
+   "termAccuracy": 96.15,
+   "compliance": 59.29,
+   "deltaChrf": 6.97,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "teacher",
+   "bleu": 99.36,
+   "chrf": 99.6,
+   "termAccuracy": 100.0,
+   "compliance": 55.71,
+   "deltaChrf": 23.98,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_run5",
+   "bleu": 68.73,
+   "chrf": 79.17,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": 3.56,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_run5+ph",
+   "bleu": 66.33,
+   "chrf": 77.61,
+   "termAccuracy": 98.72,
+   "compliance": 99.29,
+   "deltaChrf": 2.01,
+   "pValue": 0.02,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_run5+cd",
+   "bleu": 66.74,
+   "chrf": 78.38,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 2.77,
+   "pValue": 0.01,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_run5+hy",
+   "bleu": 68.36,
+   "chrf": 78.89,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 3.27,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal",
+   "bleu": 68.89,
+   "chrf": 79.31,
+   "termAccuracy": 98.72,
+   "compliance": 97.86,
+   "deltaChrf": 3.7,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal+hy",
+   "bleu": 68.58,
+   "chrf": 79.07,
+   "termAccuracy": 100.0,
+   "compliance": 100.0,
+   "deltaChrf": 3.45,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "doi_Deva",
+   "system": "formal_s43",
+   "bleu": 68.72,
+   "chrf": 79.33,
+   "termAccuracy": 100.0,
+   "compliance": 98.57,
+   "deltaChrf": 3.73,
+   "pValue": 0.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  },
+  {
+   "lang": "hin_Deva",
+   "system": "formal_hi",
+   "bleu": 74.63,
+   "chrf": 83.94,
+   "termAccuracy": 100.0,
+   "compliance": 97.86,
+   "deltaChrf": -2.67,
+   "pValue": 1.0,
+   "reference": "teacher_draft_UNVERIFIED"
+  }
+ ],
+ "in22": [
+  {
+   "lang": "urd_Arab",
+   "name": "Urdu",
+   "base": 66.23,
+   "baseBleu": 45.15
+  },
+  {
+   "lang": "hin_Deva",
+   "name": "Hindi",
+   "base": 55.77,
+   "baseBleu": 32.69,
+   "raw": 55.45,
+   "rawBleu": 32.66,
+   "formal_run5": 55.31,
+   "formal_run5Bleu": 32.38,
+   "formal": 55.36,
+   "formalBleu": 32.45
+  },
+  {
+   "lang": "doi_Deva",
+   "name": "Dogri",
+   "base": 54.02,
+   "baseBleu": 28.44,
+   "raw": 54.49,
+   "rawBleu": 28.83,
+   "formal_run5": 54.15,
+   "formal_run5Bleu": 28.5,
+   "formal": 54.22,
+   "formalBleu": 28.64
+  },
+  {
+   "lang": "guj_Gujr",
+   "name": "Gujarati",
+   "base": 52.58,
+   "baseBleu": 25.21
+  },
+  {
+   "lang": "tel_Telu",
+   "name": "Telugu",
+   "base": 51.52,
+   "baseBleu": 18.23
+  },
+  {
+   "lang": "mar_Deva",
+   "name": "Marathi",
+   "base": 50.0,
+   "baseBleu": 20.97
+  },
+  {
+   "lang": "tam_Taml",
+   "name": "Tamil",
+   "base": 48.91,
+   "baseBleu": 13.95
+  },
+  {
+   "lang": "kan_Knda",
+   "name": "Kannada",
+   "base": 48.54,
+   "baseBleu": 15.32
+  },
+  {
+   "lang": "npi_Deva",
+   "name": "Nepali",
+   "base": 48.09,
+   "baseBleu": 15.09
+  },
+  {
+   "lang": "mai_Deva",
+   "name": "Maithili",
+   "base": 47.68,
+   "baseBleu": 18.08,
+   "raw": 47.66,
+   "rawBleu": 18.4,
+   "formal_run5": 47.47,
+   "formal_run5Bleu": 18.33,
+   "formal": 47.7,
+   "formalBleu": 18.63
+  },
+  {
+   "lang": "ben_Beng",
+   "name": "Bengali",
+   "base": 47.48,
+   "baseBleu": 16.56
+  },
+  {
+   "lang": "pan_Guru",
+   "name": "Punjabi",
+   "base": 47.06,
+   "baseBleu": 21.58
+  },
+  {
+   "lang": "mal_Mlym",
+   "name": "Malayalam",
+   "base": 46.26,
+   "baseBleu": 12.83
+  },
+  {
+   "lang": "brx_Deva",
+   "name": "Bodo",
+   "base": 46.14,
+   "baseBleu": 15.64
+  },
+  {
+   "lang": "asm_Beng",
+   "name": "Assamese",
+   "base": 44.9,
+   "baseBleu": 17.45
+  },
+  {
+   "lang": "gom_Deva",
+   "name": "Konkani",
+   "base": 43.71,
+   "baseBleu": 18.35,
+   "raw": 43.48,
+   "rawBleu": 18.52,
+   "formal_run5": 43.51,
+   "formal_run5Bleu": 18.36,
+   "formal": 43.46,
+   "formalBleu": 18.31
+  },
+  {
+   "lang": "ory_Orya",
+   "name": "Odia",
+   "base": 41.3,
+   "baseBleu": 11.79
+  },
+  {
+   "lang": "mni_Mtei",
+   "name": "Manipuri",
+   "base": 40.84,
+   "baseBleu": 9.41
+  },
+  {
+   "lang": "san_Deva",
+   "name": "Sanskrit",
+   "base": 35.22,
+   "baseBleu": 8.63
+  },
+  {
+   "lang": "snd_Deva",
+   "name": "Sindhi",
+   "base": 35.15,
+   "baseBleu": 14.09
+  },
+  {
+   "lang": "sat_Olck",
+   "name": "Santali",
+   "base": 33.67,
+   "baseBleu": 5.6
+  },
+  {
+   "lang": "kas_Arab",
+   "name": "Kashmiri",
+   "base": 30.62,
+   "baseBleu": 6.37
+  }
+ ],
+ "repair": {
+  "gom_Deva": {
+   "method": "placeholder",
+   "needed_repair": 3869,
+   "kept": 20767,
+   "repaired": 3827,
+   "failed": 42,
+   "failure_reasons": {
+    "constraint_not_met": 23,
+    "length": 18,
+    "term_appended_after_sentence": 1
+   },
+   "minutes": 7.1
+  },
+  "doi_Deva": {
+   "method": "placeholder",
+   "needed_repair": 3725,
+   "kept": 20911,
+   "repaired": 3677,
+   "failed": 48,
+   "failure_reasons": {
+    "length": 15,
+    "constraint_not_met": 30,
+    "term_appended_after_sentence": 3
+   },
+   "minutes": 6.9
+  },
+  "hin_Deva": {
+   "method": "placeholder",
+   "needed_repair": 3557,
+   "kept": 21079,
+   "repaired": 3494,
+   "failed": 63,
+   "failure_reasons": {
+    "constraint_not_met": 53,
+    "length": 7,
+    "term_appended_after_sentence": 3
+   },
+   "minutes": 6.7
+  },
+  "mai_Deva": {
+   "method": "placeholder",
+   "needed_repair": 3476,
+   "kept": 21160,
+   "repaired": 3431,
+   "failed": 45,
+   "failure_reasons": {
+    "constraint_not_met": 23,
+    "length": 20,
+    "term_appended_after_sentence": 2
+   },
+   "minutes": 5.9
+  }
+ },
+ "caseEndings": [
+  {
+   "lang": "mai_Deva",
+   "system": "base",
+   "detached": 1,
+   "attached": 69
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "raw",
+   "detached": 2,
+   "attached": 71
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "teacher",
+   "detached": 5,
+   "attached": 52
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5",
+   "detached": 18,
+   "attached": 74
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+ph",
+   "detached": 75,
+   "attached": 2
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+cd",
+   "detached": 19,
+   "attached": 77
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_run5+hy",
+   "detached": 0,
+   "attached": 93
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "base",
+   "detached": 0,
+   "attached": 12
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "raw",
+   "detached": 0,
+   "attached": 2
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "teacher",
+   "detached": 0,
+   "attached": 2
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5",
+   "detached": 14,
+   "attached": 13
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+ph",
+   "detached": 25,
+   "attached": 3
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+cd",
+   "detached": 16,
+   "attached": 13
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_run5+hy",
+   "detached": 0,
+   "attached": 27
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal",
+   "detached": 1,
+   "attached": 92
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal+hy",
+   "detached": 0,
+   "attached": 94
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal",
+   "detached": 0,
+   "attached": 31
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal+hy",
+   "detached": 0,
+   "attached": 32
+  },
+  {
+   "lang": "mai_Deva",
+   "system": "formal_s43",
+   "detached": 0,
+   "attached": 97
+  },
+  {
+   "lang": "gom_Deva",
+   "system": "formal_s43",
+   "detached": 0,
+   "attached": 20
+  }
+ ],
+ "glossary": {
+  "hin_Deva": [
+   {
+    "english": "ac supply",
+    "term": "प्रत्यावर्ती धारा आपूर्ति",
+    "variants": [
+     "प्रत्यावर्ती धारा प्रदाय"
+    ],
+    "status": "standard",
+    "loanword": "एसी आपूर्ति"
+   },
+   {
+    "english": "ammeter",
+    "term": "ऐम्पियरमापी",
+    "variants": [
+     "एम्पियरमापी"
+    ],
+    "status": "proposed",
+    "loanword": "अमीटर"
+   },
+   {
+    "english": "apprentice",
+    "term": "प्रशिक्षु",
+    "variants": [
+     "शिक्षु"
+    ],
+    "status": "standard",
+    "loanword": "प्रशिक्षु"
+   },
+   {
+    "english": "cable",
+    "term": "केबल",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "केबल"
+   },
+   {
+    "english": "capacitor",
+    "term": "संधारित्र",
+    "variants": [],
+    "status": "standard",
+    "loanword": "संधारित्र"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "परिपथ वियोजक",
+    "variants": [
+     "परिपथ विच्छेदक"
+    ],
+    "status": "proposed",
+    "loanword": "सर्किट ब्रेकर"
+   },
+   {
+    "english": "conduit",
+    "term": "नाली",
+    "variants": [
+     "नलिका",
+     "वाहिनी"
+    ],
+    "status": "proposed",
+    "loanword": "कंड्यूट"
+   },
+   {
+    "english": "control panel",
+    "term": "नियंत्रण पटल",
+    "variants": [
+     "नियंत्रण पट्ट"
+    ],
+    "status": "proposed",
+    "loanword": "नियंत्रण पैनल"
+   },
+   {
+    "english": "copper conductor",
+    "term": "ताँबे का चालक",
+    "variants": [
+     "ताम्र चालक"
+    ],
+    "status": "standard",
+    "loanword": "तांबा चालक"
+   },
+   {
+    "english": "earthing",
+    "term": "भूसंपर्कन",
+    "variants": [
+     "भूसंपर्क"
+    ],
+    "status": "standard",
+    "loanword": "अर्थिंग"
+   },
+   {
+    "english": "electric shock",
+    "term": "विद्युत आघात",
+    "variants": [
+     "बिजली का झटका"
+    ],
+    "status": "standard",
+    "loanword": "बिजली का झटका"
+   },
+   {
+    "english": "electrical load",
+    "term": "विद्युत भार",
+    "variants": [],
+    "status": "standard",
+    "loanword": "विद्युत भार"
+   },
+   {
+    "english": "fuse",
+    "term": "फ्यूज़",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "फ्यूज"
+   },
+   {
+    "english": "insulation",
+    "term": "विद्युतरोधन",
+    "variants": [
+     "रोधन"
+    ],
+    "status": "proposed",
+    "loanword": "इन्सुलेशन"
+   },
+   {
+    "english": "junction box",
+    "term": "संधि पेटिका",
+    "variants": [
+     "संधि बक्सा"
+    ],
+    "status": "proposed",
+    "loanword": "जंक्शन बॉक्स"
+   },
+   {
+    "english": "leakage current",
+    "term": "क्षरण धारा",
+    "variants": [
+     "रिसाव धारा"
+    ],
+    "status": "proposed",
+    "loanword": "लीकेज करंट"
+   },
+   {
+    "english": "live wire",
+    "term": "विद्युन्मय तार",
+    "variants": [],
+    "status": "standard",
+    "loanword": "लाइव तार"
+   },
+   {
+    "english": "main switch",
+    "term": "मुख्य स्विच",
+    "variants": [
+     "मुख्य कुंजी"
+    ],
+    "status": "loanword_kept",
+    "loanword": "मुख्य स्विच"
+   },
+   {
+    "english": "megger",
+    "term": "मेगर",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेगर"
+   },
+   {
+    "english": "motor winding",
+    "term": "मोटर कुंडली",
+    "variants": [
+     "मोटर कुंडलन"
+    ],
+    "status": "proposed",
+    "loanword": "मोटर वाइंडिंग"
+   },
+   {
+    "english": "neutral wire",
+    "term": "उदासीन तार",
+    "variants": [
+     "तटस्थ तार"
+    ],
+    "status": "standard",
+    "loanword": "न्यूट्रल तार"
+   },
+   {
+    "english": "phase tester",
+    "term": "कला परीक्षक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "फेज टेस्टर"
+   },
+   {
+    "english": "protective device",
+    "term": "संरक्षी युक्ति",
+    "variants": [
+     "सुरक्षा युक्ति",
+     "सुरक्षात्मक उपकरण",
+     "सुरक्षा उपकरण"
+    ],
+    "status": "proposed",
+    "loanword": "सुरक्षा उपकरण"
+   },
+   {
+    "english": "resistance",
+    "term": "प्रतिरोध",
+    "variants": [],
+    "status": "standard",
+    "loanword": "प्रतिरोध"
+   },
+   {
+    "english": "safety shoes",
+    "term": "सुरक्षा जूते",
+    "variants": [],
+    "status": "standard",
+    "loanword": "सुरक्षा जूते"
+   },
+   {
+    "english": "single phase",
+    "term": "एकल कला",
+    "variants": [
+     "एक कला"
+    ],
+    "status": "proposed",
+    "loanword": "सिंगल फेज"
+   },
+   {
+    "english": "switch board",
+    "term": "स्विच पटल",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "स्विच बोर्ड"
+   },
+   {
+    "english": "terminal block",
+    "term": "टर्मिनल ब्लॉक",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "टर्मिनल ब्लॉक"
+   },
+   {
+    "english": "three phase",
+    "term": "त्रिकला",
+    "variants": [
+     "तीन कला",
+     "त्रि कला"
+    ],
+    "status": "proposed",
+    "loanword": "थ्री फेज"
+   },
+   {
+    "english": "voltage",
+    "term": "वोल्टता",
+    "variants": [
+     "विभवांतर"
+    ],
+    "status": "proposed",
+    "loanword": "वोल्टेज"
+   },
+   {
+    "english": "voltmeter",
+    "term": "वोल्टमापी",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वोल्टमीटर"
+   },
+   {
+    "english": "wire stripper",
+    "term": "तार छीलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वायर स्ट्रिपर"
+   }
+  ],
+  "gom_Deva": [
+   {
+    "english": "ac supply",
+    "term": "प्रत्यावर्ती प्रवाह पुरवण",
+    "variants": [
+     "प्रत्यावर्ती प्रवाह पुरवठो"
+    ],
+    "status": "proposed",
+    "loanword": "एसी पुरवठो"
+   },
+   {
+    "english": "ammeter",
+    "term": "ऐम्पियरमापी",
+    "variants": [
+     "एम्पियरमापी"
+    ],
+    "status": "proposed",
+    "loanword": "अमीटर"
+   },
+   {
+    "english": "apprentice",
+    "term": "प्रशिक्षणार्थी",
+    "variants": [
+     "प्रशिक्षु"
+    ],
+    "status": "proposed",
+    "loanword": "प्रशिक्षु"
+   },
+   {
+    "english": "cable",
+    "term": "केबल",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "केबल"
+   },
+   {
+    "english": "capacitor",
+    "term": "संधारित्र",
+    "variants": [
+     "धारित्र"
+    ],
+    "status": "proposed",
+    "loanword": "कॅपॅसिटर"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "परिपथ वियोजक",
+    "variants": [
+     "परिपथ विच्छेदक"
+    ],
+    "status": "proposed",
+    "loanword": "सर्किट ब्रेकर"
+   },
+   {
+    "english": "conduit",
+    "term": "नळी",
+    "variants": [
+     "नाली"
+    ],
+    "status": "proposed",
+    "loanword": "कंड्यूट"
+   },
+   {
+    "english": "control panel",
+    "term": "नियंत्रण पटल",
+    "variants": [
+     "नियंत्रण फलक"
+    ],
+    "status": "proposed",
+    "loanword": "कंट्रोल पॅनल"
+   },
+   {
+    "english": "copper conductor",
+    "term": "तांब्याचो वाहक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "तांब्याचो वाहक"
+   },
+   {
+    "english": "earthing",
+    "term": "भूसंपर्क",
+    "variants": [
+     "भूंयसंपर्क"
+    ],
+    "status": "proposed",
+    "loanword": "अर्थिंग"
+   },
+   {
+    "english": "electric shock",
+    "term": "विजेचो धक्को",
+    "variants": [
+     "विजेचो धक्का"
+    ],
+    "status": "proposed",
+    "loanword": "विजेचो धक्का"
+   },
+   {
+    "english": "electrical load",
+    "term": "विद्युत भार",
+    "variants": [
+     "विजेचो भार"
+    ],
+    "status": "proposed",
+    "loanword": "विद्युत भार"
+   },
+   {
+    "english": "fuse",
+    "term": "फ्यूज़",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "फ्यूज"
+   },
+   {
+    "english": "insulation",
+    "term": "विद्युतरोधन",
+    "variants": [
+     "रोधन"
+    ],
+    "status": "proposed",
+    "loanword": "इन्सुलेशन"
+   },
+   {
+    "english": "junction box",
+    "term": "संधी पेटी",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "जंक्शन बॉक्स"
+   },
+   {
+    "english": "leakage current",
+    "term": "गळती प्रवाह",
+    "variants": [
+     "गळपाचो प्रवाह"
+    ],
+    "status": "proposed",
+    "loanword": "लीकेज करंट"
+   },
+   {
+    "english": "live wire",
+    "term": "जिवंत तार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "लाइव वायर"
+   },
+   {
+    "english": "main switch",
+    "term": "मुखेल स्विच",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मुखेल स्विच"
+   },
+   {
+    "english": "megger",
+    "term": "मेगर",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेगर"
+   },
+   {
+    "english": "motor winding",
+    "term": "मोटर कुंडली",
+    "variants": [
+     "मोटर कुंडलन"
+    ],
+    "status": "proposed",
+    "loanword": "मोटर वाइंडिंग"
+   },
+   {
+    "english": "neutral wire",
+    "term": "तटस्थ तार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "न्यूट्रल वायर"
+   },
+   {
+    "english": "phase tester",
+    "term": "कला परीक्षक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "फेज टेस्टर"
+   },
+   {
+    "english": "protective device",
+    "term": "संरक्षणात्मक उपकरण",
+    "variants": [
+     "संरक्षक उपकरण"
+    ],
+    "status": "proposed",
+    "loanword": "सुरक्षा उपकरण"
+   },
+   {
+    "english": "resistance",
+    "term": "प्रतिकार",
+    "variants": [
+     "रोध"
+    ],
+    "status": "proposed",
+    "loanword": "प्रतिकार"
+   },
+   {
+    "english": "safety shoes",
+    "term": "सुरक्षा बूट",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "सुरक्षा बूट"
+   },
+   {
+    "english": "single phase",
+    "term": "एककला",
+    "variants": [
+     "एक कला"
+    ],
+    "status": "proposed",
+    "loanword": "सिंगल फेज"
+   },
+   {
+    "english": "switch board",
+    "term": "स्विच फलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "स्विच बोर्ड"
+   },
+   {
+    "english": "terminal block",
+    "term": "टर्मिनल ब्लॉक",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "टर्मिनल ब्लॉक"
+   },
+   {
+    "english": "three phase",
+    "term": "त्रिकला",
+    "variants": [
+     "तीन कला"
+    ],
+    "status": "proposed",
+    "loanword": "थ्री फेज"
+   },
+   {
+    "english": "voltage",
+    "term": "वोल्टता",
+    "variants": [
+     "विभवांतर"
+    ],
+    "status": "proposed",
+    "loanword": "व्होल्टेज"
+   },
+   {
+    "english": "voltmeter",
+    "term": "वोल्टमापी",
+    "variants": [
+     "व्होल्टमापी"
+    ],
+    "status": "proposed",
+    "loanword": "व्होल्टमीटर"
+   },
+   {
+    "english": "wire stripper",
+    "term": "तार सोलपी",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वायर स्ट्रिपर"
+   }
+  ],
+  "mai_Deva": [
+   {
+    "english": "ac supply",
+    "term": "प्रत्यावर्ती धारा आपूर्ति",
+    "variants": [
+     "प्रत्यावर्ती धारा प्रदाय"
+    ],
+    "status": "proposed",
+    "loanword": "एसी आपूर्ति"
+   },
+   {
+    "english": "ammeter",
+    "term": "ऐम्पियरमापी",
+    "variants": [
+     "एम्पियरमापी"
+    ],
+    "status": "proposed",
+    "loanword": "अमीटर"
+   },
+   {
+    "english": "apprentice",
+    "term": "प्रशिक्षु",
+    "variants": [
+     "शिक्षु"
+    ],
+    "status": "proposed",
+    "loanword": "प्रशिक्षु"
+   },
+   {
+    "english": "cable",
+    "term": "केबल",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "केबल"
+   },
+   {
+    "english": "capacitor",
+    "term": "संधारित्र",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "कैपेसिटर"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "परिपथ वियोजक",
+    "variants": [
+     "परिपथ विच्छेदक"
+    ],
+    "status": "proposed",
+    "loanword": "सर्किट ब्रेकर"
+   },
+   {
+    "english": "conduit",
+    "term": "नाली",
+    "variants": [
+     "नलिका",
+     "वाहिनी"
+    ],
+    "status": "proposed",
+    "loanword": "कंड्यूट"
+   },
+   {
+    "english": "control panel",
+    "term": "नियंत्रण पटल",
+    "variants": [
+     "नियंत्रण पट्ट"
+    ],
+    "status": "proposed",
+    "loanword": "कंट्रोल पैनल"
+   },
+   {
+    "english": "copper conductor",
+    "term": "तामक चालक",
+    "variants": [
+     "ताँबाक चालक"
+    ],
+    "status": "proposed",
+    "loanword": "तांबा चालक"
+   },
+   {
+    "english": "earthing",
+    "term": "भूसंपर्कन",
+    "variants": [
+     "भूसंपर्क"
+    ],
+    "status": "proposed",
+    "loanword": "अर्थिंग"
+   },
+   {
+    "english": "electric shock",
+    "term": "विद्युत आघात",
+    "variants": [
+     "बिजलीक झटका"
+    ],
+    "status": "proposed",
+    "loanword": "बिजलीक झटका"
+   },
+   {
+    "english": "electrical load",
+    "term": "विद्युत भार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "विद्युत भार"
+   },
+   {
+    "english": "fuse",
+    "term": "फ्यूज़",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "फ्यूज"
+   },
+   {
+    "english": "insulation",
+    "term": "विद्युतरोधन",
+    "variants": [
+     "रोधन"
+    ],
+    "status": "proposed",
+    "loanword": "इन्सुलेशन"
+   },
+   {
+    "english": "junction box",
+    "term": "संधि पेटिका",
+    "variants": [
+     "संधि बक्सा"
+    ],
+    "status": "proposed",
+    "loanword": "जंक्शन बॉक्स"
+   },
+   {
+    "english": "leakage current",
+    "term": "क्षरण धारा",
+    "variants": [
+     "रिसाव धारा"
+    ],
+    "status": "proposed",
+    "loanword": "लीकेज करंट"
+   },
+   {
+    "english": "live wire",
+    "term": "विद्युन्मय तार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "लाइव तार"
+   },
+   {
+    "english": "main switch",
+    "term": "मुख्य स्विच",
+    "variants": [
+     "मुख्य कुंजी"
+    ],
+    "status": "loanword_kept",
+    "loanword": "मुख्य स्विच"
+   },
+   {
+    "english": "megger",
+    "term": "मेगर",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेगर"
+   },
+   {
+    "english": "motor winding",
+    "term": "मोटर कुंडली",
+    "variants": [
+     "मोटर कुंडलन"
+    ],
+    "status": "proposed",
+    "loanword": "मोटर वाइंडिंग"
+   },
+   {
+    "english": "neutral wire",
+    "term": "उदासीन तार",
+    "variants": [
+     "तटस्थ तार"
+    ],
+    "status": "proposed",
+    "loanword": "न्यूट्रल तार"
+   },
+   {
+    "english": "phase tester",
+    "term": "कला परीक्षक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "फेज टेस्टर"
+   },
+   {
+    "english": "protective device",
+    "term": "संरक्षी युक्ति",
+    "variants": [
+     "सुरक्षा युक्ति",
+     "सुरक्षात्मक उपकरण",
+     "सुरक्षा उपकरण"
+    ],
+    "status": "proposed",
+    "loanword": "सुरक्षा उपकरण"
+   },
+   {
+    "english": "resistance",
+    "term": "प्रतिरोध",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "प्रतिरोध"
+   },
+   {
+    "english": "safety shoes",
+    "term": "सुरक्षा जूता",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "सुरक्षा जूता"
+   },
+   {
+    "english": "single phase",
+    "term": "एकल कला",
+    "variants": [
+     "एक कला"
+    ],
+    "status": "proposed",
+    "loanword": "सिंगल फेज"
+   },
+   {
+    "english": "switch board",
+    "term": "स्विच पटल",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "स्विच बोर्ड"
+   },
+   {
+    "english": "terminal block",
+    "term": "टर्मिनल ब्लॉक",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "टर्मिनल ब्लॉक"
+   },
+   {
+    "english": "three phase",
+    "term": "त्रिकला",
+    "variants": [
+     "तीन कला",
+     "त्रि कला"
+    ],
+    "status": "proposed",
+    "loanword": "थ्री फेज"
+   },
+   {
+    "english": "voltage",
+    "term": "वोल्टता",
+    "variants": [
+     "विभवांतर"
+    ],
+    "status": "proposed",
+    "loanword": "वोल्टेज"
+   },
+   {
+    "english": "voltmeter",
+    "term": "वोल्टमापी",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वोल्टमीटर"
+   },
+   {
+    "english": "wire stripper",
+    "term": "तार छीलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वायर स्ट्रिपर"
+   }
+  ],
+  "doi_Deva": [
+   {
+    "english": "ac supply",
+    "term": "प्रत्यावर्ती धारा आपूर्ति",
+    "variants": [
+     "प्रत्यावर्ती धारा प्रदाय"
+    ],
+    "status": "proposed",
+    "loanword": "एसी सप्लाई"
+   },
+   {
+    "english": "ammeter",
+    "term": "ऐम्पियरमापी",
+    "variants": [
+     "एम्पियरमापी"
+    ],
+    "status": "proposed",
+    "loanword": "अमीटर"
+   },
+   {
+    "english": "apprentice",
+    "term": "प्रशिक्षु",
+    "variants": [
+     "शिक्षु"
+    ],
+    "status": "proposed",
+    "loanword": "प्रशिक्षु"
+   },
+   {
+    "english": "cable",
+    "term": "केबल",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "केबल"
+   },
+   {
+    "english": "capacitor",
+    "term": "संधारित्र",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "कैपेसिटर"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "परिपथ वियोजक",
+    "variants": [
+     "परिपथ विच्छेदक"
+    ],
+    "status": "proposed",
+    "loanword": "सर्किट ब्रेकर"
+   },
+   {
+    "english": "conduit",
+    "term": "नाली",
+    "variants": [
+     "नलिका",
+     "वाहिनी"
+    ],
+    "status": "proposed",
+    "loanword": "कंड्यूट"
+   },
+   {
+    "english": "control panel",
+    "term": "नियंत्रण पटल",
+    "variants": [
+     "नियंत्रण पट्ट"
+    ],
+    "status": "proposed",
+    "loanword": "कंट्रोल पैनल"
+   },
+   {
+    "english": "copper conductor",
+    "term": "तांबे दा चालक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "तांबे दा चालक"
+   },
+   {
+    "english": "earthing",
+    "term": "भूसंपर्कन",
+    "variants": [
+     "भूसंपर्क"
+    ],
+    "status": "proposed",
+    "loanword": "अर्थिंग"
+   },
+   {
+    "english": "electric shock",
+    "term": "विद्युत आघात",
+    "variants": [
+     "बिजली दा झटका"
+    ],
+    "status": "proposed",
+    "loanword": "बिजली दा झटका"
+   },
+   {
+    "english": "electrical load",
+    "term": "विद्युत भार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "विद्युत भार"
+   },
+   {
+    "english": "fuse",
+    "term": "फ्यूज़",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "फ्यूज"
+   },
+   {
+    "english": "insulation",
+    "term": "विद्युतरोधन",
+    "variants": [
+     "रोधन"
+    ],
+    "status": "proposed",
+    "loanword": "इन्सुलेशन"
+   },
+   {
+    "english": "junction box",
+    "term": "संधि पेटिका",
+    "variants": [
+     "संधि बक्सा"
+    ],
+    "status": "proposed",
+    "loanword": "जंक्शन बॉक्स"
+   },
+   {
+    "english": "leakage current",
+    "term": "क्षरण धारा",
+    "variants": [
+     "रिसाव धारा"
+    ],
+    "status": "proposed",
+    "loanword": "लीकेज करंट"
+   },
+   {
+    "english": "live wire",
+    "term": "विद्युन्मय तार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "लाइव तार"
+   },
+   {
+    "english": "main switch",
+    "term": "मुक्ख स्विच",
+    "variants": [
+     "मुख्य स्विच"
+    ],
+    "status": "loanword_kept",
+    "loanword": "मुख्य स्विच"
+   },
+   {
+    "english": "megger",
+    "term": "मेगर",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेगर"
+   },
+   {
+    "english": "motor winding",
+    "term": "मोटर कुंडली",
+    "variants": [
+     "मोटर कुंडलन"
+    ],
+    "status": "proposed",
+    "loanword": "मोटर वाइंडिंग"
+   },
+   {
+    "english": "neutral wire",
+    "term": "उदासीन तार",
+    "variants": [
+     "तटस्थ तार"
+    ],
+    "status": "proposed",
+    "loanword": "न्यूट्रल तार"
+   },
+   {
+    "english": "phase tester",
+    "term": "कला परीक्षक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "फेज टेस्टर"
+   },
+   {
+    "english": "protective device",
+    "term": "संरक्षी युक्ति",
+    "variants": [
+     "सुरक्षा युक्ति",
+     "सुरक्षात्मक उपकरण",
+     "सुरक्षा उपकरण"
+    ],
+    "status": "proposed",
+    "loanword": "सुरक्षा उपकरण"
+   },
+   {
+    "english": "resistance",
+    "term": "प्रतिरोध",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "प्रतिरोध"
+   },
+   {
+    "english": "safety shoes",
+    "term": "सुरक्षा जुत्ते",
+    "variants": [
+     "सुरक्षा जूते"
+    ],
+    "status": "proposed",
+    "loanword": "सुरक्षा जूते"
+   },
+   {
+    "english": "single phase",
+    "term": "एकल कला",
+    "variants": [
+     "एक कला"
+    ],
+    "status": "proposed",
+    "loanword": "सिंगल फेज"
+   },
+   {
+    "english": "switch board",
+    "term": "स्विच पटल",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "स्विच बोर्ड"
+   },
+   {
+    "english": "terminal block",
+    "term": "टर्मिनल ब्लॉक",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "टर्मिनल ब्लॉक"
+   },
+   {
+    "english": "three phase",
+    "term": "त्रिकला",
+    "variants": [
+     "तीन कला",
+     "त्रि कला"
+    ],
+    "status": "proposed",
+    "loanword": "थ्री फेज"
+   },
+   {
+    "english": "voltage",
+    "term": "वोल्टता",
+    "variants": [
+     "विभवांतर"
+    ],
+    "status": "proposed",
+    "loanword": "वोल्टेज"
+   },
+   {
+    "english": "voltmeter",
+    "term": "वोल्टमापी",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वोल्टमीटर"
+   },
+   {
+    "english": "wire stripper",
+    "term": "तार छीलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वायर स्ट्रिपर"
+   }
+  ],
+  "mar_Deva": [
+   {
+    "english": "ac supply",
+    "term": "प्रत्यावर्ती धारा पुरवठा",
+    "variants": [
+     "प्रत्यावर्ती प्रवाह पुरवठा"
+    ],
+    "status": "proposed",
+    "loanword": "एसी पुरवठा"
+   },
+   {
+    "english": "ammeter",
+    "term": "धारामापक",
+    "variants": [
+     "अँपिअरमापक"
+    ],
+    "status": "proposed",
+    "loanword": "अॅमीटर"
+   },
+   {
+    "english": "apprentice",
+    "term": "प्रशिक्षणार्थी",
+    "variants": [
+     "शिकाऊ उमेदवार"
+    ],
+    "status": "proposed",
+    "loanword": "अप्रेंटिस"
+   },
+   {
+    "english": "cable",
+    "term": "केबल",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "केबल"
+   },
+   {
+    "english": "capacitor",
+    "term": "धारित्र",
+    "variants": [
+     "संधारित्र"
+    ],
+    "status": "proposed",
+    "loanword": "कॅपॅसिटर"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "परिपथ विच्छेदक",
+    "variants": [
+     "परिपथ खंडक"
+    ],
+    "status": "proposed",
+    "loanword": "सर्किट ब्रेकर"
+   },
+   {
+    "english": "conduit",
+    "term": "नळी",
+    "variants": [
+     "वाहिनी"
+    ],
+    "status": "proposed",
+    "loanword": "कंड्युट"
+   },
+   {
+    "english": "control panel",
+    "term": "नियंत्रण फलक",
+    "variants": [
+     "नियंत्रण पटल"
+    ],
+    "status": "proposed",
+    "loanword": "कंट्रोल पॅनल"
+   },
+   {
+    "english": "copper conductor",
+    "term": "तांब्याचा वाहक",
+    "variants": [
+     "तांबे वाहक"
+    ],
+    "status": "proposed",
+    "loanword": "कॉपर कंडक्टर"
+   },
+   {
+    "english": "earthing",
+    "term": "भूसंपर्क",
+    "variants": [
+     "भूयोजन"
+    ],
+    "status": "proposed",
+    "loanword": "अर्थिंग"
+   },
+   {
+    "english": "electric shock",
+    "term": "विजेचा धक्का",
+    "variants": [
+     "विद्युत आघात"
+    ],
+    "status": "proposed",
+    "loanword": "शॉक"
+   },
+   {
+    "english": "electrical load",
+    "term": "विद्युत भार",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "इलेक्ट्रिकल लोड"
+   },
+   {
+    "english": "fuse",
+    "term": "फ्यूज",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "फ्यूज"
+   },
+   {
+    "english": "insulation",
+    "term": "विद्युतरोधन",
+    "variants": [
+     "निरोधन"
+    ],
+    "status": "proposed",
+    "loanword": "इन्सुलेशन"
+   },
+   {
+    "english": "junction box",
+    "term": "जोडणी पेटी",
+    "variants": [
+     "संधी पेटी"
+    ],
+    "status": "proposed",
+    "loanword": "जंक्शन बॉक्स"
+   },
+   {
+    "english": "leakage current",
+    "term": "गळती प्रवाह",
+    "variants": [
+     "गळती धारा"
+    ],
+    "status": "proposed",
+    "loanword": "लिकेज करंट"
+   },
+   {
+    "english": "live wire",
+    "term": "विद्युन्मय तार",
+    "variants": [
+     "जिवंत तार"
+    ],
+    "status": "proposed",
+    "loanword": "लाइव्ह वायर"
+   },
+   {
+    "english": "main switch",
+    "term": "मुख्य स्विच",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेन स्विच"
+   },
+   {
+    "english": "megger",
+    "term": "मेगर",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "मेगर"
+   },
+   {
+    "english": "motor winding",
+    "term": "मोटर कुंडली",
+    "variants": [
+     "मोटर गुंडाळी"
+    ],
+    "status": "proposed",
+    "loanword": "मोटर वाइंडिंग"
+   },
+   {
+    "english": "neutral wire",
+    "term": "तटस्थ तार",
+    "variants": [
+     "उदासीन तार"
+    ],
+    "status": "proposed",
+    "loanword": "न्यूट्रल वायर"
+   },
+   {
+    "english": "phase tester",
+    "term": "कला परीक्षक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "फेज टेस्टर"
+   },
+   {
+    "english": "protective device",
+    "term": "संरक्षक उपकरण",
+    "variants": [
+     "संरक्षण साधन"
+    ],
+    "status": "proposed",
+    "loanword": "प्रोटेक्टिव्ह डिव्हाइस"
+   },
+   {
+    "english": "resistance",
+    "term": "रोध",
+    "variants": [
+     "प्रतिरोध"
+    ],
+    "status": "proposed",
+    "loanword": "रेझिस्टन्स"
+   },
+   {
+    "english": "safety shoes",
+    "term": "सुरक्षा बूट",
+    "variants": [
+     "सुरक्षा पादत्राणे"
+    ],
+    "status": "proposed",
+    "loanword": "सेफ्टी शूज"
+   },
+   {
+    "english": "single phase",
+    "term": "एककला",
+    "variants": [
+     "एक कला"
+    ],
+    "status": "proposed",
+    "loanword": "सिंगल फेज"
+   },
+   {
+    "english": "switch board",
+    "term": "स्विच फलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "स्विच बोर्ड"
+   },
+   {
+    "english": "terminal block",
+    "term": "टर्मिनल ब्लॉक",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "टर्मिनल ब्लॉक"
+   },
+   {
+    "english": "three phase",
+    "term": "त्रिकला",
+    "variants": [
+     "तीन कला"
+    ],
+    "status": "proposed",
+    "loanword": "थ्री फेज"
+   },
+   {
+    "english": "voltage",
+    "term": "विभवांतर",
+    "variants": [
+     "व्होल्टता"
+    ],
+    "status": "proposed",
+    "loanword": "व्होल्टेज"
+   },
+   {
+    "english": "voltmeter",
+    "term": "विभवांतरमापक",
+    "variants": [
+     "व्होल्टमापक"
+    ],
+    "status": "proposed",
+    "loanword": "व्होल्टमीटर"
+   },
+   {
+    "english": "wire stripper",
+    "term": "तार सोलक",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "वायर स्ट्रिपर"
+   }
+  ],
+  "guj_Gujr": [
+   {
+    "english": "ac supply",
+    "term": "પ્રત્યાવર્તી પ્રવાહ પુરવઠો",
+    "variants": [
+     "પ્રત્યાવર્તી વિદ્યુત પુરવઠો"
+    ],
+    "status": "proposed",
+    "loanword": "એસી સપ્લાય"
+   },
+   {
+    "english": "ammeter",
+    "term": "પ્રવાહમાપક",
+    "variants": [
+     "એમ્પિયરમાપક"
+    ],
+    "status": "proposed",
+    "loanword": "એમીટર"
+   },
+   {
+    "english": "apprentice",
+    "term": "તાલીમાર્થી",
+    "variants": [
+     "શિખાઉ"
+    ],
+    "status": "proposed",
+    "loanword": "એપ્રેન્ટિસ"
+   },
+   {
+    "english": "cable",
+    "term": "કેબલ",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "કેબલ"
+   },
+   {
+    "english": "capacitor",
+    "term": "સંધારિત્ર",
+    "variants": [
+     "ધારિત્ર"
+    ],
+    "status": "proposed",
+    "loanword": "કેપેસિટર"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "પરિપથ વિચ્છેદક",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "સર્કિટ બ્રેકર"
+   },
+   {
+    "english": "conduit",
+    "term": "નળી",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "કન્ડ્યુટ"
+   },
+   {
+    "english": "control panel",
+    "term": "નિયંત્રણ ફલક",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "કંટ્રોલ પેનલ"
+   },
+   {
+    "english": "copper conductor",
+    "term": "તાંબાનો વાહક",
+    "variants": [
+     "તાંબાનું વાહક"
+    ],
+    "status": "proposed",
+    "loanword": "કોપર કંડક્ટર"
+   },
+   {
+    "english": "earthing",
+    "term": "ભૂસંપર્ક",
+    "variants": [
+     "ભૂસંપર્કન"
+    ],
+    "status": "proposed",
+    "loanword": "અર્થિંગ"
+   },
+   {
+    "english": "electric shock",
+    "term": "વીજ આંચકો",
+    "variants": [
+     "વીજળીનો આંચકો"
+    ],
+    "status": "proposed",
+    "loanword": "શોક"
+   },
+   {
+    "english": "electrical load",
+    "term": "વિદ્યુત ભાર",
+    "variants": [
+     "વીજ ભાર"
+    ],
+    "status": "proposed",
+    "loanword": "ઇલેક્ટ્રિકલ લોડ"
+   },
+   {
+    "english": "fuse",
+    "term": "ફ્યુઝ",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ફ્યુઝ"
+   },
+   {
+    "english": "insulation",
+    "term": "અવાહકતા",
+    "variants": [
+     "વિદ્યુતરોધન"
+    ],
+    "status": "proposed",
+    "loanword": "ઇન્સ્યુલેશન"
+   },
+   {
+    "english": "junction box",
+    "term": "જોડાણ પેટી",
+    "variants": [
+     "સંધિ પેટી"
+    ],
+    "status": "proposed",
+    "loanword": "જંક્શન બોક્સ"
+   },
+   {
+    "english": "leakage current",
+    "term": "ગળતર પ્રવાહ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "લીકેજ કરંટ"
+   },
+   {
+    "english": "live wire",
+    "term": "વિદ્યુતમય તાર",
+    "variants": [
+     "જીવંત તાર"
+    ],
+    "status": "proposed",
+    "loanword": "લાઇવ વાયર"
+   },
+   {
+    "english": "main switch",
+    "term": "મુખ્ય કળ",
+    "variants": [
+     "મુખ્ય સ્વિચ"
+    ],
+    "status": "proposed",
+    "loanword": "મેઇન સ્વિચ"
+   },
+   {
+    "english": "megger",
+    "term": "મેગર",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "મેગર"
+   },
+   {
+    "english": "motor winding",
+    "term": "મોટર કુંડળી",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "મોટર વાઇન્ડિંગ"
+   },
+   {
+    "english": "neutral wire",
+    "term": "તટસ્થ તાર",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ન્યુટ્રલ વાયર"
+   },
+   {
+    "english": "phase tester",
+    "term": "કળા પરીક્ષક",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ફેઝ ટેસ્ટર"
+   },
+   {
+    "english": "protective device",
+    "term": "રક્ષણાત્મક ઉપકરણ",
+    "variants": [
+     "સંરક્ષક ઉપકરણ"
+    ],
+    "status": "proposed",
+    "loanword": "પ્રોટેક્ટિવ ડિવાઇસ"
+   },
+   {
+    "english": "resistance",
+    "term": "અવરોધ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "રેઝિસ્ટન્સ"
+   },
+   {
+    "english": "safety shoes",
+    "term": "સલામતી જૂતાં",
+    "variants": [
+     "સુરક્ષા જૂતાં"
+    ],
+    "status": "proposed",
+    "loanword": "સેફ્ટી શૂઝ"
+   },
+   {
+    "english": "single phase",
+    "term": "એકકળા",
+    "variants": [
+     "એક કળા"
+    ],
+    "status": "proposed",
+    "loanword": "સિંગલ ફેઝ"
+   },
+   {
+    "english": "switch board",
+    "term": "સ્વિચ બોર્ડ",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "સ્વિચ બોર્ડ"
+   },
+   {
+    "english": "terminal block",
+    "term": "ટર્મિનલ બ્લોક",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ટર્મિનલ બ્લોક"
+   },
+   {
+    "english": "three phase",
+    "term": "ત્રિકળા",
+    "variants": [
+     "ત્રણ કળા"
+    ],
+    "status": "proposed",
+    "loanword": "થ્રી ફેઝ"
+   },
+   {
+    "english": "voltage",
+    "term": "વિભવાંતર",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "વોલ્ટેજ"
+   },
+   {
+    "english": "voltmeter",
+    "term": "વોલ્ટમાપક",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "વોલ્ટમીટર"
+   },
+   {
+    "english": "wire stripper",
+    "term": "તાર છોલક",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "વાયર સ્ટ્રિપર"
+   }
+  ],
+  "tam_Taml": [
+   {
+    "english": "ac supply",
+    "term": "மாறுதிசை மின்னோட்ட வழங்கல்",
+    "variants": [
+     "மாறுதிசை மின் வழங்கல்"
+    ],
+    "status": "proposed",
+    "loanword": "ஏசி சப்ளை"
+   },
+   {
+    "english": "ammeter",
+    "term": "மின்னோட்டமானி",
+    "variants": [
+     "ஆம்பியர் மானி",
+     "ஆம்ப்பியர் மானி"
+    ],
+    "status": "proposed",
+    "loanword": "அம்மீட்டர்"
+   },
+   {
+    "english": "apprentice",
+    "term": "தொழில் பழகுநர்",
+    "variants": [
+     "பயிற்சியாளர்"
+    ],
+    "status": "proposed",
+    "loanword": "அப்ரெண்டிஸ்"
+   },
+   {
+    "english": "cable",
+    "term": "மின்வடம்",
+    "variants": [
+     "கம்பி வடம்"
+    ],
+    "status": "proposed",
+    "loanword": "கேபிள்"
+   },
+   {
+    "english": "capacitor",
+    "term": "மின்தேக்கி",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "கெப்பாசிட்டர்"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "மின்சுற்று முறிப்பான்",
+    "variants": [
+     "சுற்று முறிப்பான்"
+    ],
+    "status": "proposed",
+    "loanword": "சர்க்யூட் பிரேக்கர்"
+   },
+   {
+    "english": "conduit",
+    "term": "மின்குழாய்",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "கான்ட்யூட்"
+   },
+   {
+    "english": "control panel",
+    "term": "கட்டுப்பாட்டுப் பலகை",
+    "variants": [
+     "கட்டுப்பாட்டு பலகை"
+    ],
+    "status": "proposed",
+    "loanword": "கண்ட்ரோல் பேனல்"
+   },
+   {
+    "english": "copper conductor",
+    "term": "செப்புக் கடத்தி",
+    "variants": [
+     "செப்பு கடத்தி"
+    ],
+    "status": "proposed",
+    "loanword": "காப்பர் கண்டக்டர்"
+   },
+   {
+    "english": "earthing",
+    "term": "புவியிணைப்பு",
+    "variants": [
+     "நிலத்தொடுப்பு",
+     "மண்ணிணைப்பு"
+    ],
+    "status": "proposed",
+    "loanword": "எர்த்திங்"
+   },
+   {
+    "english": "electric shock",
+    "term": "மின்னதிர்ச்சி",
+    "variants": [
+     "மின் அதிர்ச்சி"
+    ],
+    "status": "proposed",
+    "loanword": "ஷாக்"
+   },
+   {
+    "english": "electrical load",
+    "term": "மின்சுமை",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "எலக்ட்ரிக்கல் லோடு"
+   },
+   {
+    "english": "fuse",
+    "term": "உருகி",
+    "variants": [
+     "உருகு இழை"
+    ],
+    "status": "proposed",
+    "loanword": "ஃபியூஸ்"
+   },
+   {
+    "english": "insulation",
+    "term": "மின்காப்பு",
+    "variants": [
+     "மின்காப்பான்"
+    ],
+    "status": "proposed",
+    "loanword": "இன்சுலேஷன்"
+   },
+   {
+    "english": "junction box",
+    "term": "இணைப்புப் பெட்டி",
+    "variants": [
+     "இணைப்பு பெட்டி"
+    ],
+    "status": "proposed",
+    "loanword": "ஜங்ஷன் பாக்ஸ்"
+   },
+   {
+    "english": "leakage current",
+    "term": "கசிவு மின்னோட்டம்",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "லீக்கேஜ் கரண்ட்"
+   },
+   {
+    "english": "live wire",
+    "term": "மின்னோட்டக் கம்பி",
+    "variants": [
+     "மின்னோட்ட கம்பி"
+    ],
+    "status": "proposed",
+    "loanword": "லைவ் வயர்"
+   },
+   {
+    "english": "main switch",
+    "term": "முதன்மை நிலைமாற்றி",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "மெயின் ஸ்விட்ச்"
+   },
+   {
+    "english": "megger",
+    "term": "மெகர்",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "மெகர்"
+   },
+   {
+    "english": "motor winding",
+    "term": "மின்னோடிச் சுருள்",
+    "variants": [
+     "மோட்டார் சுருள்"
+    ],
+    "status": "proposed",
+    "loanword": "மோட்டார் வைண்டிங்"
+   },
+   {
+    "english": "neutral wire",
+    "term": "நடுநிலைக் கம்பி",
+    "variants": [
+     "நடுநிலை கம்பி"
+    ],
+    "status": "proposed",
+    "loanword": "நியூட்ரல் வயர்"
+   },
+   {
+    "english": "phase tester",
+    "term": "அறுவாய் சோதிப்பான்",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "பேஸ் டெஸ்டர்"
+   },
+   {
+    "english": "protective device",
+    "term": "பாதுகாப்புச் சாதனம்",
+    "variants": [
+     "பாதுகாப்பு சாதனம்"
+    ],
+    "status": "proposed",
+    "loanword": "புரொடெக்டிவ் டிவைஸ்"
+   },
+   {
+    "english": "resistance",
+    "term": "மின்தடை",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ரெசிஸ்டன்ஸ்"
+   },
+   {
+    "english": "safety shoes",
+    "term": "பாதுகாப்புக் காலணி",
+    "variants": [
+     "பாதுகாப்பு காலணி"
+    ],
+    "status": "proposed",
+    "loanword": "சேஃப்டி ஷூஸ்"
+   },
+   {
+    "english": "single phase",
+    "term": "ஒற்றை அறுவாய்",
+    "variants": [
+     "ஒருமுனை"
+    ],
+    "status": "proposed",
+    "loanword": "சிங்கிள் பேஸ்"
+   },
+   {
+    "english": "switch board",
+    "term": "நிலைமாற்றிப் பலகை",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ஸ்விட்ச் போர்டு"
+   },
+   {
+    "english": "terminal block",
+    "term": "முனையத் தொகுதி",
+    "variants": [
+     "முனைய தொகுதி"
+    ],
+    "status": "proposed",
+    "loanword": "டெர்மினல் பிளாக்"
+   },
+   {
+    "english": "three phase",
+    "term": "முத்தறுவாய்",
+    "variants": [
+     "மும்முனை"
+    ],
+    "status": "proposed",
+    "loanword": "த்ரீ பேஸ்"
+   },
+   {
+    "english": "voltage",
+    "term": "மின்னழுத்தம்",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "வோல்டேஜ்"
+   },
+   {
+    "english": "voltmeter",
+    "term": "மின்னழுத்தமானி",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "வோல்ட்மீட்டர்"
+   },
+   {
+    "english": "wire stripper",
+    "term": "கம்பி உரிப்பான்",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "வயர் ஸ்ட்ரிப்பர்"
+   }
+  ],
+  "tel_Telu": [
+   {
+    "english": "ac supply",
+    "term": "ద్విముఖ విద్యుత్ సరఫరా",
+    "variants": [
+     "ప్రత్యావర్తి విద్యుత్ సరఫరా"
+    ],
+    "status": "proposed",
+    "loanword": "ఏసీ సప్లై"
+   },
+   {
+    "english": "ammeter",
+    "term": "విద్యుత్ ప్రవాహ మాపకం",
+    "variants": [
+     "ప్రవాహ మాపకం"
+    ],
+    "status": "proposed",
+    "loanword": "అమ్మీటర్"
+   },
+   {
+    "english": "apprentice",
+    "term": "శిక్షణార్థి",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "అప్రెంటిస్"
+   },
+   {
+    "english": "cable",
+    "term": "కేబుల్",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "కేబుల్"
+   },
+   {
+    "english": "capacitor",
+    "term": "ధారిత్రం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "కెపాసిటర్"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "వలయ విచ్ఛేదకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "సర్క్యూట్ బ్రేకర్"
+   },
+   {
+    "english": "conduit",
+    "term": "విద్యుత్ వాహిక",
+    "variants": [
+     "వాహిక"
+    ],
+    "status": "proposed",
+    "loanword": "కండ్యూట్"
+   },
+   {
+    "english": "control panel",
+    "term": "నియంత్రణ ఫలకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "కంట్రోల్ ప్యానెల్"
+   },
+   {
+    "english": "copper conductor",
+    "term": "రాగి వాహకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "కాపర్ కండక్టర్"
+   },
+   {
+    "english": "earthing",
+    "term": "భూసంధానం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ఎర్తింగ్"
+   },
+   {
+    "english": "electric shock",
+    "term": "విద్యుద్ఘాతం",
+    "variants": [
+     "విద్యుద్ఘాతము",
+     "విద్యుదాఘాతం"
+    ],
+    "status": "proposed",
+    "loanword": "షాక్"
+   },
+   {
+    "english": "electrical load",
+    "term": "విద్యుత్ భారం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ఎలక్ట్రికల్ లోడ్"
+   },
+   {
+    "english": "fuse",
+    "term": "ఫ్యూజ్",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ఫ్యూజ్"
+   },
+   {
+    "english": "insulation",
+    "term": "అవాహకత",
+    "variants": [
+     "విద్యుత్ నిరోధకత"
+    ],
+    "status": "proposed",
+    "loanword": "ఇన్సులేషన్"
+   },
+   {
+    "english": "junction box",
+    "term": "సంధి పెట్టె",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "జంక్షన్ బాక్స్"
+   },
+   {
+    "english": "leakage current",
+    "term": "క్షరణ ప్రవాహం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "లీకేజ్ కరెంట్"
+   },
+   {
+    "english": "live wire",
+    "term": "విద్యుత్ ప్రవాహ తీగ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "లైవ్ వైర్"
+   },
+   {
+    "english": "main switch",
+    "term": "ప్రధాన స్విచ్",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "మెయిన్ స్విచ్"
+   },
+   {
+    "english": "megger",
+    "term": "మెగ్గర్",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "మెగ్గర్"
+   },
+   {
+    "english": "motor winding",
+    "term": "మోటారు చుట్ట",
+    "variants": [
+     "మోటారు చుట్టలు"
+    ],
+    "status": "proposed",
+    "loanword": "మోటార్ వైండింగ్"
+   },
+   {
+    "english": "neutral wire",
+    "term": "తటస్థ తీగ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "న్యూట్రల్ వైర్"
+   },
+   {
+    "english": "phase tester",
+    "term": "దశ పరీక్షకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ఫేజ్ టెస్టర్"
+   },
+   {
+    "english": "protective device",
+    "term": "రక్షణ పరికరం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ప్రొటెక్టివ్ డివైస్"
+   },
+   {
+    "english": "resistance",
+    "term": "నిరోధం",
+    "variants": [
+     "విద్యున్నిరోధం"
+    ],
+    "status": "proposed",
+    "loanword": "రెసిస్టెన్స్"
+   },
+   {
+    "english": "safety shoes",
+    "term": "రక్షణ బూట్లు",
+    "variants": [
+     "భద్రతా బూట్లు"
+    ],
+    "status": "proposed",
+    "loanword": "సేఫ్టీ షూస్"
+   },
+   {
+    "english": "single phase",
+    "term": "ఏక దశ",
+    "variants": [
+     "ఏకదశ"
+    ],
+    "status": "proposed",
+    "loanword": "సింగిల్ ఫేజ్"
+   },
+   {
+    "english": "switch board",
+    "term": "స్విచ్ ఫలకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "స్విచ్ బోర్డ్"
+   },
+   {
+    "english": "terminal block",
+    "term": "టెర్మినల్ బ్లాక్",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "టెర్మినల్ బ్లాక్"
+   },
+   {
+    "english": "three phase",
+    "term": "త్రి దశ",
+    "variants": [
+     "త్రిదశ",
+     "మూడు దశల"
+    ],
+    "status": "proposed",
+    "loanword": "త్రీ ఫేజ్"
+   },
+   {
+    "english": "voltage",
+    "term": "విభవాంతరం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "వోల్టేజ్"
+   },
+   {
+    "english": "voltmeter",
+    "term": "విభవాంతర మాపకం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "వోల్ట్‌మీటర్"
+   },
+   {
+    "english": "wire stripper",
+    "term": "తీగ ఒలుపు సాధనం",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "వైర్ స్ట్రిప్పర్"
+   }
+  ],
+  "kan_Knda": [
+   {
+    "english": "ac supply",
+    "term": "ಪರ್ಯಾಯ ವಿದ್ಯುತ್ ಸರಬರಾಜು",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಎಸಿ ಸಪ್ಲೈ"
+   },
+   {
+    "english": "ammeter",
+    "term": "ವಿದ್ಯುತ್ ಪ್ರವಾಹ ಮಾಪಕ",
+    "variants": [
+     "ಪ್ರವಾಹ ಮಾಪಕ"
+    ],
+    "status": "proposed",
+    "loanword": "ಅಮ್ಮೀಟರ್"
+   },
+   {
+    "english": "apprentice",
+    "term": "ಶಿಕ್ಷಾರ್ಥಿ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಅಪ್ರೆಂಟಿಸ್"
+   },
+   {
+    "english": "cable",
+    "term": "ಕೇಬಲ್",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ಕೇಬಲ್"
+   },
+   {
+    "english": "capacitor",
+    "term": "ಧಾರಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಕೆಪಾಸಿಟರ್"
+   },
+   {
+    "english": "circuit breaker",
+    "term": "ಮಂಡಲ ವಿಚ್ಛೇದಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಸರ್ಕ್ಯೂಟ್ ಬ್ರೇಕರ್"
+   },
+   {
+    "english": "conduit",
+    "term": "ಕೊಳವೆ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಕಂಡ್ಯೂಟ್"
+   },
+   {
+    "english": "control panel",
+    "term": "ನಿಯಂತ್ರಣ ಫಲಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಕಂಟ್ರೋಲ್ ಪ್ಯಾನೆಲ್"
+   },
+   {
+    "english": "copper conductor",
+    "term": "ತಾಮ್ರದ ವಾಹಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಕಾಪರ್ ಕಂಡಕ್ಟರ್"
+   },
+   {
+    "english": "earthing",
+    "term": "ಭೂಸಂಪರ್ಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಅರ್ಥಿಂಗ್"
+   },
+   {
+    "english": "electric shock",
+    "term": "ವಿದ್ಯುತ್ ಆಘಾತ",
+    "variants": [
+     "ವಿದ್ಯುದಾಘಾತ"
+    ],
+    "status": "proposed",
+    "loanword": "ಶಾಕ್"
+   },
+   {
+    "english": "electrical load",
+    "term": "ವಿದ್ಯುತ್ ಹೊರೆ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಎಲೆಕ್ಟ್ರಿಕಲ್ ಲೋಡ್"
+   },
+   {
+    "english": "fuse",
+    "term": "ಫ್ಯೂಸ್",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ಫ್ಯೂಸ್"
+   },
+   {
+    "english": "insulation",
+    "term": "ನಿರೋಧನ",
+    "variants": [
+     "ಅವಾಹಕ"
+    ],
+    "status": "proposed",
+    "loanword": "ಇನ್ಸುಲೇಶನ್"
+   },
+   {
+    "english": "junction box",
+    "term": "ಸಂಧಿ ಪೆಟ್ಟಿಗೆ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಜಂಕ್ಷನ್ ಬಾಕ್ಸ್"
+   },
+   {
+    "english": "leakage current",
+    "term": "ಸೋರಿಕೆ ಪ್ರವಾಹ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಲೀಕೇಜ್ ಕರೆಂಟ್"
+   },
+   {
+    "english": "live wire",
+    "term": "ವಿದ್ಯುತ್‌ಪೂರಿತ ತಂತಿ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಲೈವ್ ವೈರ್"
+   },
+   {
+    "english": "main switch",
+    "term": "ಮುಖ್ಯ ಸ್ವಿಚ್",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ಮೇನ್ ಸ್ವಿಚ್"
+   },
+   {
+    "english": "megger",
+    "term": "ಮೆಗ್ಗರ್",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ಮೆಗ್ಗರ್"
+   },
+   {
+    "english": "motor winding",
+    "term": "ಮೋಟಾರ್ ಸುರುಳಿ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಮೋಟಾರ್ ವೈಂಡಿಂಗ್"
+   },
+   {
+    "english": "neutral wire",
+    "term": "ತಟಸ್ಥ ತಂತಿ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ನ್ಯೂಟ್ರಲ್ ವೈರ್"
+   },
+   {
+    "english": "phase tester",
+    "term": "ಹಂತ ಪರೀಕ್ಷಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಫೇಸ್ ಟೆಸ್ಟರ್"
+   },
+   {
+    "english": "protective device",
+    "term": "ರಕ್ಷಣಾ ಸಾಧನ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಪ್ರೊಟೆಕ್ಟಿವ್ ಡಿವೈಸ್"
+   },
+   {
+    "english": "resistance",
+    "term": "ರೋಧ",
+    "variants": [
+     "ಪ್ರತಿರೋಧ"
+    ],
+    "status": "proposed",
+    "loanword": "ರೆಸಿಸ್ಟೆನ್ಸ್"
+   },
+   {
+    "english": "safety shoes",
+    "term": "ಸುರಕ್ಷತಾ ಬೂಟುಗಳು",
+    "variants": [
+     "ಸುರಕ್ಷತಾ ಬೂಟು"
+    ],
+    "status": "proposed",
+    "loanword": "ಸೇಫ್ಟಿ ಶೂಸ್"
+   },
+   {
+    "english": "single phase",
+    "term": "ಏಕ ಹಂತ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಸಿಂಗಲ್ ಫೇಸ್"
+   },
+   {
+    "english": "switch board",
+    "term": "ಸ್ವಿಚ್ ಫಲಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ಸ್ವಿಚ್ ಬೋರ್ಡ್"
+   },
+   {
+    "english": "terminal block",
+    "term": "ಟರ್ಮಿನಲ್ ಬ್ಲಾಕ್",
+    "variants": [],
+    "status": "loanword_kept",
+    "loanword": "ಟರ್ಮಿನಲ್ ಬ್ಲಾಕ್"
+   },
+   {
+    "english": "three phase",
+    "term": "ಮೂರು ಹಂತ",
+    "variants": [
+     "ತ್ರಿಹಂತ"
+    ],
+    "status": "proposed",
+    "loanword": "ತ್ರೀ ಫೇಸ್"
+   },
+   {
+    "english": "voltage",
+    "term": "ವಿಭವಾಂತರ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ವೋಲ್ಟೇಜ್"
+   },
+   {
+    "english": "voltmeter",
+    "term": "ವಿಭವಾಂತರ ಮಾಪಕ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ವೋಲ್ಟ್‌ಮೀಟರ್"
+   },
+   {
+    "english": "wire stripper",
+    "term": "ತಂತಿ ಸುಲಿಯುವ ಸಾಧನ",
+    "variants": [],
+    "status": "proposed",
+    "loanword": "ವೈರ್ ಸ್ಟ್ರಿಪ್ಪರ್"
+   }
+  ]
+ }
+}

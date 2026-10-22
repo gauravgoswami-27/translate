@@ -1,162 +1,127 @@
 #!/usr/bin/env python3
-"""Phase 2: baseline evaluation over all 22 scheduled Indic languages."""
+"""Step 5 (GPU): general-domain evaluation on IN22-Gen (all 22 scheduled languages).
+
+* Table 1 of the paper: base model scores on IN22-Gen for every language.
+* Forgetting check: with --adapter, the LoRA model is also scored on the domain
+  languages, showing whether domain adaptation hurt general translation quality.
+
+IN22-Gen (ai4bharat/IN22-Gen, CC-BY-4.0) is gated: accept its terms on Hugging Face
+and export HF_TOKEN.
+
+    python -m backend.run_baseline_eval --adapter models/it2_lora_joint
+"""
 
 from __future__ import annotations
 
 import argparse
 import csv
+import os
 from pathlib import Path
 
 from backend.localization_engine import Translator
-from backend.localization_engine.languages import DEFAULT_MODEL_NAME, LANGUAGE_NAMES, SCHEDULED_LANGUAGE_TARGETS
+from backend.localization_engine.translator import adapter_languages
+from backend.localization_engine.languages import (
+    DEFAULT_MODEL_NAME,
+    DOMAIN_LANGS,
+    LANGUAGE_NAMES,
+    SCHEDULED_LANGUAGE_TARGETS,
+    SOURCE_LANG,
+)
 from backend.localization_engine.metrics import score_corpus
-
-
-SAMPLE_EN = [
-    "Switch off the main supply before opening the control panel.",
-    "Check the insulation resistance with a megger.",
-    "Use a circuit breaker of the correct rating.",
-    "Connect the neutral wire to the terminal block.",
-    "Wear safety shoes while working near live wires.",
-]
-
-SAMPLE_REFERENCES = {
-    "hin_Deva": [
-        "नियंत्रण पैनल खोलने से पहले मुख्य आपूर्ति बंद करें।",
-        "मेगर से इन्सुलेशन प्रतिरोध की जांच करें।",
-        "सही रेटिंग का सर्किट ब्रेकर उपयोग करें।",
-        "न्यूट्रल तार को टर्मिनल ब्लॉक से जोड़ें।",
-        "लाइव तारों के पास काम करते समय सुरक्षा जूते पहनें।",
-    ],
-    "gom_Deva": [
-        "कंट्रोल पॅनल उगडच्या पयलीं मुखेल पुरवठो बंद करात.",
-        "मेगराच्या साहाय्यान इन्सुलेशन प्रतिकाराची तपासणी करात.",
-        "सारक्या रेटींगाचो सर्किट ब्रेकर वापरात्.",
-        "न्यूट्रल वायर टर्मिनल ब्लॉकाक जोडात.",
-        "लाइव वायरीं लागीं काम करतना सुरक्षा बूट घालात.",
-    ],
-    "mai_Deva": [
-        "नियंत्रण पैनल खोलबा सँ पहिने मुख्य आपूर्ति बंद करू।",
-        "मेगर सँ इन्सुलेशन प्रतिरोधक जाँच करू।",
-        "सही रेटिंगक सर्किट ब्रेकरक प्रयोग करू।",
-        "न्यूट्रल तारकेँ टर्मिनल ब्लॉक सँ जोड़ू।",
-        "लाइव तारक नजदीक काज करैत काल सुरक्षा जूता पहिनू।",
-    ],
-    "doi_Deva": [
-        "कंट्रोल पैनल खोलने तों पैह्ले मुख्य सप्लाई बंद करो।",
-        "मेगर कन्नै इन्सुलेशन प्रतिरोध दी जांच करो।",
-        "सही रेटिंग दा सर्किट ब्रेकर इस्तेमाल करो।",
-        "न्यूट्रल तार गी टर्मिनल ब्लॉक कन्नै जोड़ो।",
-        "लाइव तारें नेड़ै कम्में दे दौरान सुरक्षा जूते पाओ।",
-    ]
-}
+from backend.localization_engine.paths import RESULTS_DIR
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run baseline translation evaluation across all 22 scheduled languages.")
-    parser.add_argument("--model", default=DEFAULT_MODEL_NAME)
-    parser.add_argument("--output", default="results/baseline_scores.csv")
-    parser.add_argument("--chart-output", default="results/baseline_scores_chart.png")
-    parser.add_argument("--limit-languages", type=int, default=None, help="Useful for smoke tests.")
-    parser.add_argument("--force-fallback", action="store_true")
-    parser.add_argument(
-        "--allow-sample-fallback",
-        action="store_true",
-        default=True,
-        help="Use sample evaluation set if IN22 data is not present.",
-    )
-    return parser.parse_args()
+    p = argparse.ArgumentParser(description="IN22-Gen evaluation across the 22 scheduled languages.")
+    p.add_argument("--model", default=DEFAULT_MODEL_NAME)
+    p.add_argument("--adapter", type=Path, default=None, help="Also score this LoRA adapter on the domain languages.")
+    p.add_argument("--skip-base", action="store_true", help="Only score the adapter (base scores computed separately).")
+    p.add_argument("--langs", default=None, help="Comma-separated subset (default: all 22).")
+    p.add_argument("--limit", type=int, default=None, help="Sentences per language (IN22-Gen has 1024).")
+    p.add_argument("--batch-size", type=int, default=32)
+    p.add_argument("--output", type=Path, default=RESULTS_DIR / "in22_gen_scores.csv")
+    p.add_argument("--chart-output", type=Path, default=RESULTS_DIR / "in22_gen_scores.png")
+    return p.parse_args()
+
+
+def load_in22(limit: int | None):
+    from datasets import load_dataset
+
+    ds = load_dataset("ai4bharat/IN22-Gen", split="test", token=os.getenv("HF_TOKEN"))
+    if limit:
+        ds = ds.select(range(min(limit, len(ds))))
+    return ds
+
+
+def column_for(ds, code: str) -> str:
+    for name in (code, f"sentence_{code}", f"{code}_sentence"):
+        if name in ds.column_names:
+            return name
+    raise KeyError(f"No column for {code} in IN22-Gen; columns are: {ds.column_names}")
 
 
 def main() -> None:
     args = parse_args()
-    output_path = Path(args.output)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    codes = args.langs.split(",") if args.langs else [lang.code for lang in SCHEDULED_LANGUAGE_TARGETS]
+    ds = load_in22(args.limit)
+    sources = ds[column_for(ds, SOURCE_LANG)]
 
-    languages = list(SCHEDULED_LANGUAGE_TARGETS)
-    if args.limit_languages:
-        languages = languages[: args.limit_languages]
-
-    print(f"Loading baseline translator model '{args.model}'...")
-    translator = Translator(model_name_or_path=args.model, force_fallback=args.force_fallback)
+    jobs = [] if args.skip_base else [("base", args.model, codes)]
+    if args.adapter:
+        trained = adapter_languages(str(args.adapter)) or list(DOMAIN_LANGS)
+        jobs.append(("lora", str(args.adapter), [c for c in codes if c in trained]))
 
     rows = []
-    for index, language in enumerate(languages, start=1):
-        print(f"[{index}/{len(languages)}] Evaluating {language.name} ({language.code})...")
-        inputs, refs, data_source = load_eval_set(language.code, allow_sample=args.allow_sample_fallback)
-        predictions = [translator.translate(sentence, language.code).translated_text for sentence in inputs]
-        scores = score_corpus(predictions, refs)
-        rows.append(
-            {
-                "language_code": language.code,
-                "language_name": LANGUAGE_NAMES[language.code],
-                "bleu": round(scores.bleu, 4),
-                "chrf": round(scores.chrf, 4),
-                "metric_backend": scores.metric_backend,
-                "translation_backend": translator.backend,
-                "num_sentences": len(inputs),
-                "data_source": data_source,
-            }
-        )
+    for system, model, langs in jobs:
+        translator = Translator(model, allow_fallback=False)
+        for index, code in enumerate(langs, start=1):
+            refs = ds[column_for(ds, code)]
+            preds = translator.translate_batch(sources, code, batch_size=args.batch_size)
+            scores = score_corpus(preds, refs)
+            rows.append(
+                {
+                    "system": system,
+                    "model": model,
+                    "language_code": code,
+                    "language_name": LANGUAGE_NAMES[code],
+                    "bleu": scores.bleu,
+                    "chrf_pp": scores.chrf_pp,
+                    "num_sentences": len(preds),
+                    "benchmark": "IN22-Gen",
+                }
+            )
+            print(f"[{system} {index}/{len(langs)}] {code}: BLEU {scores.bleu:.2f}  chrF++ {scores.chrf_pp:.2f}")
+        translator.unload()
 
-    with output_path.open("w", newline="", encoding="utf-8") as handle:
-        writer = csv.DictWriter(handle, fieldnames=list(rows[0].keys()))
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(rows[0]))
         writer.writeheader()
         writer.writerows(rows)
-    print(f"\nWrote baseline evaluation scores to {output_path}")
-
-    generate_chart(rows, Path(args.chart_output))
-
-
-def generate_chart(rows: list[dict[str, str | float]], chart_path: Path) -> None:
-    try:
-        import matplotlib.pyplot as plt
-
-        plt.figure(figsize=(14, 6))
-        names = [r["language_name"] for r in rows]
-        bleu_scores = [r["bleu"] for r in rows]
-        chrf_scores = [r["chrf"] for r in rows]
-
-        x = range(len(names))
-        width = 0.35
-
-        plt.bar([i - width / 2 for i in x], bleu_scores, width, label="BLEU", color="#1f77b4")
-        plt.bar([i + width / 2 for i in x], chrf_scores, width, label="chrF", color="#ff7f0e")
-
-        plt.xlabel("Scheduled Indian Languages")
-        plt.ylabel("Score")
-        plt.title("Indic Translation Baseline Scores across 22 Scheduled Languages (Table 1)")
-        plt.xticks(x, names, rotation=45, ha="right", fontsize=9)
-        plt.legend()
-        plt.tight_layout()
-        plt.savefig(chart_path, dpi=300)
-        plt.close()
-        print(f"Generated baseline scores visualization chart at {chart_path}")
-    except Exception as exc:
-        print(f"Could not generate chart: {exc}")
+    print(f"Wrote {args.output}")
+    if not args.skip_base:
+        generate_chart([r for r in rows if r["system"] == "base"], args.chart_output)
 
 
-def load_eval_set(target_lang: str, allow_sample: bool) -> tuple[list[str], list[str], str]:
-    candidates = [
-        Path("data/in22") / f"eng_Latn-{target_lang}.csv",
-        Path("data/in22") / f"{target_lang}.csv",
-    ]
-    for candidate in candidates:
-        if candidate.exists():
-            with candidate.open(encoding="utf-8") as handle:
-                reader = csv.DictReader(handle)
-                inputs = []
-                refs = []
-                for row in reader:
-                    inputs.append(row.get("english") or row.get("source") or row.get("src") or "")
-                    refs.append(row.get("reference") or row.get("target") or row.get(target_lang) or "")
-            return inputs, refs, str(candidate)
+def generate_chart(rows: list[dict], chart_path: Path) -> None:
+    import matplotlib
 
-    if not allow_sample:
-        raise FileNotFoundError(f"IN22 CSV for {target_lang} not found in data/in22.")
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
 
-    refs = SAMPLE_REFERENCES.get(target_lang, SAMPLE_EN)
-    return SAMPLE_EN, refs, "bundled_sample_eval"
+    rows = sorted(rows, key=lambda r: r["chrf_pp"], reverse=True)
+    fig, ax = plt.subplots(figsize=(12, 5))
+    ax.bar([r["language_name"] for r in rows], [r["chrf_pp"] for r in rows], color="#2a6fdb")
+    ax.set_ylabel("chrF++")
+    ax.set_title("IndicTrans2 en-indic dist-200M on IN22-Gen (English to 22 scheduled languages)")
+    ax.tick_params(axis="x", rotation=45)
+    for label in ax.get_xticklabels():
+        label.set_horizontalalignment("right")
+    ax.spines[["top", "right"]].set_visible(False)
+    fig.tight_layout()
+    fig.savefig(chart_path, dpi=300)
+    plt.close(fig)
+    print(f"Wrote {chart_path}")
 
 
 if __name__ == "__main__":
